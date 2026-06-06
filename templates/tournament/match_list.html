@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mecze</title>
+</head>
+<body>
+
+<h1>Nadchodzące mecze</h1>
+
+{% for match in matches %}
+
+<div style="margin-bottom:15px; border:1px solid black; padding:10px;">
+
+    <strong>
+        {{ match.home_team.name }}
+        vs
+        {{ match.away_team.name }}
+    </strong>
+
+    <br>
+
+    {{ match.kickoff }}
+
+    <br>
+
+    Status:
+    {{ match.status }}
+
+</div>
+
+{% empty %}
+
+<p>Brak meczów</p>
+
+{% endfor %}
+
+</body>
+</html>
