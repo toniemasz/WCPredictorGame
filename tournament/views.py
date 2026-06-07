@@ -35,16 +35,16 @@ def home_view(request):
 
 @login_required
 def match_list(request):
-
     if Match.objects.count() == 0:
         ImportService.import_matches()
 
-    matches = Match.objects.order_by("kickoff")
+    matches = Match.objects.select_related('home_team', 'away_team').prefetch_related('home_team__players',
+                                                                                      'away_team__players').order_by(
+        "kickoff")
+
     user_predictions = Prediction.objects.filter(user=request.user)
     pred_dict = {p.match_id: p for p in user_predictions}
 
-    # 1. Sprawdzamy, w których fazach (rundach) użytkownik ma ZABLOKOWANY Bonus x2
-    # Bonus jest zablokowany, jeśli mecz z is_doubled=True już się rozpoczął.
     locked_bonuses_stages = set(
         Prediction.objects.filter(
             user=request.user,
@@ -53,26 +53,24 @@ def match_list(request):
         ).values_list('match__stage', flat=True)
     )
 
-    # 2. Grupowanie meczów po fazie turnieju
     matches_by_stage = {}
     for match in matches:
         match.user_prediction = pred_dict.get(match.id)
-        # Przekazujemy do szablonu informację, czy bonus w tej rundzie przepadł/został użyty
         match.is_bonus_locked = match.stage in locked_bonuses_stages
+
+        match.available_players = list(match.home_team.players.all()) + list(match.away_team.players.all())
+        match.players_count = len(match.available_players)
 
         if match.stage not in matches_by_stage:
             matches_by_stage[match.stage] = []
         matches_by_stage[match.stage].append(match)
 
-    # 3. Ustalenie "aktualnej" rundy do wyświetlenia na start
     active_stage = None
     for stage, stage_matches in matches_by_stage.items():
-        # Bierzemy pierwszą fazę, w której są zaplanowane lub trwające mecze
         if any(m.status in ['LIVE', 'SCHEDULED'] for m in stage_matches):
             active_stage = stage
             break
 
-    # Jeśli wszystkie mecze na świecie się skończyły, pokaż ostatnią fazę
     if not active_stage and matches_by_stage:
         active_stage = list(matches_by_stage.keys())[-1]
 
@@ -84,7 +82,6 @@ def match_list(request):
             "active_stage": active_stage,
         }
     )
-
 
 def register_view(request):
     # Jeśli użytkownik jest już zalogowany, odeślij go do meczów

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -48,36 +48,64 @@
             <div class="grid gap-6">
                 {% for match in stage_matches %}
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition relative">
-
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-start">
                         <div>
-                            <div class="text-2xl font-bold">
-                                {{ match.home_team.name }}
-                                <span class="text-cyan-400 px-2">vs</span>
-                                {{ match.away_team.name }}
+                            <div class="flex items-center gap-3 text-2xl font-bold">
+                                <div class="flex items-center gap-2">
+                                    <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
+                                         onerror="this.src='{% static 'flags/default.png' %}'"
+                                         class="w-8 h-6 rounded border border-slate-700 object-cover shadow-sm" alt="{{ match.home_team.name }}">
+                                    {{ match.home_team.name }}
+                                </div>
+                                <span class="text-cyan-500/50 text-xl px-1">vs</span>
+                                <div class="flex items-center gap-2">
+                                    {{ match.away_team.name }}
+                                    <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
+                                         onerror="this.src='{% static 'flags/default.png' %}'"
+                                         class="w-8 h-6 rounded border border-slate-700 object-cover shadow-sm" alt="{{ match.away_team.name }}">
+                                </div>
                             </div>
-                            <div class="text-slate-400 mt-2">
-                                {{ match.kickoff|date:"d.m.Y H:i" }} | <span class="text-slate-500">Faza: {{ match.stage }}</span>
+
+                            <div class="text-slate-400 mt-2 text-sm flex items-center gap-3">
+                                <span>📅 {{ match.kickoff|date:"d.m.Y H:i" }}</span>
+                                <span class="text-slate-600">|</span>
+                                <span class="text-slate-500 font-medium">Faza: {{ match.stage }}</span>
                             </div>
+
+                            {% if match.home_odds and match.draw_odds and match.away_odds %}
+                            <div class="flex gap-2 mt-4 text-sm">
+                                <div class="bg-slate-950 border border-slate-800 px-4 py-1.5 rounded-lg text-center shadow-inner">
+                                    <span class="text-slate-500 block text-[10px] font-bold uppercase mb-0.5">1</span>
+                                    <span class="text-amber-400 font-black">{{ match.home_odds }}</span>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 px-4 py-1.5 rounded-lg text-center shadow-inner">
+                                    <span class="text-slate-500 block text-[10px] font-bold uppercase mb-0.5">X</span>
+                                    <span class="text-amber-400 font-black">{{ match.draw_odds }}</span>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 px-4 py-1.5 rounded-lg text-center shadow-inner">
+                                    <span class="text-slate-500 block text-[10px] font-bold uppercase mb-0.5">2</span>
+                                    <span class="text-amber-400 font-black">{{ match.away_odds }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
 
                         <div class="flex flex-col items-end gap-3">
                             {% if match.status == "SCHEDULED" %}
-                                <span class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-full font-bold">Zaplanowany</span>
+                                <span class="bg-blue-500/10 border border-blue-500/30 text-blue-400 px-3 py-1 text-xs rounded-full font-bold uppercase tracking-wide">Zaplanowany</span>
                             {% elif match.status == "LIVE" %}
-                                <span class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full font-bold animate-pulse">W TRAKCIE</span>
+                                <span class="bg-red-500/20 border border-red-500/50 text-red-400 px-3 py-1 text-xs rounded-full font-bold uppercase tracking-wide animate-pulse">W Trakcie</span>
                             {% elif match.status == "FINISHED" %}
-                                <span class="bg-slate-800 text-slate-300 px-4 py-2 rounded-full font-bold">Zakończony</span>
+                                <span class="bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 text-xs rounded-full font-bold uppercase tracking-wide">Zakończony</span>
                             {% endif %}
 
                             {% if match.home_score != None %}
-                            <div class="text-4xl font-black">
+                            <div class="text-5xl font-black bg-gradient-to-b from-white to-slate-400 text-transparent bg-clip-text mt-1">
                                 {{ match.home_score }} : {{ match.away_score }}
                             </div>
                             {% endif %}
                         </div>
                     </div>
-
                     <div class="mt-6 border-t border-slate-800 pt-6">
 
                         {% if match.status == 'SCHEDULED' %}
@@ -120,18 +148,17 @@
                                     </div>
                                     <div>
                                         <label class="text-[10px] uppercase text-slate-500 font-bold">Strzelec:</label>
-                                        <input type="text" name="predicted_scorer" list="players-{{ match.id }}"
-                                               value="{% if match.user_prediction.predicted_scorer %}{{ match.user_prediction.predicted_scorer }}{% endif %}"
-                                               placeholder="Nazwisko..."
-                                               class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
-                                        <datalist id="players-{{ match.id }}">
-                                            {% for player in match.lineups.all %}
-                                                <option value="{{ player.name }}">
+                                        <select name="predicted_scorer" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
+                                            <option value="">Wybierz zawodnika...</option>
+                                            {% for player in match.available_players %}
+                                                <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
+                                                    {{ player.name }} {% if player.position %}({{ player.position }}){% endif %}
+                                                </option>
                                             {% endfor %}
-                                        </datalist>
-                                    <div class="text-xs text-slate-500 mt-1">
-                                        Dostępnych zawodników: {{ match.lineups.count }}
-                                    </div>
+                                        </select>
+                                        <div class="text-xs text-slate-500 mt-1">
+                                            Dostępnych zawodników: {{ match.players_count }}
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -286,7 +313,7 @@
                     clearTimeout(timeout);
 
                     // Delay: dla checkboxa od razu (0ms), dla cyfr czekamy, aż gracz skończy wpisywać (np. po 600ms)
-                    const delay = input.type === 'checkbox' ? 0 : 600;
+                    const delay = field.type === 'checkbox' ? 0 : 600;
 
                     timeout = setTimeout(() => {
                         const formData = new FormData(form);
