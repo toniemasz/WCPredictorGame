@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
-from tournament.models import Match
+from tournament.models import Match, Profile
 from tournament.services.import_service import ImportService
 from tournament.forms import RegisterForm
 from django.contrib.auth.decorators import login_required
@@ -129,12 +129,61 @@ def logout_view(request):
 
     return redirect("match_list")
 
+
 @login_required
-def profile_view(request):
+def profile_view(request, user_id=None):
+    # Ustalamy, czy użytkownik ogląda siebie, czy profil innego gracza
+    if user_id is None:
+        target_user = request.user
+    else:
+        target_user = get_object_or_404(User, pk=user_id)
+
+    profile = get_object_or_404(Profile, user=target_user)
+
+    # Pobieramy mecze i optymalizujemy zapytania SQL pod kątem flag zespołów
+    matches = Match.objects.select_related('home_team', 'away_team').order_by("kickoff")
+
+    # Pobieramy typy właściciela oglądanego profilu
+    target_predictions = Prediction.objects.filter(user=target_user)
+    target_pred_dict = {p.match_id: p for p in target_predictions}
+
+    # Pobieramy typy zalogowanego przeglądającego (do porównania), jeśli oglądamy kogoś innego
+    viewer_pred_dict = {}
+    if request.user != target_user:
+        viewer_predictions = Prediction.objects.filter(user=request.user)
+        viewer_pred_dict = {p.match_id: p for p in viewer_predictions}
+    else:
+        viewer_pred_dict = target_pred_dict
+
+    # Grupowanie meczów po fazie turnieju (tak samo jak w match_list)
+    matches_by_stage = {}
+    for match in matches:
+        match.target_prediction = target_pred_dict.get(match.id)
+        match.viewer_prediction = viewer_pred_dict.get(match.id)
+
+        if match.stage not in matches_by_stage:
+            matches_by_stage[match.stage] = []
+        matches_by_stage[match.stage].append(match)
+
+    # Wyznaczenie aktywnej fazy do domyślnego wyświetlenia karty
+    active_stage = None
+    for stage, stage_matches in matches_by_stage.items():
+        if any(m.status in ['LIVE', 'SCHEDULED'] for m in stage_matches):
+            active_stage = stage
+            break
+
+    if not active_stage and matches_by_stage:
+        active_stage = list(matches_by_stage.keys())[-1]
 
     return render(
         request,
-        "profile.html"
+        "tournament/profile.html",
+        {
+            "profile": profile,
+            "target_user": target_user,
+            "matches_by_stage": matches_by_stage,
+            "active_stage": active_stage,
+        }
     )
 
 
@@ -217,3 +266,14 @@ def recalculate_points_view(request):
 
     messages.success(request, f"Sukces! Przeliczono punkty dla {count} meczów.")
     return redirect("match_list")
+
+
+@login_required
+def leaderboard_view(request):
+    # Pobieramy profile posortowane od największej liczby punktów z optymalizacją zapytania do tabeli User
+    profiles = Profile.objects.select_related('user').order_by('-points')
+    return render(
+        request,
+        "tournament/leaderboard.html",
+        {"profiles": profiles}
+    )

@@ -13,13 +13,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 
 from celery.schedules import crontab
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -28,9 +29,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 FOOTBALL_DATA_API_KEY = os.getenv("FOOTBALL_DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
 # Application definition
@@ -54,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 CELERY_BROKER_URL = "redis://localhost:6379/0"
@@ -64,7 +67,11 @@ CELERY_TIMEZONE = "Europe/Warsaw"
 CELERY_BEAT_SCHEDULE = {
     "daily-update": {
         "task": "tournament.tasks.daily_update",
-        "schedule": crontab(hour=18, minute=0),
+        "schedule": crontab(hour=6, minute=0),
+    },
+    "smart-live-update": {
+        "task": "tournament.tasks.conditional_live_update",
+        "schedule": crontab(minute="*/5"),
     },
 }
 
@@ -75,6 +82,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -102,12 +110,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# 2. Inteligentny podział bazy danych
+if DEBUG:
+    # Tryb LOKALNY: Używamy domyślnego SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # Tryb PRODUKCYJNY: Używamy PostgreSQL ze zmiennej środowiskowej DATABASE_URL
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv("DATABASE_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
 
 
 # Password validation
