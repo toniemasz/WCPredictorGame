@@ -1,0 +1,7622 @@
+{
+    "Scotland": [
+        {
+            "id": 30404,
+            "name": "Aaron Hickey",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30401,
+            "name": "Andy Robertson",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 30411,
+            "name": "Angus Gunn",
+            "position": "G",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30394,
+            "name": "Ben Gannon-Doak",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30388,
+            "name": "Che Adams",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30413,
+            "name": "Craig Gordon",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30410,
+            "name": "Dominic Hyam",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30398,
+            "name": "Findlay Curtis",
+            "position": "M",
+            "jersey_number": "52"
+        },
+        {
+            "id": 30391,
+            "name": "George Hirst",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30409,
+            "name": "Grant Hanley",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30408,
+            "name": "Jack Hendry",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30395,
+            "name": "John McGinn",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30407,
+            "name": "John Souttar",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30400,
+            "name": "Kenny McLean",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30402,
+            "name": "Kieran Tierney",
+            "position": "D",
+            "jersey_number": "63"
+        },
+        {
+            "id": 30389,
+            "name": "Lawrence Shankland",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30397,
+            "name": "Lewis Ferguson",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30412,
+            "name": "Liam Kelly",
+            "position": "G",
+            "jersey_number": "31"
+        },
+        {
+            "id": 30390,
+            "name": "Lyndon Dykes",
+            "position": "F",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30405,
+            "name": "Nathan Patterson",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30392,
+            "name": "Ross Stewart",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30399,
+            "name": "Ryan Christie",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30403,
+            "name": "Scott McKenna",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 30393,
+            "name": "Scott McTominay",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30406,
+            "name": "Tony Ralston",
+            "position": "D",
+            "jersey_number": "56"
+        },
+        {
+            "id": 30396,
+            "name": "Tyler Fletcher",
+            "position": "M",
+            "jersey_number": "39"
+        }
+    ],
+    "DR Congo": [
+        {
+            "id": 29825,
+            "name": "Aaron Tshibola",
+            "position": "M",
+            "jersey_number": "36"
+        },
+        {
+            "id": 29827,
+            "name": "Aaron Wan-Bissaka",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29828,
+            "name": "Arthur Masuaku",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29829,
+            "name": "Axel Tuanzebe",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29822,
+            "name": "Brian Cipenga",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29812,
+            "name": "Cédric Bakambu",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29826,
+            "name": "Chancel Mbemba",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29818,
+            "name": "Charles Pickel",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29831,
+            "name": "Dylan Batubinsika",
+            "position": "D",
+            "jersey_number": "28"
+        },
+        {
+            "id": 29823,
+            "name": "Edo Kayembe",
+            "position": "M",
+            "jersey_number": "39"
+        },
+        {
+            "id": 29813,
+            "name": "Fiston Mayele",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29824,
+            "name": "Gaël Kakuta",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29832,
+            "name": "Gedeon Kalulu",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29830,
+            "name": "Joris Kayembe",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29834,
+            "name": "Lionel Mpasi Nzau",
+            "position": "G",
+            "jersey_number": "77"
+        },
+        {
+            "id": 29835,
+            "name": "Matthieu Epolo",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29814,
+            "name": "Meschak Elia",
+            "position": "F",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29820,
+            "name": "Nathanaël Mbuku",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29819,
+            "name": "Ngal'ayel Mukau",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29817,
+            "name": "Noah Sadiki",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29821,
+            "name": "Samuel Moutoussamy",
+            "position": "M",
+            "jersey_number": "92"
+        },
+        {
+            "id": 29815,
+            "name": "Simon Banza",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29833,
+            "name": "Steve Kapuadi",
+            "position": "D",
+            "jersey_number": "53"
+        },
+        {
+            "id": 29816,
+            "name": "Théo Bongonda",
+            "position": "M",
+            "jersey_number": "77"
+        },
+        {
+            "id": 29836,
+            "name": "Timothy Fayulu",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29811,
+            "name": "Yoane Wissa",
+            "position": "F",
+            "jersey_number": "9"
+        }
+    ],
+    "Uzbekistan": [
+        {
+            "id": 30677,
+            "name": "Abbosbek Fayzullaev",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30689,
+            "name": "Abdukodir Khusanov",
+            "position": "D",
+            "jersey_number": "45"
+        },
+        {
+            "id": 30685,
+            "name": "Abdulla Abdullaev",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30698,
+            "name": "Abduvokhid Nematov",
+            "position": "G",
+            "jersey_number": "35"
+        },
+        {
+            "id": 30682,
+            "name": "Akmal Mozgovoy",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30697,
+            "name": "Avazbek Ulmasaliyev",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30686,
+            "name": "Azizbek Amanov",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30683,
+            "name": "Azizjon Ganiev",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30696,
+            "name": "Bekhruz Karimov",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30700,
+            "name": "Botirali Ergashev",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30688,
+            "name": "Dostonbek Khamdamov",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30675,
+            "name": "Eldor Shomurodov",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30694,
+            "name": "Farrukh Sayfiev",
+            "position": "D",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30676,
+            "name": "Igor Sergeev",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30693,
+            "name": "Jakhongir Urozov",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30679,
+            "name": "Jaloliddin Masharipov",
+            "position": "M",
+            "jersey_number": "77"
+        },
+        {
+            "id": 30684,
+            "name": "Jamshid Iskandarov",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30691,
+            "name": "Khozhiakbar Alizhonov",
+            "position": "D",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30681,
+            "name": "Odiljon Khamrobekov",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30678,
+            "name": "Oston Urunov",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30680,
+            "name": "Otabek Shukurov",
+            "position": "M",
+            "jersey_number": "63"
+        },
+        {
+            "id": 30690,
+            "name": "Rustam Ashurmatov",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30687,
+            "name": "Sherzod Esanov",
+            "position": "M",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30692,
+            "name": "Sherzod Nasrullaev",
+            "position": "D",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30695,
+            "name": "Umarbek Eshmuradov",
+            "position": "D",
+            "jersey_number": "92"
+        },
+        {
+            "id": 30699,
+            "name": "Utkir Yusupov",
+            "position": "G",
+            "jersey_number": "1"
+        }
+    ],
+    "Jordan": [
+        {
+            "id": 30122,
+            "name": "Abdallah Al-Fakhouri",
+            "position": "G",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30114,
+            "name": "Abdallah Nasib",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30103,
+            "name": "Ali Al Azaizah",
+            "position": "M",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30100,
+            "name": "Ali Olwan",
+            "position": "F",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30108,
+            "name": "Amer Jamous",
+            "position": "M",
+            "jersey_number": "71"
+        },
+        {
+            "id": 30120,
+            "name": "Anas Badawi",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30109,
+            "name": "Ehsan Haddad",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30119,
+            "name": "Husam Ali Mohammad Abudahab",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30101,
+            "name": "Ibrahim Sabra",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30110,
+            "name": "Ibrahim Sadeh",
+            "position": "M",
+            "jersey_number": null
+        },
+        {
+            "id": 30106,
+            "name": "Mahmoud Al-Mardi",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30115,
+            "name": "Mo Abualnadi",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30102,
+            "name": "Mohammad Abu Zrayq",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30112,
+            "name": "Mohammad Al Daoud",
+            "position": "M",
+            "jersey_number": null
+        },
+        {
+            "id": 30116,
+            "name": "Mohammad Ali Hasheesh",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30104,
+            "name": "Mohannad Abu Taha",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30098,
+            "name": "Mousa Tamari",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30105,
+            "name": "Nizar Mahmoud Al-Rashdan",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30107,
+            "name": "Noor Al-Deen Al Rawabdeh",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30123,
+            "name": "Noureddin Bani Ateyah",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30099,
+            "name": "Odeh Fakhoury",
+            "position": "F",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30111,
+            "name": "Rajaei Ayed",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30117,
+            "name": "Saad Al Rousan",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30118,
+            "name": "Saleem Obaid",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30113,
+            "name": "Yazan Al-Arab",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30121,
+            "name": "Yazeed Abu Laila",
+            "position": "G",
+            "jersey_number": "1"
+        }
+    ],
+    "Qatar": [
+        {
+            "id": 8790,
+            "name": "Abdelaziz Hatem",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 8789,
+            "name": "Ahmed Alaaeldin",
+            "position": "F",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30347,
+            "name": "Ahmed Al-Ganehi",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30349,
+            "name": "Ahmed Fathi",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 8778,
+            "name": "Akram Afif",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30358,
+            "name": "Alhashmi Mohialdin",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 8794,
+            "name": "Almoez Ali",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 8784,
+            "name": "Assim Madibo",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30357,
+            "name": "Ayoub Al Oui",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 8792,
+            "name": "Boualem Khoukhi",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30343,
+            "name": "Edmilson Junior",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 8791,
+            "name": "Hassan Al Haydos",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8795,
+            "name": "Homam Al-Amin",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30355,
+            "name": "Issa Laye",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 26622,
+            "name": "Jassem Gaber Abdulsallam",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 8793,
+            "name": "Karim Boudiaf",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30354,
+            "name": "Lucas Mendes",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30361,
+            "name": "Mahmud Abunad",
+            "position": "G",
+            "jersey_number": "57"
+        },
+        {
+            "id": 8797,
+            "name": "Meshaal Barsham",
+            "position": "G",
+            "jersey_number": "22"
+        },
+        {
+            "id": 30348,
+            "name": "Mohamed Naceur Almanai",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 8779,
+            "name": "Mohammed Muntari",
+            "position": "F",
+            "jersey_number": "3"
+        },
+        {
+            "id": 8785,
+            "name": "Pedro Miguel",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30360,
+            "name": "Salah Zakaria",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30356,
+            "name": "Sultan Al-Brake",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30339,
+            "name": "Tahsin Mohammed Jamshid",
+            "position": "F",
+            "jersey_number": "81"
+        },
+        {
+            "id": 30340,
+            "name": "Yusuf Abdurisag",
+            "position": "F",
+            "jersey_number": "13"
+        }
+    ],
+    "Tunisia": [
+        {
+            "id": 30595,
+            "name": "Abdelmouhib Chamakh",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30592,
+            "name": "Adem Arous",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 9024,
+            "name": "Ali Abdi",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30591,
+            "name": "Amine Ben Hmida",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9026,
+            "name": "Anis Ben Slimane",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9011,
+            "name": "Aymen Dahmen",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 486,
+            "name": "Dylan Bronn",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30578,
+            "name": "Elias Achouri",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30571,
+            "name": "Elias Saad",
+            "position": "F",
+            "jersey_number": "24"
+        },
+        {
+            "id": 500,
+            "name": "Ellyes Skhiri",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30573,
+            "name": "Firas Chaouat",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 9021,
+            "name": "Hannibal Mejbri",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30574,
+            "name": "Hazem Mastouri",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30577,
+            "name": "Ismael Gharbi",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30572,
+            "name": "Khalil Ayari",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30590,
+            "name": "Moataz Nefati",
+            "position": "D",
+            "jersey_number": "37"
+        },
+        {
+            "id": 30583,
+            "name": "Mohamed Belhadj Mahmoud",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 9014,
+            "name": "Montassar Talbi",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30584,
+            "name": "Mortadha Ben Ouanes",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30589,
+            "name": "Omar Rekik",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 30593,
+            "name": "Raed Chikhaoui",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30582,
+            "name": "Rani Khedira",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30575,
+            "name": "Rayan Elloumi",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30596,
+            "name": "Sabri Ben Hessen",
+            "position": "G",
+            "jersey_number": "32"
+        },
+        {
+            "id": 30579,
+            "name": "Sebastian Tounekti",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30587,
+            "name": "Yan Valery",
+            "position": "D",
+            "jersey_number": "22"
+        }
+    ],
+    "Morocco": [
+        {
+            "id": 9152,
+            "name": "Abdessamad Ezzalzouli",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 139,
+            "name": "Achraf Hakimi",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 6142,
+            "name": "Ahmed Reda Tagnaouti",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30169,
+            "name": "Anass Salah-Eddine",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30152,
+            "name": "Ayoube Amaimouni Echghouyab",
+            "position": "F",
+            "jersey_number": "29"
+        },
+        {
+            "id": 140,
+            "name": "Ayoub El Kaabi",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30162,
+            "name": "Ayyoub Bouaddi",
+            "position": "M",
+            "jersey_number": "32"
+        },
+        {
+            "id": 9140,
+            "name": "Azzedine Ounahi",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 9157,
+            "name": "Bilal El Khannouss",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 640,
+            "name": "Bono",
+            "position": "G",
+            "jersey_number": "37"
+        },
+        {
+            "id": 30153,
+            "name": "Brahim Díaz",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30168,
+            "name": "Chadi Riad",
+            "position": "D",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30160,
+            "name": "Chemsdine Talbi",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30161,
+            "name": "Gessime Yassine",
+            "position": "M",
+            "jersey_number": "80"
+        },
+        {
+            "id": 30158,
+            "name": "Ismael Saibari",
+            "position": "M",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30170,
+            "name": "Issa Diop",
+            "position": "D",
+            "jersey_number": "31"
+        },
+        {
+            "id": 141,
+            "name": "Munir El Kajoui",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9137,
+            "name": "Nayef Aguerd",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30159,
+            "name": "Neil El Aynaoui",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 9146,
+            "name": "Noussair Mazraoui",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30173,
+            "name": "Redouane Halhal",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30163,
+            "name": "Samir El Mourabet",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 143,
+            "name": "Sofyan Amrabat",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30151,
+            "name": "Soufiane Rahimi",
+            "position": "F",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30171,
+            "name": "Youssef Belammari",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30172,
+            "name": "Zakaria El Ouahdi",
+            "position": "D",
+            "jersey_number": "77"
+        }
+    ],
+    "Senegal": [
+        {
+            "id": 30436,
+            "name": "Abdoulaye Seck",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 8747,
+            "name": "Ahmadou Bamba Dieng",
+            "position": "F",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30435,
+            "name": "Antoine Mendy",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 30417,
+            "name": "Assane Diao",
+            "position": "F",
+            "jersey_number": "38"
+        },
+        {
+            "id": 30428,
+            "name": "Bara Sapoko Ndiaye",
+            "position": "M",
+            "jersey_number": "39"
+        },
+        {
+            "id": 30419,
+            "name": "Cherif Ndiaye",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 8759,
+            "name": "Edouard Mendy",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30432,
+            "name": "El Hadji Malick Diouf",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30427,
+            "name": "Habib Diarra",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30415,
+            "name": "Ibrahim Mbaye",
+            "position": "F",
+            "jersey_number": "49"
+        },
+        {
+            "id": 570,
+            "name": "Idrissa Gana Gueye",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 8752,
+            "name": "Iliman Ndiaye",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 576,
+            "name": "Ismaïla Sarr",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 8751,
+            "name": "Ismail Jakobs",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 578,
+            "name": "Kalidou Koulibaly",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 8756,
+            "name": "Krépin Diatta",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30425,
+            "name": "Lamine Camara",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30430,
+            "name": "Mamadou Sarr",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30438,
+            "name": "Mory Diaw",
+            "position": "G",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30433,
+            "name": "Moussa Niakhaté",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 8758,
+            "name": "Nicolas Jackson",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 8749,
+            "name": "Pape Gueye",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 8745,
+            "name": "Pape Matar Sarr",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 8754,
+            "name": "Pathé Ismaël Ciss",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 571,
+            "name": "Sadio Mané",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30439,
+            "name": "Yehvann Diouf",
+            "position": "G",
+            "jersey_number": "80"
+        }
+    ],
+    "Saudi Arabia": [
+        {
+            "id": 8953,
+            "name": "Abdulelah Al-Amri",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30362,
+            "name": "Abdullah Al-Hamdan",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 6267,
+            "name": "Abdullah Al-Khaibari",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 35395,
+            "name": "Abdulquddus Atiah",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 35393,
+            "name": "Abdulrahman Al Sanbi",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30387,
+            "name": "Ahmed Al-Kassar",
+            "position": "G",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30376,
+            "name": "Ala'a Al-Hejji",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30379,
+            "name": "Ali Lajami",
+            "position": "D",
+            "jersey_number": "78"
+        },
+        {
+            "id": 30382,
+            "name": "Ali Majrashi",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30370,
+            "name": "Ayman Yahya",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 8957,
+            "name": "Firas Al-Buraikan",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 8952,
+            "name": "Hassan Altambakti",
+            "position": "D",
+            "jersey_number": "87"
+        },
+        {
+            "id": 30383,
+            "name": "Hassan Kadesh",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30384,
+            "name": "Jehad Thakri",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30365,
+            "name": "Khalid Al-Ghannam",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 49,
+            "name": "Mohamed Kanno",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30375,
+            "name": "Mohammed Abu Al-Shamat",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 52,
+            "name": "Mohammed Al-Owais",
+            "position": "G",
+            "jersey_number": "33"
+        },
+        {
+            "id": 30381,
+            "name": "Moteb Al-Harbi",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30373,
+            "name": "Musab Al Juwayr",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8949,
+            "name": "Nasser Al-Dawsari",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 9941,
+            "name": "Nawaf Al-Aqidi",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30377,
+            "name": "Nawaf Boushal",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 8948,
+            "name": "Saleh Al-Shehri",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 41,
+            "name": "Salem Al-Dawsari",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 8954,
+            "name": "Saud Abdulhamid",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30366,
+            "name": "Sultan Mandash",
+            "position": "F",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30374,
+            "name": "Ziyad Aljohani",
+            "position": "M",
+            "jersey_number": "30"
+        }
+    ],
+    "Ghana": [
+        {
+            "id": 9397,
+            "name": "Abdul Fatawu Issahaku",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29988,
+            "name": "Abdul Mumin",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 9385,
+            "name": "Alidu Seidu",
+            "position": "D",
+            "jersey_number": "36"
+        },
+        {
+            "id": 9392,
+            "name": "Antoine Semenyo",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 29973,
+            "name": "Augustine Boakye",
+            "position": "F",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29991,
+            "name": "Benjamin Asare",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29971,
+            "name": "Brandon Thomas-Asante",
+            "position": "F",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29980,
+            "name": "Caleb Yirenkyi",
+            "position": "M",
+            "jersey_number": "36"
+        },
+        {
+            "id": 29979,
+            "name": "Christopher Baah",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29990,
+            "name": "Derrick Luckassen",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 10810,
+            "name": "Elisha Owusu",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 29970,
+            "name": "Ernest Nuamah",
+            "position": "F",
+            "jersey_number": "37"
+        },
+        {
+            "id": 9383,
+            "name": "Gideon Mensah",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 9388,
+            "name": "Iñaki Williams",
+            "position": "M",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29987,
+            "name": "Jerome Opoku",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29983,
+            "name": "Jonas Adjei Adjetey",
+            "position": "D",
+            "jersey_number": "32"
+        },
+        {
+            "id": 9391,
+            "name": "Jordan Ayew",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29993,
+            "name": "Joseph Anang",
+            "position": "G",
+            "jersey_number": "94"
+        },
+        {
+            "id": 9394,
+            "name": "Kamaldeen Sulemana",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29985,
+            "name": "Kojo Peprah Oppong",
+            "position": "D",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29978,
+            "name": "Kwasi Sibo",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 9389,
+            "name": "Lawrence Ati Zigi",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29989,
+            "name": "Marvin Senaya",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29972,
+            "name": "Prince Kwabena Adu",
+            "position": "F",
+            "jersey_number": "80"
+        },
+        {
+            "id": 9395,
+            "name": "Rahman Baba",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 9379,
+            "name": "Thomas Partey",
+            "position": "M",
+            "jersey_number": "16"
+        }
+    ],
+    "Türkiye": [
+        {
+            "id": 30611,
+            "name": "Abdülkerim Bardakcı",
+            "position": "D",
+            "jersey_number": "42"
+        },
+        {
+            "id": 30620,
+            "name": "Altay Bayındır",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30600,
+            "name": "Arda Güler",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30603,
+            "name": "Barış Alper Yılmaz",
+            "position": "M",
+            "jersey_number": "53"
+        },
+        {
+            "id": 30615,
+            "name": "Çağlar Söyüncü",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30604,
+            "name": "Can Uzun",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 30599,
+            "name": "Deniz Gül",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30612,
+            "name": "Eren Elmalı",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30610,
+            "name": "Ferdi Kadıoğlu",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30601,
+            "name": "Hakan Çalhanoğlu",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30606,
+            "name": "İrfan Can Kahveci",
+            "position": "M",
+            "jersey_number": "71"
+        },
+        {
+            "id": 30608,
+            "name": "İsmail Yüksek",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30614,
+            "name": "Kaan Ayhan",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30597,
+            "name": "Kenan Yıldız",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30598,
+            "name": "Kerem Aktürkoğlu",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30613,
+            "name": "Merih Demiral",
+            "position": "D",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30622,
+            "name": "Mert Günok",
+            "position": "G",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30617,
+            "name": "Mert Müldür",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30607,
+            "name": "Oğuz Aydın",
+            "position": "M",
+            "jersey_number": "70"
+        },
+        {
+            "id": 30602,
+            "name": "Orkun Kökçü",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30618,
+            "name": "Ozan Kabak",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30609,
+            "name": "Salih Özcan",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30619,
+            "name": "Samet Akaydın",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30621,
+            "name": "Uğurcan Çakır",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30605,
+            "name": "Yunus Akgün",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30616,
+            "name": "Zeki Çelik",
+            "position": "D",
+            "jersey_number": "19"
+        }
+    ],
+    "Algeria": [
+        {
+            "id": 29471,
+            "name": "Achref Abada",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29459,
+            "name": "Adil Boulbina",
+            "position": "M",
+            "jersey_number": "77"
+        },
+        {
+            "id": 29453,
+            "name": "Ahmed Nadhir Benbouali",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29466,
+            "name": "Aïssa Mandi",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29451,
+            "name": "Amine Gouiri",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29455,
+            "name": "Anis Hadj Moussa",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29456,
+            "name": "Farès Chaïbi",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29452,
+            "name": "Farès Ghedjemis",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29458,
+            "name": "Hicham Boudaoui",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29457,
+            "name": "Houssem Aouar",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29449,
+            "name": "Ibrahim Maza",
+            "position": "F",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29467,
+            "name": "Jaouen Hadjam",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29472,
+            "name": "Luca Zidane",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29474,
+            "name": "Melvin Mastil",
+            "position": "G",
+            "jersey_number": "91"
+        },
+        {
+            "id": 29450,
+            "name": "Mohamed Amoura",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29469,
+            "name": "Mohamed Tougai",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 29461,
+            "name": "Nabil Bentaleb",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29473,
+            "name": "Oussama Benbot",
+            "position": "G",
+            "jersey_number": "25"
+        },
+        {
+            "id": 29462,
+            "name": "Rafik Belghali",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29460,
+            "name": "Ramiz Zerrouki",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29465,
+            "name": "Ramy Bensebaini",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29464,
+            "name": "Rayan Aït-Nouri",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29454,
+            "name": "Riyad Mahrez",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29468,
+            "name": "Samir Sophian Chergui",
+            "position": "D",
+            "jersey_number": "31"
+        },
+        {
+            "id": 29463,
+            "name": "Yassine Titraoui",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29470,
+            "name": "Zineddine Belaid",
+            "position": "D",
+            "jersey_number": "5"
+        }
+    ],
+    "Panama": [
+        {
+            "id": 30261,
+            "name": "Adalberto Carrasquilla",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30270,
+            "name": "Alberto Quintero",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 525,
+            "name": "Amir Murillo",
+            "position": "D",
+            "jersey_number": "62"
+        },
+        {
+            "id": 30274,
+            "name": "Andrés Andrade",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 515,
+            "name": "Aníbal Godoy",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30265,
+            "name": "Azarias Londoño",
+            "position": "M",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30266,
+            "name": "Carlos Harvey",
+            "position": "M",
+            "jersey_number": "67"
+        },
+        {
+            "id": 30258,
+            "name": "Cecilio Waterman",
+            "position": "F",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30273,
+            "name": "César Blackman",
+            "position": "D",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30283,
+            "name": "César Samudio",
+            "position": "G",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30269,
+            "name": "César Yanis",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30267,
+            "name": "Cristian Martínez",
+            "position": "M",
+            "jersey_number": "70"
+        },
+        {
+            "id": 30276,
+            "name": "Edgardo Fariña",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 524,
+            "name": "Éric Davis",
+            "position": "D",
+            "jersey_number": "31"
+        },
+        {
+            "id": 519,
+            "name": "Fidel Escobar",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 520,
+            "name": "Ismael Díaz",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 32779,
+            "name": "Iván Anderson",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 32782,
+            "name": "JD Gunn",
+            "position": "G",
+            "jersey_number": "73"
+        },
+        {
+            "id": 30280,
+            "name": "Jiovany Ramos",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 31527,
+            "name": "Jorge Gutiérrez",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30272,
+            "name": "José Córdoba",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 30259,
+            "name": "José Fajardo",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 518,
+            "name": "José Luis Rodríguez",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 32768,
+            "name": "José Manuel Murillo",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 32753,
+            "name": "Kadir Barría",
+            "position": "F",
+            "jersey_number": "37"
+        },
+        {
+            "id": 30282,
+            "name": "Luis Mejía",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30281,
+            "name": "Orlando Mosquera",
+            "position": "G",
+            "jersey_number": "52"
+        },
+        {
+            "id": 30279,
+            "name": "Roderick Miller",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30260,
+            "name": "Tomás Rodríguez",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 32766,
+            "name": "Víctor Griffith",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 507,
+            "name": "Yoel Bárcenas",
+            "position": "M",
+            "jersey_number": "11"
+        }
+    ],
+    "Czechia": [
+        {
+            "id": 29787,
+            "name": "Adam Hložek",
+            "position": "F",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29799,
+            "name": "Alexandr Sojka",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29797,
+            "name": "David Douděra",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29802,
+            "name": "David Jurásek",
+            "position": "D",
+            "jersey_number": "39"
+        },
+        {
+            "id": 29804,
+            "name": "David Zima",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29796,
+            "name": "Denis Višinský",
+            "position": "M",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29798,
+            "name": "Hugo Sochurek",
+            "position": "M",
+            "jersey_number": "38"
+        },
+        {
+            "id": 29789,
+            "name": "Jan Kuchta",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29807,
+            "name": "Jaroslav Zelený",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29810,
+            "name": "Jindřich Staněk",
+            "position": "G",
+            "jersey_number": "36"
+        },
+        {
+            "id": 29800,
+            "name": "Ladislav Krejčí",
+            "position": "D",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29795,
+            "name": "Lukáš Červ",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29809,
+            "name": "Lukáš Horníček",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29790,
+            "name": "Lukáš Provod",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29808,
+            "name": "Matěj Kovář",
+            "position": "G",
+            "jersey_number": "32"
+        },
+        {
+            "id": 29793,
+            "name": "Michal Sadílek",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29791,
+            "name": "Mojmír Chytil",
+            "position": "F",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29785,
+            "name": "Patrik Schick",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29786,
+            "name": "Pavel Šulc",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29803,
+            "name": "Robin Hranáč",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29806,
+            "name": "Štěpán Chaloupek",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29788,
+            "name": "Tomáš Chorý",
+            "position": "F",
+            "jersey_number": "25"
+        },
+        {
+            "id": 29805,
+            "name": "Tomáš Holeš",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29792,
+            "name": "Tomáš Souček",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 29801,
+            "name": "Vladimír Coufal",
+            "position": "D",
+            "jersey_number": "34"
+        },
+        {
+            "id": 29794,
+            "name": "Vladimír Darida",
+            "position": "M",
+            "jersey_number": "16"
+        }
+    ],
+    "France": [
+        {
+            "id": 8972,
+            "name": "Adrien Rabiot",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 8973,
+            "name": "Aurélien Tchouaméni",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29918,
+            "name": "Bradley Barcola",
+            "position": "F",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29939,
+            "name": "Brice Samba",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 8975,
+            "name": "Dayot Upamecano",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29917,
+            "name": "Désiré Doué",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 8969,
+            "name": "Ibrahima Konaté",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29920,
+            "name": "Jean Philippe Mateta",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 8976,
+            "name": "Jules Koundé",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 149,
+            "name": "Kylian Mbappé",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29937,
+            "name": "Lucas Digne",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 162,
+            "name": "Lucas Hernández",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29927,
+            "name": "Maghnes Akliouche",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29933,
+            "name": "Malo Gusto",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29928,
+            "name": "Manu Koné",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 8981,
+            "name": "Marcus Thuram",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29936,
+            "name": "Maxence Lacroix",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29921,
+            "name": "Michael Olise",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29938,
+            "name": "Mike Maignan",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 154,
+            "name": "N'Golo Kanté",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 158,
+            "name": "Ousmane Dembélé",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29923,
+            "name": "Rayan Cherki",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29940,
+            "name": "Robin Risser",
+            "position": "G",
+            "jersey_number": "40"
+        },
+        {
+            "id": 8970,
+            "name": "Theo Hernández",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29925,
+            "name": "Warren Zaïre-Emery",
+            "position": "M",
+            "jersey_number": "33"
+        },
+        {
+            "id": 8978,
+            "name": "William Saliba",
+            "position": "D",
+            "jersey_number": "2"
+        }
+    ],
+    "Uruguay": [
+        {
+            "id": 9371,
+            "name": "Agustín Canobbio",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30635,
+            "name": "Brian Rodríguez",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9377,
+            "name": "Darwin Núñez",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30633,
+            "name": "Emiliano Martínez",
+            "position": "M",
+            "jersey_number": "32"
+        },
+        {
+            "id": 9376,
+            "name": "Facundo Pellistri",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 9359,
+            "name": "Federico Valverde",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30625,
+            "name": "Federico Viñas",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 11,
+            "name": "Fernando Muslera",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 3,
+            "name": "Giorgian de Arrascaeta",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 5,
+            "name": "Guillermo Varela",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30638,
+            "name": "Joaquín Piquerez",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 2,
+            "name": "José María Giménez",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30645,
+            "name": "Juan Sanabria",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 10837,
+            "name": "Manuel Ugarte",
+            "position": "M",
+            "jersey_number": "25"
+        },
+        {
+            "id": 9362,
+            "name": "Mathías Olivera",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 9375,
+            "name": "Matías Viña",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30641,
+            "name": "Maximiliano Araújo",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9374,
+            "name": "Nicolás de la Cruz",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30626,
+            "name": "Rodrigo Aguirre",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 13,
+            "name": "Rodrigo Bentancur",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30624,
+            "name": "Rodrigo Zalazar",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30636,
+            "name": "Ronald Araújo",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30643,
+            "name": "Santiago Bueno",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30648,
+            "name": "Santiago Mele",
+            "position": "G",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30644,
+            "name": "Sebastián Cáceres",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 9366,
+            "name": "Sergio Rochet",
+            "position": "G",
+            "jersey_number": "1"
+        }
+    ],
+    "Iraq": [
+        {
+            "id": 30070,
+            "name": "Ahmed Basil",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30058,
+            "name": "Ahmed Qasem",
+            "position": "M",
+            "jersey_number": "37"
+        },
+        {
+            "id": 30066,
+            "name": "Ahmed Yahya",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30056,
+            "name": "Aimar Sher",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30063,
+            "name": "Akam Hashem",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30046,
+            "name": "Ali Al-Hamadi",
+            "position": "F",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30050,
+            "name": "Ali Jasim",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30049,
+            "name": "Ali Yousif",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30053,
+            "name": "Amir Al-Ammari",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30047,
+            "name": "Aymen Hussein",
+            "position": "F",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30071,
+            "name": "Fahad Talib",
+            "position": "G",
+            "jersey_number": null
+        },
+        {
+            "id": 30062,
+            "name": "Frans Putros",
+            "position": "D",
+            "jersey_number": "55"
+        },
+        {
+            "id": 30061,
+            "name": "Hussein Ali",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30054,
+            "name": "Ibrahim Bayesh",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 30069,
+            "name": "Jalal Hassan",
+            "position": "G",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30057,
+            "name": "Kevin Yakob",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30068,
+            "name": "Manaf Younis",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30055,
+            "name": "Marko Farji",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30060,
+            "name": "Merchas Doski",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30048,
+            "name": "Mohanad Ali",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30067,
+            "name": "Mustafa Saadoon",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30064,
+            "name": "Rebin Sulaka",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 30052,
+            "name": "Youssef Amyn",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30059,
+            "name": "Zaid Ismail",
+            "position": "M",
+            "jersey_number": null
+        },
+        {
+            "id": 30065,
+            "name": "Zaid Tahseen",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30051,
+            "name": "Zidane Iqbal",
+            "position": "M",
+            "jersey_number": "16"
+        }
+    ],
+    "Egypt": [
+        {
+            "id": 29882,
+            "name": "Ahmed Fatouh",
+            "position": "D",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29866,
+            "name": "Emam Ashour",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29869,
+            "name": "Haissem Hassan",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29872,
+            "name": "Hamdy Fathy",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29864,
+            "name": "Hamza Abdelkarim",
+            "position": "F",
+            "jersey_number": "39"
+        },
+        {
+            "id": 29881,
+            "name": "Hossam Abdelmaguid",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29870,
+            "name": "Ibrahim Adel",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29883,
+            "name": "Karim Hafez",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29887,
+            "name": "Mahdi Soliman",
+            "position": "G",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29874,
+            "name": "Mahmoud Saber",
+            "position": "M",
+            "jersey_number": "77"
+        },
+        {
+            "id": 67,
+            "name": "Mahmoud Trézéguet",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29871,
+            "name": "Marwan Attia",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29877,
+            "name": "Mohamed Abdelmonem",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29888,
+            "name": "Mohamed Alaa",
+            "position": "G",
+            "jersey_number": "23"
+        },
+        {
+            "id": 72,
+            "name": "Mohamed El-Shenawy",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29878,
+            "name": "Mohamed Hany",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 63,
+            "name": "Mohamed Salah",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29875,
+            "name": "Mohanad Lasheen",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29886,
+            "name": "Mostafa Shobeir",
+            "position": "G",
+            "jersey_number": "31"
+        },
+        {
+            "id": 29876,
+            "name": "Mostafa Ziko",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29873,
+            "name": "Nabil Donga",
+            "position": "M",
+            "jersey_number": "80"
+        },
+        {
+            "id": 29863,
+            "name": "Omar Marmoush",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29880,
+            "name": "Rami Rabia",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 29884,
+            "name": "Tarek Alaa",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29879,
+            "name": "Yasser Ibrahim",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29867,
+            "name": "Zizo",
+            "position": "M",
+            "jersey_number": "25"
+        }
+    ],
+    "Australia": [
+        {
+            "id": 29513,
+            "name": "Aiden O'Neill",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 9002,
+            "name": "Ajdin Hrustić",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29516,
+            "name": "Alessandro Circati",
+            "position": "D",
+            "jersey_number": "39"
+        },
+        {
+            "id": 9006,
+            "name": "Awer Mabil",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 213,
+            "name": "Aziz Behich",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29521,
+            "name": "Cameron Burgess",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 9692,
+            "name": "Cameron Devlin",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29510,
+            "name": "Connor Metcalfe",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29504,
+            "name": "Cristian Volpato",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 8993,
+            "name": "Harry Souttar",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 206,
+            "name": "Jackson Irvine",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29515,
+            "name": "Jacob Italiano",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29523,
+            "name": "Jason Geria",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29517,
+            "name": "Jordan Bos",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 29514,
+            "name": "Kai Trewin",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29522,
+            "name": "Lucas Herrington",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 214,
+            "name": "Mathew Leckie",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 209,
+            "name": "Mathew Ryan",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 874,
+            "name": "Miloš Degenek",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29502,
+            "name": "Mohamed Touré",
+            "position": "F",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29501,
+            "name": "Nestory Irankunda",
+            "position": "F",
+            "jersey_number": "66"
+        },
+        {
+            "id": 29508,
+            "name": "Nishan Velupillay",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29526,
+            "name": "Patrick Beach",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29525,
+            "name": "Paul Izzo",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29512,
+            "name": "Paul Okon-Engstler",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29503,
+            "name": "Tete Yengi",
+            "position": "F",
+            "jersey_number": "99"
+        }
+    ],
+    "Ecuador": [
+        {
+            "id": 8772,
+            "name": "Alan Franco",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29840,
+            "name": "Alan Minda",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 8763,
+            "name": "Ángelo Preciado",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29843,
+            "name": "Anthony Valencia",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29852,
+            "name": "Denil Castillo",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 8760,
+            "name": "Enner Valencia",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8761,
+            "name": "Félix Torres",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 8771,
+            "name": "Gonzalo Plata",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29861,
+            "name": "Gonzalo Valle",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8773,
+            "name": "Hernán Galíndez",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8768,
+            "name": "Jackson Porozo",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29841,
+            "name": "Jeremy Arevalo",
+            "position": "F",
+            "jersey_number": "32"
+        },
+        {
+            "id": 29856,
+            "name": "Joel Ordóñez",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29838,
+            "name": "John Yeboah",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29853,
+            "name": "Jordy Alcivar",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29842,
+            "name": "Jordy Caicedo",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29845,
+            "name": "Kendry Páez",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 8777,
+            "name": "Kevin Rodriguez",
+            "position": "F",
+            "jersey_number": "13"
+        },
+        {
+            "id": 8769,
+            "name": "Moisés Caicedo",
+            "position": "M",
+            "jersey_number": "25"
+        },
+        {
+            "id": 26785,
+            "name": "Moisés Ramírez",
+            "position": "G",
+            "jersey_number": "99"
+        },
+        {
+            "id": 29848,
+            "name": "Nilson Angulo",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29851,
+            "name": "Pedro Vite",
+            "position": "M",
+            "jersey_number": "45"
+        },
+        {
+            "id": 8766,
+            "name": "Pervis Estupiñán",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 8767,
+            "name": "Piero Hincapié",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 26787,
+            "name": "Willian Pacho",
+            "position": "D",
+            "jersey_number": "51"
+        },
+        {
+            "id": 29858,
+            "name": "Yaimar Medina",
+            "position": "D",
+            "jersey_number": "19"
+        }
+    ],
+    "Côte d'Ivoire": [
+        {
+            "id": 29731,
+            "name": "Alban Lafont",
+            "position": "G",
+            "jersey_number": "40"
+        },
+        {
+            "id": 29713,
+            "name": "Amad Diallo",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29709,
+            "name": "Ange-Yoan Bonny",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29719,
+            "name": "Bazoumana Touré",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29717,
+            "name": "Christ Inao Oulaï",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 29729,
+            "name": "Christopher Operi",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29712,
+            "name": "Elye Wahi",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29727,
+            "name": "Emmanuel Agbadou",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29725,
+            "name": "Evan Ndicka",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29711,
+            "name": "Evann Guessand",
+            "position": "F",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29715,
+            "name": "Franck Kessié",
+            "position": "M",
+            "jersey_number": "79"
+        },
+        {
+            "id": 29728,
+            "name": "Ghislain Konan",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29723,
+            "name": "Guéla Doué",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29718,
+            "name": "Ibrahim Sangaré",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29720,
+            "name": "Jean Michaël Seri",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29732,
+            "name": "Mohamed Koné",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29708,
+            "name": "Nicolas Pépé",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29724,
+            "name": "Odilon Kossounou",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29710,
+            "name": "Oumar Diakité",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29726,
+            "name": "Ousmane Diomande",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 29721,
+            "name": "Parfait Guiagon",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29716,
+            "name": "Seko Fofana",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 29714,
+            "name": "Simon Adingra",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29722,
+            "name": "Wilfried Singo",
+            "position": "D",
+            "jersey_number": "90"
+        },
+        {
+            "id": 29730,
+            "name": "Yahia Fofana",
+            "position": "G",
+            "jersey_number": "75"
+        },
+        {
+            "id": 29707,
+            "name": "Yan Diomande",
+            "position": "F",
+            "jersey_number": "49"
+        }
+    ],
+    "Spain": [
+        {
+            "id": 30506,
+            "name": "Alejandro Grimaldo",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30507,
+            "name": "Alex Baena",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 9076,
+            "name": "Aymeric Laporte",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30496,
+            "name": "Borja Iglesias",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9079,
+            "name": "Dani Olmo",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 10691,
+            "name": "David Raya",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 10694,
+            "name": "Eric García",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30505,
+            "name": "Fabián Ruiz",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 9085,
+            "name": "Ferran Torres",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30515,
+            "name": "Joan García",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30497,
+            "name": "Lamine Yamal",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30510,
+            "name": "Marc Cucurella",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 9092,
+            "name": "Marcos Llorente",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30514,
+            "name": "Marc Pubill",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30504,
+            "name": "Martín Zubimendi",
+            "position": "M",
+            "jersey_number": "36"
+        },
+        {
+            "id": 30503,
+            "name": "Mikel Merino",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30494,
+            "name": "Mikel Oyarzabal",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 9087,
+            "name": "Nico Williams",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 9082,
+            "name": "Pablo Gavi",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30508,
+            "name": "Pau Cubarsí",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 9078,
+            "name": "Pedri",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30511,
+            "name": "Pedro Porro",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 9073,
+            "name": "Rodri",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 9086,
+            "name": "Unai Simón",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30493,
+            "name": "Victor Muñoz",
+            "position": "F",
+            "jersey_number": "21"
+        },
+        {
+            "id": 10699,
+            "name": "Yéremy Pino",
+            "position": "F",
+            "jersey_number": "10"
+        }
+    ],
+    "Paraguay": [
+        {
+            "id": 30297,
+            "name": "Alejandro Romero",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30305,
+            "name": "Alexandro Maidana",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30286,
+            "name": "Alex Arce",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30296,
+            "name": "Andrés Cubas",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30285,
+            "name": "Antonio Sanabria",
+            "position": "F",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30298,
+            "name": "Braian Ojeda",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30293,
+            "name": "Damián Bobadilla",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30290,
+            "name": "Diego Gómez",
+            "position": "M",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30302,
+            "name": "Fabián Balbuena",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30288,
+            "name": "Gabriel Ávalos",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30309,
+            "name": "Gastón Olveira",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30295,
+            "name": "Gustavo Caballero",
+            "position": "M",
+            "jersey_number": "47"
+        },
+        {
+            "id": 30299,
+            "name": "Gustavo Gómez",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30304,
+            "name": "Gustavo Velázquez",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30287,
+            "name": "Isidro Pitta",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30306,
+            "name": "José Canale",
+            "position": "D",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30303,
+            "name": "Juan Cáceres",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30289,
+            "name": "Julio Enciso",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30301,
+            "name": "Junior Alonso",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30294,
+            "name": "Matías Galarza",
+            "position": "M",
+            "jersey_number": "88"
+        },
+        {
+            "id": 30292,
+            "name": "Mauricio",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30291,
+            "name": "Miguel Almirón",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30300,
+            "name": "Omar Alderete",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30308,
+            "name": "Orlando Gill",
+            "position": "G",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30284,
+            "name": "Ramón Sosa",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30307,
+            "name": "Roberto Fernández",
+            "position": "G",
+            "jersey_number": "25"
+        }
+    ],
+    "Germany": [
+        {
+            "id": 29950,
+            "name": "Aleksandar Pavlović",
+            "position": "M",
+            "jersey_number": "45"
+        },
+        {
+            "id": 29966,
+            "name": "Alexander Nübel",
+            "position": "G",
+            "jersey_number": "33"
+        },
+        {
+            "id": 29952,
+            "name": "Angelo Stiller",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 430,
+            "name": "Antonio Rüdiger",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 34957,
+            "name": "Assan Ouédraogo",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9096,
+            "name": "David Raum",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29943,
+            "name": "Deniz Undav",
+            "position": "F",
+            "jersey_number": "26"
+        },
+        {
+            "id": 29954,
+            "name": "Felix Nmecha",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29945,
+            "name": "Florian Wirtz",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9105,
+            "name": "Jamal Musiala",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29956,
+            "name": "Jamie Leweling",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29959,
+            "name": "Jonathan Tah",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 422,
+            "name": "Joshua Kimmich",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 9094,
+            "name": "Kai Havertz",
+            "position": "F",
+            "jersey_number": "29"
+        },
+        {
+            "id": 428,
+            "name": "Leon Goretzka",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 9101,
+            "name": "Leroy Sané",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29960,
+            "name": "Malick Thiaw",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 437,
+            "name": "Manuel Neuer",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29944,
+            "name": "Maximilian Beier",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29955,
+            "name": "Nadiem Amiri",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29963,
+            "name": "Nathaniel Brown",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29942,
+            "name": "Nick Woltemade",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 9102,
+            "name": "Nico Schlotterbeck",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29967,
+            "name": "Oliver Baumann",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29953,
+            "name": "Pascal Groß",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29962,
+            "name": "Waldemar Anton",
+            "position": "D",
+            "jersey_number": "3"
+        }
+    ],
+    "Austria": [
+        {
+            "id": 29540,
+            "name": "Alessandro Schöpf",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29538,
+            "name": "Alexander Prass",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29550,
+            "name": "Alexander Schlager",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29530,
+            "name": "Carney Chukwuemeka",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29545,
+            "name": "David Affengruber",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29541,
+            "name": "David Alaba",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29537,
+            "name": "Florian Grillitsch",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29551,
+            "name": "Florian Wiegele",
+            "position": "G",
+            "jersey_number": "44"
+        },
+        {
+            "id": 29543,
+            "name": "Kevin Danso",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29542,
+            "name": "Konrad Laimer",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29531,
+            "name": "Marcel Sabitzer",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29547,
+            "name": "Marco Friedl",
+            "position": "D",
+            "jersey_number": "32"
+        },
+        {
+            "id": 29527,
+            "name": "Marko Arnautović",
+            "position": "F",
+            "jersey_number": "89"
+        },
+        {
+            "id": 29528,
+            "name": "Michael Gregoritsch",
+            "position": "F",
+            "jersey_number": "38"
+        },
+        {
+            "id": 29548,
+            "name": "Michael Svoboda",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29533,
+            "name": "Nicolas Seiwald",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29549,
+            "name": "Patrick Pentz",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29536,
+            "name": "Patrick Wimmer",
+            "position": "M",
+            "jersey_number": "39"
+        },
+        {
+            "id": 29532,
+            "name": "Paul Wanner",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29546,
+            "name": "Philipp Lienhart",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29539,
+            "name": "Phillipp Mwene",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29535,
+            "name": "Romano Schmid",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29529,
+            "name": "Saša Kalajdžić",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29544,
+            "name": "Stefan Posch",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29534,
+            "name": "Xaver Schlager",
+            "position": "M",
+            "jersey_number": "24"
+        }
+    ],
+    "Sweden": [
+        {
+            "id": 30523,
+            "name": "Alexander Bernhardsson",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30519,
+            "name": "Alexander Isak",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30520,
+            "name": "Anthony Elanga",
+            "position": "F",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30521,
+            "name": "Benjamin Nygren",
+            "position": "F",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30532,
+            "name": "Besfort Zeneli",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 30538,
+            "name": "Carl Starfelt",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30525,
+            "name": "Daniel Svensson",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30533,
+            "name": "Elliot Stroud",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30541,
+            "name": "Eric Smith",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30537,
+            "name": "Gabriel Gudmundsson",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30539,
+            "name": "Gustaf Lagerbielke",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30522,
+            "name": "Gustaf Nilsson",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30534,
+            "name": "Herman Johansson",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30540,
+            "name": "Hjalmar Ekdal",
+            "position": "D",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30536,
+            "name": "Isak Hien",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30543,
+            "name": "Jacob Widell Zetterström",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30529,
+            "name": "Jesper Karlström",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30531,
+            "name": "Ken Sema",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 1374,
+            "name": "Kristoffer Nordfeldt",
+            "position": "G",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30524,
+            "name": "Lucas Bergvall",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30530,
+            "name": "Mattias Svanberg",
+            "position": "M",
+            "jersey_number": "32"
+        },
+        {
+            "id": 30528,
+            "name": "Taha Abdi Ali",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 374,
+            "name": "Victor Lindelöf",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30518,
+            "name": "Viktor Gyökeres",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30542,
+            "name": "Viktor Johansson",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30527,
+            "name": "Yasin Ayari",
+            "position": "M",
+            "jersey_number": "26"
+        }
+    ],
+    "USA": [
+        {
+            "id": 30668,
+            "name": "Alexander Freeman",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30659,
+            "name": "Alex Zendejas",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8825,
+            "name": "Antonee Robinson",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 30667,
+            "name": "Auston Trusty",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 8833,
+            "name": "Brenden Aaronson",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30674,
+            "name": "Chris Brady",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30665,
+            "name": "Chris Richards",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 8818,
+            "name": "Christian Pulišić",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 9443,
+            "name": "Cristian Roldán",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30650,
+            "name": "Folarin Balogun",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 8829,
+            "name": "Giovanni Reyna",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 8826,
+            "name": "Haji Wright",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 9441,
+            "name": "Joe Scally",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 30655,
+            "name": "Malik Tillman",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30669,
+            "name": "Mark McKenzie",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30673,
+            "name": "Matthew Freese",
+            "position": "G",
+            "jersey_number": "49"
+        },
+        {
+            "id": 8822,
+            "name": "Matt Turner",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30662,
+            "name": "Maximilian Arfsten",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30671,
+            "name": "Miles Robinson",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30651,
+            "name": "Ricardo Pepi",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30660,
+            "name": "Sebastian Berhalter",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 8834,
+            "name": "Sergiño Dest",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 8823,
+            "name": "Tim Ream",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 8824,
+            "name": "Tim Weah",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 8819,
+            "name": "Tyler Adams",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 8828,
+            "name": "Weston McKennie",
+            "position": "M",
+            "jersey_number": "22"
+        }
+    ],
+    "Norway": [
+        {
+            "id": 30233,
+            "name": "Alexander Sørloth",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30239,
+            "name": "Andreas Schjelderup",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30234,
+            "name": "Antonio Nusa",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30250,
+            "name": "David Møller Wolfe",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30257,
+            "name": "Egil Selvik",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30232,
+            "name": "Erling Haaland",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30252,
+            "name": "Fredrik André Bjørkan",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30240,
+            "name": "Fredrik Aursnes",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30253,
+            "name": "Henrik Sælebakke Falchener",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30235,
+            "name": "Jens Petter Hauge",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30236,
+            "name": "Jørgen Strand Larsen",
+            "position": "F",
+            "jersey_number": "22"
+        },
+        {
+            "id": 30242,
+            "name": "Julian Ryerson",
+            "position": "M",
+            "jersey_number": "26"
+        },
+        {
+            "id": 30245,
+            "name": "Kristian Thorstvedt",
+            "position": "M",
+            "jersey_number": "42"
+        },
+        {
+            "id": 30249,
+            "name": "Kristoffer Ajer",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30248,
+            "name": "Leo Østigård",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30247,
+            "name": "Marcus Pedersen",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30237,
+            "name": "Martin Ødegaard",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30246,
+            "name": "Morten Thorsby",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30255,
+            "name": "Ørjan Nyland",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30238,
+            "name": "Oscar Bobb",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30243,
+            "name": "Patrick Berg",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30244,
+            "name": "Sander Berge",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30256,
+            "name": "Sander Tangvik",
+            "position": "G",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30254,
+            "name": "Sondre Langås",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30241,
+            "name": "Thelo Aasgaard",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30251,
+            "name": "Torbjørn Heggem",
+            "position": "D",
+            "jersey_number": "14"
+        }
+    ],
+    "Haiti": [
+        {
+            "id": 30018,
+            "name": "Alexandre Pierre",
+            "position": "G",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30008,
+            "name": "Carlens Arcus",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30014,
+            "name": "Carl Fred Sainté",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30004,
+            "name": "Danley Jean Jacques",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 29999,
+            "name": "Derrick Etienne",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30007,
+            "name": "Dominique Simon",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29995,
+            "name": "Duckens Nazon",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30011,
+            "name": "Duke Lacroix",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29996,
+            "name": "Frantzdy Pierrot",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30009,
+            "name": "Hannes Delcroix",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30012,
+            "name": "Jean-Kévin Duverne",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 30001,
+            "name": "Jean-Ricner Bellegarde",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30017,
+            "name": "Johny Placide",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30002,
+            "name": "Josué Casimir",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30019,
+            "name": "Josué Duverger",
+            "position": "G",
+            "jersey_number": null
+        },
+        {
+            "id": 30015,
+            "name": "Keeto Thermoncy",
+            "position": "D",
+            "jersey_number": "59"
+        },
+        {
+            "id": 30000,
+            "name": "Lenny Joseph",
+            "position": "F",
+            "jersey_number": "75"
+        },
+        {
+            "id": 30005,
+            "name": "Leverton Pierre",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29997,
+            "name": "Louicius Don Deedson",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30013,
+            "name": "Martin Expérience",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30010,
+            "name": "Ricardo Adé",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30003,
+            "name": "Ruben Providence",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30016,
+            "name": "Wilguens Paugain",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29994,
+            "name": "Wilson Isidor",
+            "position": "F",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30006,
+            "name": "Woodensky Pierre",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29998,
+            "name": "Yassin Fortune",
+            "position": "F",
+            "jersey_number": "23"
+        }
+    ],
+    "Argentina": [
+        {
+            "id": 8880,
+            "name": "Alexis Mac Allister",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8892,
+            "name": "Cristian Romero",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 8891,
+            "name": "Emiliano Martínez",
+            "position": "G",
+            "jersey_number": "23"
+        },
+        {
+            "id": 8879,
+            "name": "Enzo Fernández",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 8898,
+            "name": "Exequiel Palacios",
+            "position": "M",
+            "jersey_number": "25"
+        },
+        {
+            "id": 29497,
+            "name": "Facundo Medina",
+            "position": "D",
+            "jersey_number": "32"
+        },
+        {
+            "id": 10120,
+            "name": "Gerónimo Rulli",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 1258,
+            "name": "Giovani Lo Celso",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29485,
+            "name": "Giuliano Simeone",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 8897,
+            "name": "Gonzalo Montiel",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29478,
+            "name": "José Manuel López",
+            "position": "F",
+            "jersey_number": "42"
+        },
+        {
+            "id": 29499,
+            "name": "Juan Musso",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8882,
+            "name": "Julián Alvarez",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 8899,
+            "name": "Lautaro Martínez",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8881,
+            "name": "Leandro Paredes",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29496,
+            "name": "Leonardo Balerdi",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 238,
+            "name": "Lionel Messi",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8890,
+            "name": "Lisandro Martínez",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 8894,
+            "name": "Nahuel Molina",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29486,
+            "name": "Nicolás González",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 239,
+            "name": "Nicolás Otamendi",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 252,
+            "name": "Nicolás Tagliafico",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29480,
+            "name": "Nico Paz",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8888,
+            "name": "Rodrigo De Paul",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 8887,
+            "name": "Thiago Almada",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29488,
+            "name": "Valentín Barco",
+            "position": "M",
+            "jersey_number": "32"
+        }
+    ],
+    "Belgium": [
+        {
+            "id": 29561,
+            "name": "Alexis Saelemaekers",
+            "position": "M",
+            "jersey_number": "56"
+        },
+        {
+            "id": 9195,
+            "name": "Amadou Onana",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 10399,
+            "name": "Arthur Theate",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 455,
+            "name": "Axel Witsel",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29574,
+            "name": "Brandon Mechele",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 9199,
+            "name": "Charles De Ketelaere",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29562,
+            "name": "Diego Moreira",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29563,
+            "name": "Dodi Lukebakio",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 10400,
+            "name": "Hans Vanaken",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9194,
+            "name": "Jérémy Doku",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29573,
+            "name": "Joaquin Seys",
+            "position": "D",
+            "jersey_number": "65"
+        },
+        {
+            "id": 442,
+            "name": "Kevin De Bruyne",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29568,
+            "name": "Koni De Winter",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 9197,
+            "name": "Leandro Trossard",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29555,
+            "name": "Matías Fernández-Pardo",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29566,
+            "name": "Maxim De Cuyper",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29577,
+            "name": "Mike Penders",
+            "position": "G",
+            "jersey_number": "39"
+        },
+        {
+            "id": 29571,
+            "name": "Nathan Ngoy",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29565,
+            "name": "Nicolas Raskin",
+            "position": "M",
+            "jersey_number": "43"
+        },
+        {
+            "id": 450,
+            "name": "Romelu Lukaku",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29576,
+            "name": "Senne Lammens",
+            "position": "G",
+            "jersey_number": "31"
+        },
+        {
+            "id": 443,
+            "name": "Thibaut Courtois",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 445,
+            "name": "Thomas Meunier",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 9190,
+            "name": "Timothy Castagne",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 454,
+            "name": "Youri Tielemans",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 10397,
+            "name": "Zeno Debast",
+            "position": "D",
+            "jersey_number": "6"
+        }
+    ],
+    "Mexico": [
+        {
+            "id": 8933,
+            "name": "Alexis Vega",
+            "position": "M",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30133,
+            "name": "Álvaro Fidalgo",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30127,
+            "name": "Armando González",
+            "position": "F",
+            "jersey_number": "34"
+        },
+        {
+            "id": 30137,
+            "name": "Brian Gutiérrez",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30149,
+            "name": "Carlos Acevedo",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30134,
+            "name": "César Huerta",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 8924,
+            "name": "César Montes",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 397,
+            "name": "Edson Álvarez",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30144,
+            "name": "Erik Lira",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30130,
+            "name": "Gilberto Mora",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30129,
+            "name": "Guillermo Martínez",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 383,
+            "name": "Guillermo Ochoa",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30143,
+            "name": "Israel Reyes",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 388,
+            "name": "Jesús Gallardo",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9966,
+            "name": "Johan Vásquez",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 8938,
+            "name": "Jorge Sánchez",
+            "position": "D",
+            "jersey_number": "35"
+        },
+        {
+            "id": 30126,
+            "name": "Julián Quiñones",
+            "position": "F",
+            "jersey_number": "33"
+        },
+        {
+            "id": 8923,
+            "name": "Luis Chávez",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 9968,
+            "name": "Luis Romo",
+            "position": "D",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30140,
+            "name": "Mateo Chávez",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30132,
+            "name": "Obed Vargas",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 8934,
+            "name": "Orbelín Pineda",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 398,
+            "name": "Raúl Jiménez",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30148,
+            "name": "Raúl Rangel",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8940,
+            "name": "Roberto Alvarado",
+            "position": "F",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30124,
+            "name": "Santiago Giménez",
+            "position": "F",
+            "jersey_number": "7"
+        }
+    ],
+    "New Zealand": [
+        {
+            "id": 30229,
+            "name": "Alex Paulsen",
+            "position": "G",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30219,
+            "name": "Alex Rufer",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30213,
+            "name": "Benjamin Old",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30208,
+            "name": "Ben Waine",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 30228,
+            "name": "Callan Elliot",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30212,
+            "name": "Callum McCowatt",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30206,
+            "name": "Chris Wood",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30215,
+            "name": "Elijah Just",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30222,
+            "name": "Finn Surman",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30223,
+            "name": "Francis De Vries",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30211,
+            "name": "Jesse Randall",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30214,
+            "name": "Joe Bell",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30207,
+            "name": "Kosta Barbarouses",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30218,
+            "name": "Lachlan Bayliss",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 31457,
+            "name": "Liberato Cacace",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30209,
+            "name": "Marko Stamenić",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30216,
+            "name": "Matthew Garbett",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 30230,
+            "name": "Max Crocombe",
+            "position": "G",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30224,
+            "name": "Michael Boxall",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30231,
+            "name": "Michael Woud",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30225,
+            "name": "Nando Pijnaker",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30217,
+            "name": "Ryan Thomas",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30210,
+            "name": "Sarpreet Singh",
+            "position": "M",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30220,
+            "name": "Tim Payne",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30227,
+            "name": "Tommy Smith",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30221,
+            "name": "Tyler Bindon",
+            "position": "D",
+            "jersey_number": "6"
+        }
+    ],
+    "Brazil": [
+        {
+            "id": 9223,
+            "name": "Alex Sandro",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 308,
+            "name": "Alisson",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9242,
+            "name": "Bremer",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 9245,
+            "name": "Bruno Guimarães",
+            "position": "M",
+            "jersey_number": "39"
+        },
+        {
+            "id": 296,
+            "name": "Casemiro",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 304,
+            "name": "Danilo",
+            "position": "D",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29617,
+            "name": "Danilo Oliveira",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29625,
+            "name": "Douglas Santos",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 1788,
+            "name": "Ederson",
+            "position": "G",
+            "jersey_number": "31"
+        },
+        {
+            "id": 29606,
+            "name": "Endrick",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 9228,
+            "name": "Fabinho",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29619,
+            "name": "Gabriel Magalhães",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 9244,
+            "name": "Gabriel Martinelli",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29609,
+            "name": "Igor Thiago",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29623,
+            "name": "Léo Pereira",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 9224,
+            "name": "Lucas Paquetá",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29616,
+            "name": "Luiz Henrique",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 309,
+            "name": "Marquinhos",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29607,
+            "name": "Matheus Cunha",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 292,
+            "name": "Neymar",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 9226,
+            "name": "Raphinha",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29613,
+            "name": "Rayan",
+            "position": "M",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29626,
+            "name": "Roger Ibañez",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 9227,
+            "name": "Vinícius Júnior",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29615,
+            "name": "Wesley",
+            "position": "M",
+            "jersey_number": "43"
+        },
+        {
+            "id": 9243,
+            "name": "Weverton",
+            "position": "G",
+            "jersey_number": "1"
+        }
+    ],
+    "Canada": [
+        {
+            "id": 29677,
+            "name": "Alfie Jones",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29663,
+            "name": "Ali Ahmed",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 9217,
+            "name": "Alistair Johnston",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 9207,
+            "name": "Alphonso Davies",
+            "position": "D",
+            "jersey_number": "19"
+        },
+        {
+            "id": 9212,
+            "name": "Cyle Larin",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 10240,
+            "name": "Dayne St. Clair",
+            "position": "G",
+            "jersey_number": "97"
+        },
+        {
+            "id": 10242,
+            "name": "Derek Cornelius",
+            "position": "D",
+            "jersey_number": "13"
+        },
+        {
+            "id": 9210,
+            "name": "Ismael Koné",
+            "position": "M",
+            "jersey_number": "90"
+        },
+        {
+            "id": 29666,
+            "name": "Jacob Shaffelburg",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 10241,
+            "name": "Joel Waterman",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 9216,
+            "name": "Jonathan David",
+            "position": "F",
+            "jersey_number": "30"
+        },
+        {
+            "id": 9215,
+            "name": "Jonathan Osorio",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 9213,
+            "name": "Liam Millar",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29675,
+            "name": "Luc De Fougerolles",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 29668,
+            "name": "Mathieu Choinière",
+            "position": "M",
+            "jersey_number": "66"
+        },
+        {
+            "id": 29679,
+            "name": "Maxime Crépeau",
+            "position": "G",
+            "jersey_number": "71"
+        },
+        {
+            "id": 29673,
+            "name": "Moise Bombito",
+            "position": "D",
+            "jersey_number": "64"
+        },
+        {
+            "id": 29664,
+            "name": "Nathan-Dylan Saliba",
+            "position": "M",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29670,
+            "name": "Niko Sigur",
+            "position": "D",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29680,
+            "name": "Owen Goodman",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29657,
+            "name": "Promise David",
+            "position": "F",
+            "jersey_number": "12"
+        },
+        {
+            "id": 9205,
+            "name": "Richie Laryea",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 9202,
+            "name": "Stephen Eustaquio",
+            "position": "M",
+            "jersey_number": "46"
+        },
+        {
+            "id": 9219,
+            "name": "Tajon Buchanan",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29658,
+            "name": "Tani Oluwaseyi",
+            "position": "F",
+            "jersey_number": "21"
+        }
+    ],
+    "Iran": [
+        {
+            "id": 30022,
+            "name": "Ali Alipour",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30041,
+            "name": "Ali Nemati",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 110,
+            "name": "Alireza Beiranvand",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 116,
+            "name": "Alireza Jahanbakhsh",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30023,
+            "name": "Amirhossein Hosseinzadeh",
+            "position": "F",
+            "jersey_number": "99"
+        },
+        {
+            "id": 30033,
+            "name": "Amirmohammad Razzaghinia",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30034,
+            "name": "Aria Yousefi",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30042,
+            "name": "Danial Eiri",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30025,
+            "name": "Dennis Eckert Ayensa",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 114,
+            "name": "Ehsan Hajsafi",
+            "position": "D",
+            "jersey_number": "28"
+        },
+        {
+            "id": 8856,
+            "name": "Hossein Hosseini",
+            "position": "G",
+            "jersey_number": "21"
+        },
+        {
+            "id": 8857,
+            "name": "Hossein Kanaani",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 753,
+            "name": "Mahdi Torabi",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30028,
+            "name": "Mehdi Ghayedi",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 125,
+            "name": "Mehdi Taremi",
+            "position": "F",
+            "jersey_number": "99"
+        },
+        {
+            "id": 112,
+            "name": "Milad Mohammadi",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30032,
+            "name": "Mohammad Ghorbani",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30024,
+            "name": "Mohammad Mohebi",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 9415,
+            "name": "Payam Niazmand",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 113,
+            "name": "Ramin Rezaeian",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 111,
+            "name": "Roozbeh Cheshmi",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 122,
+            "name": "Saeid Ezatolahi",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30039,
+            "name": "Saleh Hardani",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 123,
+            "name": "Saman Ghoddos",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30027,
+            "name": "Shahriar Moghanlou",
+            "position": "F",
+            "jersey_number": "70"
+        },
+        {
+            "id": 9420,
+            "name": "Shoja Khalilzadeh",
+            "position": "D",
+            "jersey_number": "3"
+        }
+    ],
+    "Colombia": [
+        {
+            "id": 29706,
+            "name": "Álvaro Montero",
+            "position": "G",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29691,
+            "name": "Andrés Gómez",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 2023,
+            "name": "Camilo Vargas",
+            "position": "G",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29682,
+            "name": "Cucho Hernández",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29690,
+            "name": "Daniel Muñoz",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 529,
+            "name": "David Ospina",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 531,
+            "name": "Davinson Sánchez",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29702,
+            "name": "Deiver Machado",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29694,
+            "name": "Gustavo Puerta",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 530,
+            "name": "James Rodríguez",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29695,
+            "name": "Jaminton Campaz",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 540,
+            "name": "Jefferson Lerma",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29687,
+            "name": "Jhon Arias",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29683,
+            "name": "Jhon Córdoba",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29699,
+            "name": "Jhon Lucumí",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 538,
+            "name": "Johan Mojica",
+            "position": "D",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29688,
+            "name": "Jorge Carrascal",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 527,
+            "name": "Juan Fernando Quintero",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29696,
+            "name": "Juan Portilla",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29693,
+            "name": "Kevin Castaño",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29684,
+            "name": "Luis Díaz",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29681,
+            "name": "Luis Javier Suárez",
+            "position": "F",
+            "jersey_number": "97"
+        },
+        {
+            "id": 29686,
+            "name": "Richard Ríos",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 535,
+            "name": "Santiago Arias",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29703,
+            "name": "Willer Ditta",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 526,
+            "name": "Yerry Mina",
+            "position": "D",
+            "jersey_number": "26"
+        }
+    ],
+    "Bosnia & Herzegovina": [
+        {
+            "id": 29593,
+            "name": "Amar Dedić",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29588,
+            "name": "Amar Memić",
+            "position": "M",
+            "jersey_number": "99"
+        },
+        {
+            "id": 29587,
+            "name": "Amir Hadžiahmetović",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29586,
+            "name": "Armin Gigović",
+            "position": "M",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29585,
+            "name": "Benjamin Tahirović",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29598,
+            "name": "Dennis Hadžikadunić",
+            "position": "D",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29591,
+            "name": "Dženis Burnić",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29578,
+            "name": "Edin Džeko",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29580,
+            "name": "Ermedin Demirović",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29592,
+            "name": "Ermin Mahmic",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29579,
+            "name": "Esmir Bajraktarević",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 29581,
+            "name": "Haris Tabaković",
+            "position": "F",
+            "jersey_number": "15"
+        },
+        {
+            "id": 29590,
+            "name": "Ivan Bašić",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29589,
+            "name": "Ivan Šunjić",
+            "position": "M",
+            "jersey_number": "26"
+        },
+        {
+            "id": 29583,
+            "name": "Jovo Lukić",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29584,
+            "name": "Kerim Alajbegović",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29602,
+            "name": "Martin Zlomislić",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 29603,
+            "name": "Mladen Jurkas",
+            "position": "G",
+            "jersey_number": "72"
+        },
+        {
+            "id": 29597,
+            "name": "Nidal Čelik",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29600,
+            "name": "Nihad Mujakić",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29596,
+            "name": "Nikola Katić",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 29601,
+            "name": "Nikola Vasilj",
+            "position": "G",
+            "jersey_number": "22"
+        },
+        {
+            "id": 29582,
+            "name": "Samed Baždar",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29595,
+            "name": "Sead Kolašinac",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29599,
+            "name": "Stjepan Radeljić",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29594,
+            "name": "Tarik Muharemović",
+            "position": "D",
+            "jersey_number": "80"
+        }
+    ],
+    "Croatia": [
+        {
+            "id": 232,
+            "name": "Andrej Kramarić",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 9180,
+            "name": "Ante Budimir",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29757,
+            "name": "Dominik Kotarski",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 1122,
+            "name": "Dominik Livaković",
+            "position": "G",
+            "jersey_number": "40"
+        },
+        {
+            "id": 233,
+            "name": "Duje Ćaleta-Car",
+            "position": "D",
+            "jersey_number": "16"
+        },
+        {
+            "id": 29735,
+            "name": "Igor Matanović",
+            "position": "F",
+            "jersey_number": "31"
+        },
+        {
+            "id": 223,
+            "name": "Ivan Perišić",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29758,
+            "name": "Ivor Pandur",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9170,
+            "name": "Josip Stanišić",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 9176,
+            "name": "Josip Šutalo",
+            "position": "D",
+            "jersey_number": "37"
+        },
+        {
+            "id": 9165,
+            "name": "Joško Gvardiol",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 10377,
+            "name": "Kristijan Jakić",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 217,
+            "name": "Luka Modrić",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 10375,
+            "name": "Luka Sučić",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29750,
+            "name": "Luka Vušković",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 29745,
+            "name": "Marco Pašalić",
+            "position": "M",
+            "jersey_number": "87"
+        },
+        {
+            "id": 29754,
+            "name": "Marin Pongračić",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 9177,
+            "name": "Mario Pašalić",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29740,
+            "name": "Martin Baturina",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 10371,
+            "name": "Martin Erlić",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 227,
+            "name": "Mateo Kovačić",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29747,
+            "name": "Nikola Moro",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 9179,
+            "name": "Nikola Vlašić",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29736,
+            "name": "Petar Musa",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29741,
+            "name": "Petar Sučić",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29746,
+            "name": "Toni Fruk",
+            "position": "M",
+            "jersey_number": "10"
+        }
+    ],
+    "England": [
+        {
+            "id": 29892,
+            "name": "Anthony Gordon",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 8798,
+            "name": "Bukayo Saka",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29910,
+            "name": "Dan Burn",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 29914,
+            "name": "Dean Henderson",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8809,
+            "name": "Declan Rice",
+            "position": "M",
+            "jersey_number": "41"
+        },
+        {
+            "id": 29909,
+            "name": "Djed Spence",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29898,
+            "name": "Eberechi Eze",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29901,
+            "name": "Elliot Anderson",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29911,
+            "name": "Ezri Konsa",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 463,
+            "name": "Harry Kane",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29895,
+            "name": "Ivan Toney",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29912,
+            "name": "James Trafford",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29907,
+            "name": "Jarell Quansah",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 465,
+            "name": "John Stones",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 474,
+            "name": "Jordan Henderson",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 471,
+            "name": "Jordan Pickford",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8799,
+            "name": "Jude Bellingham",
+            "position": "M",
+            "jersey_number": "5"
+        },
+        {
+            "id": 29899,
+            "name": "Kobbie Mainoo",
+            "position": "M",
+            "jersey_number": "37"
+        },
+        {
+            "id": 29905,
+            "name": "Marc Guéhi",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 477,
+            "name": "Marcus Rashford",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 29900,
+            "name": "Morgan Rogers",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29904,
+            "name": "Nico O'Reilly",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 29893,
+            "name": "Noni Madueke",
+            "position": "F",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29894,
+            "name": "Ollie Watkins",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29903,
+            "name": "Reece James",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29908,
+            "name": "Tino Livramento",
+            "position": "D",
+            "jersey_number": "21"
+        }
+    ],
+    "Japan": [
+        {
+            "id": 9053,
+            "name": "Ao Tanaka",
+            "position": "M",
+            "jersey_number": "22"
+        },
+        {
+            "id": 9068,
+            "name": "Ayase Ueda",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30093,
+            "name": "Ayumu Seko",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 9067,
+            "name": "Daichi Kamada",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 9057,
+            "name": "Daizen Maeda",
+            "position": "F",
+            "jersey_number": "38"
+        },
+        {
+            "id": 9069,
+            "name": "Hiroki Itō",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30091,
+            "name": "Junnosuke Suzuki",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9062,
+            "name": "Junya Ito",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30084,
+            "name": "Kaishu Sano",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30074,
+            "name": "Keisuke Goto",
+            "position": "F",
+            "jersey_number": "42"
+        },
+        {
+            "id": 30083,
+            "name": "Keito Nakamura",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30076,
+            "name": "Kento Shiogai",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9052,
+            "name": "Ko Itakura",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30075,
+            "name": "Koki Ogawa",
+            "position": "F",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30096,
+            "name": "Osako Keisuke",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9051,
+            "name": "Ritsu Doan",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9060,
+            "name": "Shogo Taniguchi",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 9072,
+            "name": "Takefusa Kubo",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 9066,
+            "name": "Takehiro Tomiyasu",
+            "position": "D",
+            "jersey_number": "32"
+        },
+        {
+            "id": 30097,
+            "name": "Tomoki Hayakawa",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30090,
+            "name": "Tsuyoshi Watanabe",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 1892,
+            "name": "Wataru Endo",
+            "position": "M",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30085,
+            "name": "Yuito Suzuki",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 30089,
+            "name": "Yukinari Sugawara",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 557,
+            "name": "Yuto Nagatomo",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30095,
+            "name": "Zion Suzuki",
+            "position": "G",
+            "jersey_number": "31"
+        }
+    ],
+    "Switzerland": [
+        {
+            "id": 9269,
+            "name": "Ardon Jashari",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30565,
+            "name": "Aurèle Amenda",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 322,
+            "name": "Breel Embolo",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30548,
+            "name": "Cédric Itten",
+            "position": "F",
+            "jersey_number": "13"
+        },
+        {
+            "id": 9254,
+            "name": "Christian Fassnacht",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30551,
+            "name": "Dan Ndoye",
+            "position": "M",
+            "jersey_number": "14"
+        },
+        {
+            "id": 326,
+            "name": "Denis Zakaria",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 9252,
+            "name": "Djibril Sow",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 9268,
+            "name": "Eray Cömert",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 9259,
+            "name": "Fabian Rieder",
+            "position": "M",
+            "jersey_number": "32"
+        },
+        {
+            "id": 315,
+            "name": "Granit Xhaka",
+            "position": "M",
+            "jersey_number": "34"
+        },
+        {
+            "id": 9265,
+            "name": "Gregor Kobel",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30552,
+            "name": "Johan Manzambi",
+            "position": "M",
+            "jersey_number": "44"
+        },
+        {
+            "id": 30567,
+            "name": "Luca Jaquez",
+            "position": "D",
+            "jersey_number": "14"
+        },
+        {
+            "id": 313,
+            "name": "Manuel Akanji",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30570,
+            "name": "Marvin Keller",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9266,
+            "name": "Michel Aebischer",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30559,
+            "name": "Miro Muheim",
+            "position": "M",
+            "jersey_number": "28"
+        },
+        {
+            "id": 1633,
+            "name": "Nico Elvedi",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 9261,
+            "name": "Noah Okafor",
+            "position": "F",
+            "jersey_number": "19"
+        },
+        {
+            "id": 1636,
+            "name": "Remo Freuler",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 311,
+            "name": "Ricardo Rodríguez",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 9258,
+            "name": "Rubén Vargas",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 9247,
+            "name": "Silvan Widmer",
+            "position": "M",
+            "jersey_number": "30"
+        },
+        {
+            "id": 1630,
+            "name": "Yvon Mvogo",
+            "position": "G",
+            "jersey_number": "38"
+        },
+        {
+            "id": 30547,
+            "name": "Zeki Amdouni",
+            "position": "F",
+            "jersey_number": "25"
+        }
+    ],
+    "Curacao": [
+        {
+            "id": 29775,
+            "name": "Ar'Jany Martha",
+            "position": "D",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29772,
+            "name": "Armando Obispo",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29762,
+            "name": "Brandley Kuwas",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29779,
+            "name": "Deveron Fonville",
+            "position": "D",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29782,
+            "name": "Eloy Room",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29761,
+            "name": "Gervane Kastaneer",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 29771,
+            "name": "Godfried Roemeratoe",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29766,
+            "name": "Jearl Margaritha",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 29769,
+            "name": "Jeremy Antonisse",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29778,
+            "name": "Joshua Brenet",
+            "position": "D",
+            "jersey_number": "30"
+        },
+        {
+            "id": 29764,
+            "name": "Juninho Bacuna",
+            "position": "M",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29760,
+            "name": "Jürgen Locadia",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29781,
+            "name": "Jurien Gaari",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29767,
+            "name": "Kenji Gorré",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29770,
+            "name": "Kevin Felida",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29765,
+            "name": "Leandro Bacuna",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 29773,
+            "name": "Livano Comenencia",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29774,
+            "name": "Riechedly Bazoer",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29780,
+            "name": "Roshon van Eijma",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 29777,
+            "name": "Sherel Constancio Floranus",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29776,
+            "name": "Shurandy Sambo",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 29759,
+            "name": "Sontje Hansen",
+            "position": "F",
+            "jersey_number": "27"
+        },
+        {
+            "id": 29763,
+            "name": "Tahith Chong",
+            "position": "M",
+            "jersey_number": "24"
+        },
+        {
+            "id": 29784,
+            "name": "Trevor Iriving Doornbusch",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29768,
+            "name": "Tyrese Noslin",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29783,
+            "name": "Tyrick Bodak",
+            "position": "G",
+            "jersey_number": "13"
+        }
+    ],
+    "South Africa": [
+        {
+            "id": 30456,
+            "name": "Aubrey Modiba",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30460,
+            "name": "Bradley Cross",
+            "position": "D",
+            "jersey_number": "48"
+        },
+        {
+            "id": 30441,
+            "name": "Evidence Makgopa",
+            "position": "F",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30459,
+            "name": "Ime Okon",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30442,
+            "name": "Iqraam Rayners",
+            "position": "F",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30451,
+            "name": "Jayden Adams",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30449,
+            "name": "Kamogelo Sebelebele",
+            "position": "M",
+            "jersey_number": "36"
+        },
+        {
+            "id": 30454,
+            "name": "Khuliso Mudau",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30458,
+            "name": "Khulumani Ndamane",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30440,
+            "name": "Lyle Foster",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 30453,
+            "name": "Mbekezeli Mbokazi",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30455,
+            "name": "Nkosinathi Sibisi",
+            "position": "D",
+            "jersey_number": "5"
+        },
+        {
+            "id": 30461,
+            "name": "Olwethu Makhanya",
+            "position": "D",
+            "jersey_number": "29"
+        },
+        {
+            "id": 30444,
+            "name": "Oswin Appollis",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30443,
+            "name": "Relebohile Mofokeng",
+            "position": "M",
+            "jersey_number": "38"
+        },
+        {
+            "id": 30465,
+            "name": "Ricardo Goss",
+            "position": "G",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30463,
+            "name": "Ronwen Williams",
+            "position": "G",
+            "jersey_number": "30"
+        },
+        {
+            "id": 30457,
+            "name": "Samukelo Kabini",
+            "position": "D",
+            "jersey_number": "26"
+        },
+        {
+            "id": 30450,
+            "name": "Siphephelo Sithole",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30464,
+            "name": "Sipho Chaine",
+            "position": "G",
+            "jersey_number": "24"
+        },
+        {
+            "id": 30446,
+            "name": "Teboho Mokoena",
+            "position": "M",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30448,
+            "name": "Thalente Mbatha",
+            "position": "M",
+            "jersey_number": "16"
+        },
+        {
+            "id": 30452,
+            "name": "Thapelo Maseko",
+            "position": "M",
+            "jersey_number": "40"
+        },
+        {
+            "id": 30445,
+            "name": "Themba Zwane",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30462,
+            "name": "Tholo Thabang Matuludi",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30447,
+            "name": "Tshepang Moremi",
+            "position": "M",
+            "jersey_number": "11"
+        }
+    ],
+    "Netherlands": [
+        {
+            "id": 30203,
+            "name": "Bart Verbruggen",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30183,
+            "name": "Brian Brobbey",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 8719,
+            "name": "Cody Gakpo",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 30193,
+            "name": "Crysencio Summerville",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 8731,
+            "name": "Denzel Dumfries",
+            "position": "M",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30182,
+            "name": "Donyell Malen",
+            "position": "F",
+            "jersey_number": "14"
+        },
+        {
+            "id": 8722,
+            "name": "Frenkie de Jong",
+            "position": "M",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30194,
+            "name": "Guus Til",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 30201,
+            "name": "Jan Paul van Hecke",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30199,
+            "name": "Jorrel Hato",
+            "position": "D",
+            "jersey_number": "21"
+        },
+        {
+            "id": 8727,
+            "name": "Jurriën Timber",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30192,
+            "name": "Justin Kluivert",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 32696,
+            "name": "Lutsharel Geertruida",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30204,
+            "name": "Mark Flekken",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 8735,
+            "name": "Marten de Roon",
+            "position": "M",
+            "jersey_number": "15"
+        },
+        {
+            "id": 30202,
+            "name": "Mats Wieffer",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 8737,
+            "name": "Memphis Depay",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30200,
+            "name": "Micky van de Ven",
+            "position": "D",
+            "jersey_number": "37"
+        },
+        {
+            "id": 8725,
+            "name": "Nathan Aké",
+            "position": "D",
+            "jersey_number": "6"
+        },
+        {
+            "id": 8729,
+            "name": "Noa Lang",
+            "position": "F",
+            "jersey_number": "77"
+        },
+        {
+            "id": 30190,
+            "name": "Quinten Timber",
+            "position": "M",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30205,
+            "name": "Robin Roefs",
+            "position": "G",
+            "jersey_number": "22"
+        },
+        {
+            "id": 30188,
+            "name": "Ryan Gravenberch",
+            "position": "M",
+            "jersey_number": "38"
+        },
+        {
+            "id": 8733,
+            "name": "Teun Koopmeiners",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30187,
+            "name": "Tijjani Reijnders",
+            "position": "M",
+            "jersey_number": "4"
+        },
+        {
+            "id": 8724,
+            "name": "Virgil van Dijk",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 8723,
+            "name": "Wout Weghorst",
+            "position": "F",
+            "jersey_number": "25"
+        }
+    ],
+    "Portugal": [
+        {
+            "id": 100,
+            "name": "Bernardo Silva",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 109,
+            "name": "Bruno Fernandes",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 92,
+            "name": "Cristiano Ronaldo",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9335,
+            "name": "Diogo Costa",
+            "position": "G",
+            "jersey_number": "99"
+        },
+        {
+            "id": 9316,
+            "name": "Diogo Dalot",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 30314,
+            "name": "Francisco Conceição",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30321,
+            "name": "Francisco Trincão",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 102,
+            "name": "Gonçalo Guedes",
+            "position": "M",
+            "jersey_number": "11"
+        },
+        {
+            "id": 30331,
+            "name": "Gonçalo Inácio",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 9318,
+            "name": "Gonçalo Ramos",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 9324,
+            "name": "João Cancelo",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 9321,
+            "name": "João Félix",
+            "position": "F",
+            "jersey_number": "79"
+        },
+        {
+            "id": 30318,
+            "name": "João Neves",
+            "position": "M",
+            "jersey_number": "87"
+        },
+        {
+            "id": 10975,
+            "name": "José Sá",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 9332,
+            "name": "Matheus Nunes",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 30330,
+            "name": "Nélson Semedo",
+            "position": "D",
+            "jersey_number": "27"
+        },
+        {
+            "id": 9322,
+            "name": "Nuno Mendes",
+            "position": "D",
+            "jersey_number": "25"
+        },
+        {
+            "id": 30319,
+            "name": "Pedro Neto",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 9323,
+            "name": "Rafael Leão",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30329,
+            "name": "Renato Veiga",
+            "position": "D",
+            "jersey_number": "12"
+        },
+        {
+            "id": 770,
+            "name": "Rúben Dias",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 9331,
+            "name": "Rúben Neves",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 30335,
+            "name": "Rui Silva",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 30323,
+            "name": "Samú Costa",
+            "position": "M",
+            "jersey_number": "12"
+        },
+        {
+            "id": 30332,
+            "name": "Tomás Araújo",
+            "position": "D",
+            "jersey_number": "44"
+        },
+        {
+            "id": 9326,
+            "name": "Vitinha",
+            "position": "M",
+            "jersey_number": "17"
+        }
+    ],
+    "Cape Verde": [
+        {
+            "id": 29653,
+            "name": "CJ Dos Santos",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29630,
+            "name": "Dailon Rocha Livramento",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29643,
+            "name": "Deroy Duarte",
+            "position": "M",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29651,
+            "name": "Diney Borges",
+            "position": "D",
+            "jersey_number": "23"
+        },
+        {
+            "id": 29634,
+            "name": "Garry Rodrigues",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29633,
+            "name": "Gilson Tavares",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29636,
+            "name": "Hélio Varela",
+            "position": "M",
+            "jersey_number": "29"
+        },
+        {
+            "id": 29641,
+            "name": "Jamiro Monteiro",
+            "position": "M",
+            "jersey_number": "35"
+        },
+        {
+            "id": 29640,
+            "name": "João Paulo",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29631,
+            "name": "Jovane Cabral",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 29652,
+            "name": "Kelvin Pires",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29639,
+            "name": "Kevin Lenini",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29642,
+            "name": "Laros Duarte",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 29646,
+            "name": "Logan Costa",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29655,
+            "name": "Márcio Rosa",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29632,
+            "name": "Nuno Da Costa",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 29649,
+            "name": "Pico",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 29638,
+            "name": "Ryan Mendes",
+            "position": "M",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29645,
+            "name": "Sidny Lopes Cabral",
+            "position": "D",
+            "jersey_number": "15"
+        },
+        {
+            "id": 29650,
+            "name": "Steven Moreira",
+            "position": "D",
+            "jersey_number": "31"
+        },
+        {
+            "id": 29648,
+            "name": "Stopira",
+            "position": "D",
+            "jersey_number": "2"
+        },
+        {
+            "id": 29637,
+            "name": "Telmo Arcanjo",
+            "position": "M",
+            "jersey_number": "18"
+        },
+        {
+            "id": 29654,
+            "name": "Vozinha",
+            "position": "G",
+            "jersey_number": "1"
+        },
+        {
+            "id": 29647,
+            "name": "Wagner Pina",
+            "position": "D",
+            "jersey_number": "20"
+        },
+        {
+            "id": 29635,
+            "name": "Willy Semedo",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 29644,
+            "name": "Yannick Semedo",
+            "position": "M",
+            "jersey_number": "20"
+        }
+    ],
+    "South Korea": [
+        {
+            "id": 30478,
+            "name": "Dong-gyeong Lee",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30487,
+            "name": "Gi-Hyuk Lee",
+            "position": "D",
+            "jersey_number": "13"
+        },
+        {
+            "id": 9340,
+            "name": "Gue-sung Cho",
+            "position": "F",
+            "jersey_number": "10"
+        },
+        {
+            "id": 30484,
+            "name": "Han-Beom Lee",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 410,
+            "name": "Hwang Hee-chan",
+            "position": "F",
+            "jersey_number": "11"
+        },
+        {
+            "id": 9354,
+            "name": "Hwang In-beom",
+            "position": "M",
+            "jersey_number": "6"
+        },
+        {
+            "id": 30467,
+            "name": "Hyeon-gyu Oh",
+            "position": "F",
+            "jersey_number": "9"
+        },
+        {
+            "id": 412,
+            "name": "Jae-sung Lee",
+            "position": "M",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30476,
+            "name": "Jens Castrop",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 30480,
+            "name": "Jin-gyu Kim",
+            "position": "M",
+            "jersey_number": "97"
+        },
+        {
+            "id": 30481,
+            "name": "Jin-seob Park",
+            "position": "M",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30477,
+            "name": "Ji-sung Eom",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 402,
+            "name": "Jo Hyeonwoo",
+            "position": "G",
+            "jersey_number": "21"
+        },
+        {
+            "id": 30474,
+            "name": "Jun-Ho Bae",
+            "position": "M",
+            "jersey_number": "10"
+        },
+        {
+            "id": 9343,
+            "name": "Kang-in Lee",
+            "position": "M",
+            "jersey_number": "19"
+        },
+        {
+            "id": 9347,
+            "name": "Kim Min-jae",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 9345,
+            "name": "Kim Moon-hwan",
+            "position": "D",
+            "jersey_number": "33"
+        },
+        {
+            "id": 1491,
+            "name": "Kim Seung-gyu",
+            "position": "G",
+            "jersey_number": "81"
+        },
+        {
+            "id": 30486,
+            "name": "Kim Tae-hyeon",
+            "position": "D",
+            "jersey_number": "3"
+        },
+        {
+            "id": 30479,
+            "name": "Lee Tae-seok",
+            "position": "M",
+            "jersey_number": "17"
+        },
+        {
+            "id": 9339,
+            "name": "Seung Ho Paik",
+            "position": "M",
+            "jersey_number": "8"
+        },
+        {
+            "id": 10947,
+            "name": "Song Bum-keun",
+            "position": "G",
+            "jersey_number": "31"
+        },
+        {
+            "id": 403,
+            "name": "Son Heung-min",
+            "position": "F",
+            "jersey_number": "7"
+        },
+        {
+            "id": 30488,
+            "name": "Wi-je Cho",
+            "position": "D",
+            "jersey_number": "4"
+        },
+        {
+            "id": 30470,
+            "name": "Yang Hyun-Jun",
+            "position": "F",
+            "jersey_number": "13"
+        },
+        {
+            "id": 30483,
+            "name": "Young-woo Seol",
+            "position": "D",
+            "jersey_number": "66"
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 from django.utils.dateparse import parse_datetime
 
-from tournament.models import Team, Match, Player
+from tournament.models import Team, Match, TeamPlayer
 from tournament.services.football_api import FootballDataAPI
 from tournament.services.scoring_service import ScoringService
 
@@ -55,12 +55,12 @@ class ImportService:
             home_score = api_match.get("score", {}).get("fullTime", {}).get("home")
             away_score = api_match.get("score", {}).get("fullTime", {}).get("away")
 
-            # 1. Najpierw tworzymy lub aktualizujemy mecz
             match, created = Match.objects.update_or_create(
-                home_team=home_team,
-                away_team=away_team,
-                kickoff=parse_datetime(api_match["utcDate"]),
+                football_data_match_id=api_match["id"],
                 defaults={
+                    "home_team": home_team,
+                    "away_team": away_team,
+                    "kickoff": parse_datetime(api_match["utcDate"]),
                     "status": status,
                     "stage": final_stage_name,
                     "home_score": home_score,
@@ -68,16 +68,6 @@ class ImportService:
                 }
             )
 
-            lineups = api_match.get("lineups", [])
-            for player_data in lineups:
-                Player.objects.update_or_create(
-                    match=match,
-                    name=player_data["player"]["name"],
-                    defaults={
-                        "team_name": player_data["team"]["name"],
-                        "position": player_data.get("position")
-                    }
-                )
 
             if created:
                 created_matches += 1

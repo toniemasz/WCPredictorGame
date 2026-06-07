@@ -35,10 +35,36 @@ class Match(models.Model):
     away_score = models.IntegerField(null=True, blank=True)
     stage = models.CharField(max_length=50, default="GROUP_STAGE")
 
+    home_odds = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
 
-    home_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    draw_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    away_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    draw_odds = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    away_odds = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+    odds_api_event_id = models.BigIntegerField(
+        null=True,
+        blank=True,
+        unique=True
+    )
+    football_data_match_id = models.BigIntegerField(
+        unique=True,
+        null=True,
+        blank=True
+    )
 
     first_scoring_team = models.CharField(max_length=10, choices=TEAM_CHOICES, null=True, blank=True)
     goalscorers = models.TextField(blank=True, null=True,
@@ -79,6 +105,21 @@ class Profile(models.Model):
         self.points = total
         self.save(update_fields=['points'])
 
+class TeamPlayer(models.Model):
+    api_player_id = models.BigIntegerField(unique=True)
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="players"
+    )
+
+    name = models.CharField(max_length=100)
+    position = models.CharField(max_length=10, null=True, blank=True)
+    jersey_number = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
@@ -92,11 +133,4 @@ def save_profile(sender, instance, **kwargs):
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
 
-class Player(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='lineups')
-    name = models.CharField(max_length=100)
-    team_name = models.CharField(max_length=100) # HOME lub AWAY
-    position = models.CharField(max_length=50, null=True, blank=True)
 
-    def __str__(self):
-        return self.name

@@ -20,6 +20,9 @@ from tournament.services.import_service import ImportService
 from django.http import JsonResponse
 
 from .services.scoring_service import ScoringService
+from tournament.services.bootstrap_service import BootstrapService
+
+
 
 
 def home_view(request):
@@ -32,6 +35,7 @@ def home_view(request):
 
 @login_required
 def match_list(request):
+
     if Match.objects.count() == 0:
         ImportService.import_matches()
 
@@ -203,7 +207,7 @@ def create_prediction(request, match_id):
 
 @login_required
 def recalculate_points_view(request):
-    # Blokada bezpieczeństwa: tylko administrator może to kliknąć
+    BootstrapService.initialize_database()
     if not request.user.is_superuser:
         messages.error(request, "Brak uprawnień.")
         return redirect("match_list")

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
@@ -40,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tournament'
+    'tournament',
+    "django_celery_beat"
 ]
 
 MIDDLEWARE = [
@@ -52,6 +55,18 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+CELERY_TIMEZONE = "Europe/Warsaw"
+
+CELERY_BEAT_SCHEDULE = {
+    "daily-update": {
+        "task": "tournament.tasks.daily_update",
+        "schedule": crontab(hour=18, minute=0),
+    },
+}
 
 ROOT_URLCONF = 'config.urls'
 
