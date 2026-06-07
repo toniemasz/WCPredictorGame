@@ -2,25 +2,29 @@
 
 {% block content %}
 
-<h1 class="text-4xl font-bold mb-6">
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-10 max-w-2xl mx-auto mt-10 shadow-xl text-center">
 
-    {{ request.user.username }}
+    <h1 class="text-4xl font-bold mb-8 text-white">
+        Profil gracza: <span class="text-cyan-400">{{ request.user.username }}</span>
+    </h1>
 
-</h1>
+    <div class="flex flex-col items-center justify-center gap-6">
 
-{% if request.user.profile.avatar %}
+        {% if request.user.profile.avatar %}
+            <img src="{{ request.user.profile.avatar.url }}"
+                 class="w-48 h-48 rounded-full object-cover border-4 border-slate-800 shadow-2xl">
+        {% else %}
+            <img src="/media/default-avatar.png"
+                 class="w-48 h-48 rounded-full object-cover border-4 border-slate-800 shadow-2xl opacity-80">
+        {% endif %}
 
-<img
-    src="{{ request.user.profile.avatar.url }}"
-    class="w-40 h-40 rounded-full object-cover">
+        <div class="mt-4 bg-slate-950 px-8 py-4 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 uppercase tracking-widest text-sm font-bold block mb-1">Zdobyte punkty</span>
+            <span class="text-5xl font-black text-amber-400">{{ request.user.profile.points }}</span>
+        </div>
 
-{% endif %}
+    </div>
 
-<p class="mt-4">
-
-    Points:
-    {{ request.user.profile.points }}
-
-</p>
+</div>
 
 {% endblock %}

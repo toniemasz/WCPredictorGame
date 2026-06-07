@@ -1,7 +1,10 @@
+# tournament/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
@@ -12,103 +15,63 @@ class Team(models.Model):
 
 
 class Match(models.Model):
-
     STATUS_CHOICES = (
         ('SCHEDULED', 'Scheduled'),
         ('LIVE', 'Live'),
         ('FINISHED', 'Finished'),
     )
 
-    home_team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name='home_matches'
-    )
-
-    away_team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name='away_matches'
-    )
-
+    home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_matches')
+    away_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='away_matches')
     kickoff = models.DateTimeField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='SCHEDULED')
+    home_score = models.IntegerField(null=True, blank=True)
+    away_score = models.IntegerField(null=True, blank=True)
 
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='SCHEDULED'
-    )
-
-    home_score = models.IntegerField(
-        null=True,
-        blank=True
-    )
-
-    away_score = models.IntegerField(
-        null=True,
-        blank=True
-    )
+    # Faza turnieju
+    stage = models.CharField(max_length=50, default="GROUP_STAGE")
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"
 
 
 class Prediction(models.Model):
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
-
-    match = models.ForeignKey(
-        Match,
-        on_delete=models.CASCADE
-    )
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE)
     predicted_home = models.IntegerField()
-
     predicted_away = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
-    points = models.IntegerField(
-        default=0
-    )
+    points = models.IntegerField(default=0)
+    is_doubled = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'match')
 
+
 class Profile(models.Model):
-
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE
-    )
-
-    avatar = models.ImageField(
-        upload_to="avatars/",
-        blank=True,
-        null=True
-    )
-
-    points = models.IntegerField(
-        default=0
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
 
+    def update_total_points(self):
+        """Pomocnicza metoda aktualizująca łączne punkty na profilu"""
+        total = sum(p.points for p in self.user.prediction_set.all())
+        self.points = total
+        self.save(update_fields=['points'])
 
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-
     if created:
         Profile.objects.create(user=instance)
 
-
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
-
-    instance.profile.save()
+    try:
+        instance.profile.save()
+    except ObjectDoesNotExist:
+        Profile.objects.create(user=instance)

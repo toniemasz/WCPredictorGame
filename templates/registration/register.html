@@ -27,6 +27,22 @@
 
             {% csrf_token %}
 
+            {% if form.errors %}
+            <div class="bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-4">
+                <p class="text-red-400 font-bold mb-2">Popraw poniższe błędy:</p>
+                <ul class="text-sm text-red-400 list-disc list-inside">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
             <div>
 
                 <label class="block mb-2 text-sm text-slate-300">
@@ -37,6 +53,7 @@
                     type="text"
                     name="username"
                     required
+                    value="{{ form.data.username|default:'' }}"
                     class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none">
 
             </div>
@@ -51,6 +68,7 @@
                     type="email"
                     name="email"
                     required
+                    value="{{ form.data.email|default:'' }}"
                     class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none">
 
             </div>
@@ -99,7 +117,7 @@
 
             <button
                 type="submit"
-                class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-xl transition">
+                class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-xl transition mt-4">
 
                 Create Account
 
@@ -110,7 +128,6 @@
     </div>
 
 </div>
-
 
 </div>
 
