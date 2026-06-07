@@ -1,38 +1,126 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mecze</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>Nadchodzące mecze</h1>
+{% block content %}
 
-{% for match in matches %}
+<div class="mb-10">
 
-<div style="margin-bottom:15px; border:1px solid black; padding:10px;">
+    <h1 class="text-5xl font-bold mb-3">
+        World Cup 2026 Matches
+    </h1>
 
-    <strong>
-        {{ match.home_team.name }}
-        vs
-        {{ match.away_team.name }}
-    </strong>
-
-    <br>
-
-    {{ match.kickoff }}
-
-    <br>
-
-    Status:
-    {{ match.status }}
+    <p class="text-slate-400">
+        Predict every match and climb the leaderboard.
+    </p>
 
 </div>
 
-{% empty %}
+{% if matches %}
 
-<p>Brak meczów</p>
+<div class="grid gap-4">
 
-{% endfor %}
+    {% for match in matches %}
 
-</body>
-</html>
+    <div
+        class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-cyan-500 transition">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <div class="text-2xl font-bold">
+
+                    {{ match.home_team.name }}
+
+                    <span class="text-cyan-400 px-2">
+                        vs
+                    </span>
+
+                    {{ match.away_team.name }}
+
+                </div>
+
+                <div class="text-slate-400 mt-2">
+
+                    {{ match.kickoff|date:"d.m.Y H:i" }}
+
+                </div>
+
+            </div>
+
+            <div>
+
+                {% if match.status == "SCHEDULED" %}
+
+                    <span
+                        class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-full">
+
+                        Scheduled
+
+                    </span>
+
+                {% elif match.status == "LIVE" %}
+
+                    <span
+                        class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full">
+
+                        LIVE
+
+                    </span>
+
+                {% elif match.status == "FINISHED" %}
+
+                    <span
+                        class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full">
+
+                        Finished
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% if match.home_score != None %}
+
+        <div class="mt-5 text-3xl font-bold text-center">
+
+            {{ match.home_score }}
+
+            :
+
+            {{ match.away_score }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div
+    class="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center">
+
+    <h2 class="text-2xl font-bold mb-3">
+
+        No matches available
+
+    </h2>
+
+    <p class="text-slate-400">
+
+        Matches will appear here after synchronization.
+
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

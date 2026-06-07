@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-4xl font-bold mb-6">
+
+    {{ request.user.username }}
+
+</h1>
+
+{% if request.user.profile.avatar %}
+
+<img
+    src="{{ request.user.profile.avatar.url }}"
+    class="w-40 h-40 rounded-full object-cover">
+
+{% endif %}
+
+<p class="mt-4">
+
+    Points:
+    {{ request.user.profile.points }}
+
+</p>
+
+{% endblock %}
