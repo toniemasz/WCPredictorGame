@@ -5,7 +5,7 @@ from .views import (
     register_view,
     login_view,
     logout_view,
-    profile_view, home_view
+    profile_view, home_view, create_prediction
 )
 
 urlpatterns = [
@@ -43,5 +43,10 @@ urlpatterns = [
         "profile/",
         profile_view,
         name="profile"
+    ),
+    path(
+        "predict/<int:match_id>/",
+        create_prediction,
+        name="create_prediction"
     ),
 ]

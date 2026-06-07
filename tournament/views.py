@@ -7,6 +7,11 @@ from tournament.models import Match
 from tournament.services.import_service import ImportService
 from tournament.forms import RegisterForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from .models import Prediction
+from .forms import PredictionForm
 
 def home_view(request):
 
@@ -116,3 +121,37 @@ def profile_view(request):
         request,
         "profile.html"
     )
+
+
+@login_required
+def create_prediction(request, match_id):
+
+    match = get_object_or_404(
+        Match,
+        pk=match_id
+    )
+
+    if timezone.now() >= match.kickoff:
+
+        return redirect("match_list")
+
+    if request.method == "POST":
+
+        home = request.POST.get(
+            "predicted_home"
+        )
+
+        away = request.POST.get(
+            "predicted_away"
+        )
+
+        Prediction.objects.update_or_create(
+            user=request.user,
+            match=match,
+            defaults={
+                "predicted_home": home,
+                "predicted_away": away
+            }
+        )
+
+    return redirect("match_list")

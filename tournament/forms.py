@@ -42,3 +42,13 @@ class RegisterForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+class PredictionForm(forms.Form):
+
+    predicted_home = forms.IntegerField(
+        min_value=0
+    )
+
+    predicted_away = forms.IntegerField(
+        min_value=0
+    )
