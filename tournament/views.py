@@ -35,13 +35,12 @@ def home_view(request):
 
 @login_required
 def match_list(request):
+
     if Match.objects.count() == 0:
         ImportService.import_matches()
 
-    matches = Match.objects.select_related('home_team', 'away_team').prefetch_related('home_team__players',
-                                                                                      'away_team__players').order_by(
-        "kickoff")
-
+    # Optymalizacja zapytań SQL za pomocą select_related i prefetch_related
+    matches = Match.objects.select_related('home_team', 'away_team').prefetch_related('home_team__players', 'away_team__players').order_by("kickoff")
     user_predictions = Prediction.objects.filter(user=request.user)
     pred_dict = {p.match_id: p for p in user_predictions}
 
@@ -59,7 +58,6 @@ def match_list(request):
         match.is_bonus_locked = match.stage in locked_bonuses_stages
 
         match.available_players = list(match.home_team.players.all()) + list(match.away_team.players.all())
-        match.players_count = len(match.available_players)
 
         if match.stage not in matches_by_stage:
             matches_by_stage[match.stage] = []

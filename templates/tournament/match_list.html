@@ -137,30 +137,27 @@
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800">
-                                    <div>
-                                        <label class="text-[10px] uppercase text-slate-500 font-bold">Pierwsza bramka:</label>
-                                        <select name="predicted_first_team" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
-                                            <option value="">Wybierz...</option>
-                                            <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
-                                            <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
-                                            <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="text-[10px] uppercase text-slate-500 font-bold">Strzelec:</label>
-                                        <select name="predicted_scorer" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
-                                            <option value="">Wybierz zawodnika...</option>
-                                            {% for player in match.available_players %}
-                                                <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
-                                                    {{ player.name }} {% if player.position %}({{ player.position }}){% endif %}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                        <div class="text-xs text-slate-500 mt-1">
-                                            Dostępnych zawodników: {{ match.players_count }}
+                                        <div>
+                                            <label class="text-[10px] uppercase text-slate-500 font-bold">Pierwsza bramka (drużyna):</label>
+                                            <select name="predicted_first_team" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
+                                                <option value="">Wybierz...</option>
+                                                <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
+                                                <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
+                                                <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="text-[10px] uppercase text-slate-500 font-bold">Pierwszy strzelec:</label>
+                                            <select name="predicted_scorer" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
+                                                <option value="">Wybierz zawodnika...</option>
+                                                {% for player in match.available_players %}
+                                                    <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
+                                                        {{ player.name }} ({% if player.position %}{{ player.position }}{% else %}BRAK POZ.{% endif %})
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
                             </form>
 
                             <div class="save-status text-right text-xs font-bold mt-2 h-4 hidden opacity-0 transition-opacity duration-300"></div>

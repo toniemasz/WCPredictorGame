@@ -10,14 +10,27 @@ class BootstrapService:
     @classmethod
     def initialize_database(cls):
 
+        print("Match:", Match.objects.count())
+        print("Players:", TeamPlayer.objects.count())
+
         if not Match.objects.exists():
             print("Import meczów...")
             ImportService.import_matches()
 
+        print("Players po imporcie meczów:",
+              TeamPlayer.objects.count())
+
         if not TeamPlayer.objects.exists():
-            print("Import zawodników...")
+
+            print("START IMPORT PLAYERS")
+
             PlayerImportService.import_players(
                 "world_cup_players.json"
+            )
+
+            print(
+                "KONIEC IMPORT PLAYERS:",
+                TeamPlayer.objects.count()
             )
 
         if Match.objects.filter(

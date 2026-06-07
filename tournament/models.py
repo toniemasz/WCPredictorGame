@@ -67,8 +67,12 @@ class Match(models.Model):
     )
 
     first_scoring_team = models.CharField(max_length=10, choices=TEAM_CHOICES, null=True, blank=True)
-    goalscorers = models.TextField(blank=True, null=True,
-                                   help_text="Wpisz nazwiska po przecinku, np. Lewandowski, Messi")
+    first_scorer = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text="Wpisz nazwisko zawodnika, który strzelił pierwszą bramkę w meczu"
+    )
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"
@@ -82,7 +86,6 @@ class Prediction(models.Model):
 
     predicted_first_team = models.CharField(max_length=10, choices=Match.TEAM_CHOICES, null=True, blank=True)
     predicted_scorer = models.CharField(max_length=100, null=True, blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(default=0)
     is_doubled = models.BooleanField(default=False)
