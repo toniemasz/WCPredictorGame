@@ -186,7 +186,9 @@ def create_prediction(request, match_id):
             defaults={
                 "predicted_home": home,
                 "predicted_away": away,
-                "is_doubled": is_doubled
+                "is_doubled": is_doubled,
+                "predicted_first_team": request.POST.get("predicted_first_team"),
+                "predicted_scorer": request.POST.get("predicted_scorer"),
             }
         )
 

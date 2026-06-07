@@ -81,41 +81,58 @@
                     <div class="mt-6 border-t border-slate-800 pt-6">
 
                         {% if match.status == 'SCHEDULED' %}
-                            <form method="POST" action="{% url 'create_prediction' match.id %}" class="prediction-form bg-slate-950/50 rounded-xl p-4 border border-slate-800 flex justify-between items-center gap-4">
+                            <form method="POST" action="{% url 'create_prediction' match.id %}" class="prediction-form bg-slate-950/50 rounded-xl p-4 border border-slate-800 flex flex-col gap-4">
                                 {% csrf_token %}
 
-                                <div class="text-sm text-slate-400 font-medium">Twój typ:</div>
+                                <div class="flex justify-between items-center w-full">
+                                    <div class="flex items-center gap-3">
+                                        <input type="number" name="predicted_home" required min="0" placeholder="0"
+                                               value="{% if match.user_prediction %}{{ match.user_prediction.predicted_home }}{% endif %}"
+                                               class="w-16 h-12 text-center bg-slate-800 border border-slate-700 rounded-lg text-white text-xl placeholder-slate-500 focus:border-cyan-500 transition">
+                                        <span class="text-slate-500 font-bold">:</span>
+                                        <input type="number" name="predicted_away" required min="0" placeholder="0"
+                                               value="{% if match.user_prediction %}{{ match.user_prediction.predicted_away }}{% endif %}"
+                                               class="w-16 h-12 text-center bg-slate-800 border border-slate-700 rounded-lg text-white text-xl placeholder-slate-500 focus:border-cyan-500 transition">
+                                    </div>
 
-                                <div class="flex items-center gap-3">
-                                    <input type="number" name="predicted_home" required min="0" placeholder="0"
-                                           value="{% if match.user_prediction %}{{ match.user_prediction.predicted_home }}{% endif %}"
-                                           class="w-16 h-12 text-center bg-slate-800 border border-slate-700 rounded-lg text-white text-xl placeholder-slate-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:outline-none transition">
-
-                                    <span class="text-slate-500 font-bold">:</span>
-
-                                    <input type="number" name="predicted_away" required min="0" placeholder="0"
-                                           value="{% if match.user_prediction %}{{ match.user_prediction.predicted_away }}{% endif %}"
-                                           class="w-16 h-12 text-center bg-slate-800 border border-slate-700 rounded-lg text-white text-xl placeholder-slate-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:outline-none transition">
-                                </div>
-
-                                <div class="flex items-center gap-6">
                                     <label class="bonus-label flex items-center gap-2 text-sm font-bold transition duration-300
                                         {% if match.is_bonus_locked and not match.user_prediction.is_doubled %}
                                             text-slate-600 cursor-not-allowed opacity-40
                                         {% else %}
                                             text-amber-400 cursor-pointer hover:text-amber-300
                                         {% endif %}">
-
                                         <input type="checkbox" name="is_doubled" class="bonus-checkbox w-5 h-5 accent-amber-500 cursor-pointer"
                                                {% if match.user_prediction and match.user_prediction.is_doubled %}checked{% endif %}
                                                {% if match.is_bonus_locked and not match.user_prediction.is_doubled %}disabled data-server-locked="true"{% endif %}>
-
                                         <span>Bonus x2</span>
-
-                                        {% if match.is_bonus_locked and not match.user_prediction.is_doubled %}
-                                            <span class="text-xs font-normal ml-1 text-slate-600">(zablokowany)</span>
-                                        {% endif %}
                                     </label>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+                                    <div>
+                                        <label class="text-[10px] uppercase text-slate-500 font-bold">Pierwsza bramka:</label>
+                                        <select name="predicted_first_team" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
+                                            <option value="">Wybierz...</option>
+                                            <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
+                                            <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
+                                            <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] uppercase text-slate-500 font-bold">Strzelec:</label>
+                                        <input type="text" name="predicted_scorer" list="players-{{ match.id }}"
+                                               value="{% if match.user_prediction.predicted_scorer %}{{ match.user_prediction.predicted_scorer }}{% endif %}"
+                                               placeholder="Nazwisko..."
+                                               class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-sm text-white mt-1 outline-none focus:border-cyan-500">
+                                        <datalist id="players-{{ match.id }}">
+                                            {% for player in match.lineups.all %}
+                                                <option value="{{ player.name }}">
+                                            {% endfor %}
+                                        </datalist>
+                                    <div class="text-xs text-slate-500 mt-1">
+                                        Dostępnych zawodników: {{ match.lineups.count }}
+                                    </div>
+                                    </div>
                                 </div>
                             </form>
 
@@ -248,14 +265,14 @@
 
         // --- 3. AUTO-SAVE DO BAZY DANYCH (AJAX) ---
         document.querySelectorAll('.prediction-form').forEach(form => {
-            const inputs = form.querySelectorAll('input');
+            const inputs = form.querySelectorAll('input, select');
             const statusEl = form.nextElementSibling; // div.save-status
             let timeout = null;
 
-            inputs.forEach(input => {
-                const eventType = input.type === 'checkbox' ? 'change' : 'input';
+            inputs.forEach(field => {
+                const eventType = field.type === 'checkbox' ? 'change' : 'input';
 
-                input.addEventListener(eventType, () => {
+                field.addEventListener(eventType, () => {
                     const home = form.querySelector('[name=predicted_home]').value;
                     const away = form.querySelector('[name=predicted_away]').value;
 

@@ -1,6 +1,6 @@
 from django.utils.dateparse import parse_datetime
 
-from tournament.models import Team, Match
+from tournament.models import Team, Match, Player
 from tournament.services.football_api import FootballDataAPI
 from tournament.services.scoring_service import ScoringService
 
@@ -14,7 +14,6 @@ class ImportService:
         "FINISHED": "FINISHED",
     }
 
-    # Słownik dla faz pucharowych
     STAGE_MAPPING = {
         "LAST_32": "1/16 Finału",
         "LAST_16": "1/8 Finału",
@@ -45,31 +44,40 @@ class ImportService:
 
             status = cls.STATUS_MAPPING.get(api_match["status"], "SCHEDULED")
 
-            # MAGIA Z RUNDAMI:
             raw_stage = api_match.get("stage", "GROUP_STAGE")
             matchday = api_match.get("matchday")
 
-            # Jeśli to faza grupowa, nazywamy to "Runda X" na podstawie kolejki (matchday)
             if raw_stage == "GROUP_STAGE" and matchday:
                 final_stage_name = f"Runda {matchday}"
             else:
-                # W przeciwnym razie to faza pucharowa, tłumaczymy ze słownika
                 final_stage_name = cls.STAGE_MAPPING.get(raw_stage, raw_stage)
 
             home_score = api_match.get("score", {}).get("fullTime", {}).get("home")
             away_score = api_match.get("score", {}).get("fullTime", {}).get("away")
 
+            # 1. Najpierw tworzymy lub aktualizujemy mecz
             match, created = Match.objects.update_or_create(
                 home_team=home_team,
                 away_team=away_team,
                 kickoff=parse_datetime(api_match["utcDate"]),
                 defaults={
                     "status": status,
-                    "stage": final_stage_name,  # Zapisujemy "Runda 1", "Runda 2", "1/8 Finału" itd.
+                    "stage": final_stage_name,
                     "home_score": home_score,
                     "away_score": away_score
                 }
             )
+
+            lineups = api_match.get("lineups", [])
+            for player_data in lineups:
+                Player.objects.update_or_create(
+                    match=match,
+                    name=player_data["player"]["name"],
+                    defaults={
+                        "team_name": player_data["team"]["name"],
+                        "position": player_data.get("position")
+                    }
+                )
 
             if created:
                 created_matches += 1

@@ -21,16 +21,28 @@ class Match(models.Model):
         ('FINISHED', 'Finished'),
     )
 
+    TEAM_CHOICES = (
+        ('HOME', 'Gospodarze'),
+        ('AWAY', 'Goście'),
+        ('NONE', 'Brak bramek')
+    )
+
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_matches')
     away_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='away_matches')
     kickoff = models.DateTimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='SCHEDULED')
     home_score = models.IntegerField(null=True, blank=True)
     away_score = models.IntegerField(null=True, blank=True)
-
-
-    # Faza turnieju
     stage = models.CharField(max_length=50, default="GROUP_STAGE")
+
+
+    home_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    draw_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    away_odds = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    first_scoring_team = models.CharField(max_length=10, choices=TEAM_CHOICES, null=True, blank=True)
+    goalscorers = models.TextField(blank=True, null=True,
+                                   help_text="Wpisz nazwiska po przecinku, np. Lewandowski, Messi")
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"
@@ -41,8 +53,11 @@ class Prediction(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     predicted_home = models.IntegerField()
     predicted_away = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
+    predicted_first_team = models.CharField(max_length=10, choices=Match.TEAM_CHOICES, null=True, blank=True)
+    predicted_scorer = models.CharField(max_length=100, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(default=0)
     is_doubled = models.BooleanField(default=False)
 
@@ -76,3 +91,12 @@ def save_profile(sender, instance, **kwargs):
         instance.profile.save()
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
+
+class Player(models.Model):
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='lineups')
+    name = models.CharField(max_length=100)
+    team_name = models.CharField(max_length=100) # HOME lub AWAY
+    position = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

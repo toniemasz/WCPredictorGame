@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import Profile
+from .models import Profile, Match
 
 
 class RegisterForm(forms.ModelForm):
@@ -62,4 +62,13 @@ class PredictionForm(forms.Form):
 
     predicted_away = forms.IntegerField(
         min_value=0
+    )
+
+    predicted_first_team = forms.ChoiceField(
+        choices=Match.TEAM_CHOICES,
+        required=False
+    )
+    predicted_scorer = forms.CharField(
+        max_length=100,
+        required=False
     )
