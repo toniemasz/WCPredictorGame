@@ -19,6 +19,8 @@ from tournament.models import Match, Prediction
 from tournament.services.import_service import ImportService
 from django.http import JsonResponse
 
+from .services.scoring_service import ScoringService
+
 
 def home_view(request):
 
@@ -28,6 +30,7 @@ def home_view(request):
     )
 
 
+@login_required
 def match_list(request):
     if Match.objects.count() == 0:
         ImportService.import_matches()
@@ -193,4 +196,23 @@ def create_prediction(request, match_id):
 
         messages.success(request, "Twój typ został zapisany!")
 
+    return redirect("match_list")
+
+
+@login_required
+def recalculate_points_view(request):
+    # Blokada bezpieczeństwa: tylko administrator może to kliknąć
+    if not request.user.is_superuser:
+        messages.error(request, "Brak uprawnień.")
+        return redirect("match_list")
+
+    # Pobieramy tylko te mecze, które mogą mieć wyniki
+    matches = Match.objects.filter(status__in=['LIVE', 'FINISHED'])
+    count = 0
+
+    for m in matches:
+        ScoringService.calculate_points_for_match(m)
+        count += 1
+
+    messages.success(request, f"Sukces! Przeliczono punkty dla {count} meczów.")
     return redirect("match_list")

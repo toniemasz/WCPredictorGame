@@ -5,7 +5,7 @@ from .views import (
     register_view,
     login_view,
     logout_view,
-    profile_view, home_view, create_prediction
+    profile_view, home_view, create_prediction, recalculate_points_view
 )
 
 urlpatterns = [
@@ -43,6 +43,11 @@ urlpatterns = [
         "profile/",
         profile_view,
         name="profile"
+    ),
+path(
+        "recalculate/",
+        recalculate_points_view,
+        name="recalculate_points"
     ),
     path(
         "predict/<int:match_id>/",

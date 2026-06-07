@@ -28,6 +28,7 @@ class Match(models.Model):
     home_score = models.IntegerField(null=True, blank=True)
     away_score = models.IntegerField(null=True, blank=True)
 
+
     # Faza turnieju
     stage = models.CharField(max_length=50, default="GROUP_STAGE")
 
