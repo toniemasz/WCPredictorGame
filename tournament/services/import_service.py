@@ -23,8 +23,60 @@ class ImportService:
         "FINAL": "Finał"
     }
 
+    COUNTRY_TRANSLATIONS = {
+        "Algeria": "Algieria",
+        "Argentina": "Argentyna",
+        "Australia": "Australia",
+        "Austria": "Austria",
+        "Belgium": "Belgia",
+        "Bosnia-Herzegovina": "Bośnia i Hercegowina",
+        "Brazil": "Brazylia",
+        "Canada": "Kanada",
+        "Cape Verde Islands": "Republika Zielonego Przylądka",
+        "Colombia": "Kolumbia",
+        "Congo DR": "Demokratyczna Republika Konga",
+        "Croatia": "Chorwacja",
+        "Curaçao": "Curaçao",
+        "Czechia": "Czechy",
+        "Ecuador": "Ekwador",
+        "Egypt": "Egipt",
+        "England": "Anglia",
+        "France": "Francja",
+        "Germany": "Niemcy",
+        "Ghana": "Ghana",
+        "Haiti": "Haiti",
+        "Iran": "Iran",
+        "Iraq": "Irak",
+        "Ivory Coast": "Wybrzeże Kości Słoniowej",
+        "Japan": "Japonia",
+        "Jordan": "Jordania",
+        "Mexico": "Meksyk",
+        "Morocco": "Maroko",
+        "Netherlands": "Holandia",
+        "New Zealand": "Nowa Zelandia",
+        "Norway": "Norwegia",
+        "Panama": "Panama",
+        "Paraguay": "Paragwaj",
+        "Portugal": "Portugalia",
+        "Qatar": "Katar",
+        "Saudi Arabia": "Arabia Saudyjska",
+        "Scotland": "Szkocja",
+        "Senegal": "Senegal",
+        "South Africa": "Republika Południowej Afryki",
+        "South Korea": "Korea Południowa",
+        "Spain": "Hiszpania",
+        "Sweden": "Szwecja",
+        "Switzerland": "Szwajcaria",
+        "Tunisia": "Tunezja",
+        "Turkey": "Turcja",
+        "United States": "Stany Zjednoczone",
+        "Uruguay": "Urugwaj",
+        "Uzbekistan": "Uzbekistan",
+    }
+
     @classmethod
     def import_matches(cls):
+
         data = FootballDataAPI.get_world_cup_matches()
         created_matches = 0
 
@@ -41,6 +93,14 @@ class ImportService:
             away_team, _ = Team.objects.get_or_create(
                 code=away["tla"], defaults={"name": away["name"]}
             )
+
+            for team in [home_team, away_team]:
+                if not team.name_pl:
+                    team.name_pl = cls.COUNTRY_TRANSLATIONS.get(
+                        team.name,
+                        team.name
+                    )
+                    team.save(update_fields=["name_pl"])
 
             status = cls.STATUS_MAPPING.get(api_match["status"], "SCHEDULED")
 
@@ -73,6 +133,6 @@ class ImportService:
                 created_matches += 1
 
             if status in ["LIVE", "FINISHED"]:
-                ScoringService.calculate_points_for_match(match)
+                ScoringService.recalculate_match(match)
 
         return created_matches

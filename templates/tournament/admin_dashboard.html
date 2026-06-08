@@ -14,8 +14,7 @@
                 <p class="text-slate-400 text-sm mb-6">Pobieraj i aktualizuj terminarz spotkań oraz wyniki bezpośrednio z zewnętrznego serwisu API Football.</p>
             </div>
             <div class="space-y-3">
-                <a href="#" class="btn-secondary w-full">Synchronizuj Mecze (Terminarz)</a>
-                <a href="#" class="btn-secondary w-full">Aktualizuj Aktywne Wyniki (Live)</a>
+                <a href="{% url 'admin_trigger_import' %}" class="btn-secondary w-full">Synchronizuj Mecze</a>
             </div>
         </div>
 
@@ -25,7 +24,7 @@
                 <p class="text-slate-400 text-sm mb-6">Pobierz aktualne przeliczniki 1X2 z platformy The Odds API dla nadchodzących meczów grupowych.</p>
             </div>
             <div class="space-y-3">
-                <a href="#" class="btn-primary w-full !bg-amber-500 !hover:bg-amber-400 !text-black">
+                <a href="{% url 'admin_trigger_odds' %}" class="btn-primary w-full !bg-amber-500 !hover:bg-amber-400 !text-black">
                     Pobierz najświeższe kursy
                 </a>
             </div>
@@ -36,7 +35,7 @@
             <p class="text-slate-400 text-sm mb-4">
                 Wymuś globalne przeliczenie punktów dla wszystkich użytkowników na podstawie wprowadzonych ostatecznych rezultatów meczowych.
             </p>
-            <form method="POST" action="{% url 'recalculate_points' %}">
+            <form method="POST" action="{% url 'admin_trigger_recalculate' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn-purple w-full">
                     ⚙️ Wykonaj Pełne Przeliczenie Punktów

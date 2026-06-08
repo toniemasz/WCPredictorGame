@@ -11,7 +11,6 @@ class PredictionService:
     def save_prediction(user, match_id: int, data: dict) -> dict:
         match = Match.objects.get(pk=match_id)
 
-        # 1. Zabezpieczenie przed zmianą po rozpoczęciu meczu.
         if timezone.now() >= match.kickoff:
             raise ValueError("Mecz już się rozpoczął! Bonus i typ zostały zamrożone.")
 
@@ -64,5 +63,6 @@ class PredictionService:
         return {
             "status": "success",
             "bonus_remaining": limit - bonus_usage.count,
-            "stage": match.stage
+            "stage": match.stage,
+            "limit_reached": bonus_usage.count >= limit
         }

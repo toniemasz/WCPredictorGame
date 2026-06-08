@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class Team(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=3, unique=True)
+    name_pl = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
@@ -73,6 +74,14 @@ class Match(models.Model):
         blank=True,
         help_text="Wpisz nazwisko zawodnika, który strzelił pierwszą bramkę w meczu"
     )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+        if self.home_score is not None and self.away_score is not None:
+            from tournament.services.scoring_service import ScoringService
+            ScoringService.recalculate_match(self)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"

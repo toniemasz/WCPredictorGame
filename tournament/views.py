@@ -28,7 +28,7 @@ from tournament.services.odds_sync import OddsSync
 from tournament.services.scoring_service import ScoringService
 from django.contrib.admin.views.decorators import staff_member_required
 from tournament.services.player_import_service import PlayerImportService
-
+from .tests import match
 
 BONUS_LIMIT = getattr(settings, 'BONUS_LIMIT_PER_STAGE', 2)
 
@@ -293,7 +293,7 @@ def admin_trigger_recalculate(request):
     """Ręczne wymuszenie przeliczenia punktów za wszystkie typowania"""
     try:
         # Wywołujemy logikę przeliczania punktów z Twojego serwisu scoringowego
-        ScoringService.recalculate_all_predictions()
+        recalculate_points_view(request)
         messages.success(request, "Sukces! Punkty dla wszystkich użytkowników zostały przeliczone na nowo.")
     except Exception as e:
         messages.error(request, f"Błąd podczas przeliczania punktacji: {str(e)}")

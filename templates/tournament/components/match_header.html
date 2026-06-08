@@ -1,40 +1,50 @@
 {% load static %}
-<div class="flex flex-col items-center justify-center text-center pb-3 border-b border-slate-800/60">
-    <div class="flex justify-between items-center w-full mb-3 px-2">
-        <div class="flex flex-col items-center w-[30%]">
-            <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
-                 onerror="this.src='{% static 'flags/default.png' %}'"
-                 class="w-10 h-7 rounded border border-slate-700 object-cover mb-1">
-            <span class="text-xs sm:text-sm font-bold truncate w-full">{{ match.home_team.name }}</span>
-        </div>
-
-        <div class="flex flex-col items-center w-[40%]">
-            <span class="text-[10px] sm:text-xs text-slate-500 mb-1">{{ match.kickoff|date:"d.m.Y H:i" }}</span>
-            {% if match.status == 'FINISHED' %}
-                <span class="badge-finished mb-1">Zakończony</span>
-                <div class="text-3xl font-black">{{ match.home_score }} : {{ match.away_score }}</div>
-            {% elif match.status == 'LIVE' %}
-                <span class="badge-live mb-1 text-red-500 animate-pulse">LIVE</span>
-                <div class="text-3xl font-black text-red-500">{{ match.home_score }} : {{ match.away_score }}</div>
-            {% else %}
-                <span class="badge-scheduled mb-1 text-cyan-500">Nadchodzący</span>
-                <div class="text-3xl font-black text-slate-600">- : -</div>
-            {% endif %}
-        </div>
-
-        <div class="flex flex-col items-center w-[30%]">
-            <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
-                 onerror="this.src='{% static 'flags/default.png' %}'"
-                 class="w-10 h-7 rounded border border-slate-700 object-cover mb-1">
-            <span class="text-xs sm:text-sm font-bold truncate w-full">{{ match.away_team.name }}</span>
-        </div>
+<div class="flex justify-between items-center w-full pb-3 border-b border-slate-800/60">
+    <div class="flex flex-col items-center w-[32%] min-w-0">
+        <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
+             onerror="this.src='{% static 'flags/default.png' %}'"
+             class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
+        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.home_team.name_pl|default:match.home_team.name }}</span>
     </div>
 
-    {% if match.home_odds and match.draw_odds and match.away_odds %}
-    <div class="flex justify-center gap-4 text-[11px] sm:text-xs bg-slate-900/50 py-1.5 px-4 rounded-full border border-slate-800">
-        <span class="text-slate-400">1: <strong class="text-white">{{ match.home_odds }}</strong></span>
-        <span class="text-slate-400">X: <strong class="text-white">{{ match.draw_odds }}</strong></span>
-        <span class="text-slate-400">2: <strong class="text-white">{{ match.away_odds }}</strong></span>
+    <div class="flex flex-col items-center w-[36%] text-center px-1">
+        <span class="text-[10px] text-slate-500 font-medium mb-1">{{ match.kickoff|date:"d.m.Y H:i" }}</span>
+
+        {% if match.status == 'FINISHED' %}
+            <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 tracking-wider mb-1">Zakończony</span>
+            <div class="text-2xl font-black bg-gradient-to-b from-white to-slate-400 text-transparent bg-clip-text tracking-tighter">
+                {{ match.home_score }} : {{ match.away_score }}
+            </div>
+        {% elif match.status == 'LIVE' %}
+            <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20 tracking-wider animate-pulse mb-1">LIVE</span>
+            <div class="text-2xl font-black text-red-500 tracking-tighter">
+                {{ match.home_score }} : {{ match.away_score }}
+            </div>
+        {% else %}
+            <div class="flex items-center gap-1 justify-center my-0.5">
+                <input type="number" name="predicted_home" min="0" placeholder="0"
+                       value="{{ match.user_prediction.predicted_home|default_if_none:'' }}"
+                       class="w-10 h-10 text-center bg-slate-900 border border-slate-700 rounded-lg text-lg font-black text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all p-0">
+                <span class="text-slate-600 font-black text-sm">:</span>
+                <input type="number" name="predicted_away" min="0" placeholder="0"
+                       value="{{ match.user_prediction.predicted_away|default_if_none:'' }}"
+                       class="w-10 h-10 text-center bg-slate-900 border border-slate-700 rounded-lg text-lg font-black text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all p-0">
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
+
+    <div class="flex flex-col items-center w-[32%] min-w-0">
+        <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
+             onerror="this.src='{% static 'flags/default.png' %}'"
+             class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
+        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.away_team.name_pl|default:match.away_team.name }}</span>
+    </div>
 </div>
+
+{% if match.home_odds and match.draw_odds and match.away_odds %}
+<div class="flex justify-center gap-3 text-[10px] bg-slate-900/40 py-1 px-3 mt-2 rounded-full border border-slate-800/60 max-w-max mx-auto">
+    <span class="text-slate-500">1: <strong class="text-slate-300 font-bold">{{ match.home_odds }}</strong></span>
+    <span class="text-slate-500">X: <strong class="text-slate-300 font-bold">{{ match.draw_odds }}</strong></span>
+    <span class="text-slate-500">2: <strong class="text-slate-300 font-bold">{{ match.away_odds }}</strong></span>
+</div>
+{% endif %}

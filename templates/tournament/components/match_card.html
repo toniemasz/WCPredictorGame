@@ -1,11 +1,16 @@
 {% load static %}
-<div class="wc-card">
-    {% include "tournament/components/match_header.html" %}
-    <div class="mt-4 pt-2">
-        {% if match.status == 'SCHEDULED' %}
+<div class="wc-card bg-slate-950/40 rounded-xl p-4 border border-slate-800/80 shadow-lg mb-4 max-w-md mx-auto" data-stage="{{ match.stage }}">
+    {% if match.status == 'SCHEDULED' %}
+        <form method="POST" action="{% url 'create_prediction' match.id %}" class="prediction-form flex flex-col gap-2">
+            {% csrf_token %}
+            {% include "tournament/components/match_header.html" %}
             {% include "tournament/components/match_prediction_form.html" %}
-        {% elif match.status == 'FINISHED' or match.status == 'LIVE' %}
+        </form>
+        <div class="save-status text-center text-xs font-bold mt-2 h-4 opacity-0 transition-opacity duration-300"></div>
+    {% else %}
+        <div>
+            {% include "tournament/components/match_header.html" %}
             {% include "tournament/components/match_result.html" %}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </div>
