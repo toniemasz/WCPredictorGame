@@ -81,6 +81,7 @@ def match_list(request):
         request,
         "tournament/match_list.html",
         {
+            'rules_explanation': ScoringService.get_rules_explanation(),
             "matches_by_stage": matches_by_stage,
             "active_stage": active_stage,
         }
@@ -266,7 +267,7 @@ def recalculate_points_view(request):
     count = 0
 
     for m in matches:
-        ScoringService.calculate_points_for_match(m)
+        ScoringService.recalculate_match(m)
         count += 1
 
     messages.success(request, f"Sukces! Przeliczono punkty dla {count} meczów.")

@@ -1,199 +1,54 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% block content %}
-<div class="mb-10 flex flex-col md:flex-row items-center gap-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl animate-fade-in">
-    {% if profile.avatar %}
-        <img src="{{ profile.avatar.url }}" class="w-24 h-24 rounded-2xl object-cover border-2 border-cyan-500 shadow-lg shadow-cyan-500/10" alt="{{ target_user.username }}">
-    {% else %}
-        <div class="w-24 h-24 rounded-2xl bg-slate-800 border-2 border-slate-700 flex items-center justify-center font-black text-3xl text-slate-400 shadow-lg">
-            {{ target_user.username|slice:":2"|upper }}
-        </div>
-    {% endif %}
+<div class="centered-content-wrapper">
+    <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-6 text-center sm:text-left">Twój Profil</h1>
 
-    <div class="text-center md:text-left flex-1">
-        <h1 class="text-4xl font-black text-white flex items-center justify-center md:justify-start gap-3">
-            {{ target_user.username }}
-            {% if target_user == request.user %}
-                <span class="bg-cyan-500/20 text-cyan-400 text-xs uppercase font-extrabold px-3 py-1 rounded-full border border-cyan-500/30 tracking-wider">Mój Profil</span>
-            {% endif %}
-        </h1>
-        <p class="text-slate-400 mt-1 text-sm">Dołączył: {{ target_user.date_joined|date:"d.m.Y" }}</p>
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <div class="bg-slate-950 border border-slate-800 rounded-xl px-8 py-4 text-center min-w-[160px] shadow-inner border-l-4 border-l-cyan-500">
-        <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest block mb-1">Suma Punktów</span>
-        <span class="text-4xl font-black text-cyan-400 tracking-tight">{{ profile.points }}</span>
-    </div>
-</div>
-
-<div class="mb-6">
-    <h2 class="text-2xl font-bold text-white">Historia Typowań</h2>
-    <p class="text-slate-400 text-sm">Porównanie postawionych prognoz i zdobytych punktów.</p>
-</div>
-
-{% if matches_by_stage %}
-    <div class="flex gap-3 overflow-x-auto mb-8 pb-2 scrollbar-hide border-b border-slate-800/50">
-        {% for stage in matches_by_stage.keys %}
-            <button
-                class="stage-tab px-5 py-3 rounded-xl font-bold whitespace-nowrap transition-all duration-200 text-sm
-                {% if stage == active_stage %}bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.3)]{% else %}bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}"
-                data-target="stage-{{ stage|slugify }}">
-                {{ stage }}
-            </button>
-        {% endfor %}
-    </div>
-
-    <div class="space-y-6">
-        {% for stage, stage_matches in matches_by_stage.items %}
-        <div id="stage-{{ stage|slugify }}" class="stage-content space-y-6 {% if stage != active_stage %}hidden{% endif %}">
-
-            {% for match in stage_matches %}
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-slate-700/80 transition duration-200">
-
-                <div class="flex justify-between items-start gap-4">
-                    <div>
-                        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl md:text-2xl font-bold text-white">
-                            <div class="flex items-center gap-2">
-                                <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
-                                     onerror="this.src='{% static 'flags/default.png' %}'"
-                                     class="w-7 h-5 rounded border border-slate-800 object-cover shadow-sm" alt="{{ match.home_team.name }}">
-                                <span>{{ match.home_team.name }}</span>
-                            </div>
-                            <span class="text-cyan-500/40 text-lg font-medium">vs</span>
-                            <div class="flex items-center gap-2">
-                                <span>{{ match.away_team.name }}</span>
-                                <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
-                                     onerror="this.src='{% static 'flags/default.png' %}'"
-                                     class="w-7 h-5 rounded border border-slate-800 object-cover shadow-sm" alt="{{ match.away_team.name }}">
-                            </div>
-                        </div>
-                        <div class="text-slate-500 text-xs mt-1.5 flex items-center gap-2">
-                            <span>📅 {{ match.kickoff|date:"d.m.Y H:i" }}</span>
-                        </div>
+        <div class="wc-card text-center flex flex-col items-center justify-center">
+            <div class="mb-4 relative">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-cyan-500 object-cover shadow-xl" alt="Avatar">
+                {% else %}
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center text-3xl font-black text-slate-500 shadow-inner">
+                        {{ profile.user.username|slice:":2"|upper }}
                     </div>
-
-                    <div class="flex flex-col items-end shrink-0">
-                        {% if match.status == "FINISHED" %}
-                            <span class="bg-slate-950 text-slate-400 border border-slate-800 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider mb-1.5">Zakończony</span>
-                            <div class="text-3xl font-black tracking-tight text-white">{{ match.home_score }} : {{ match.away_score }}</div>
-                        {% elif match.status == "LIVE" %}
-                            <span class="bg-red-500/10 text-red-400 border border-red-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse mb-1.5">W trakcie</span>
-                            <div class="text-3xl font-black tracking-tight text-white">{{ match.home_score }} : {{ match.away_score }}</div>
-                        {% else %}
-                            <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Zaplanowany</span>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="mt-6 border-t border-slate-800/60 pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                    <div class="bg-slate-950/50 border border-slate-800 rounded-xl p-4 flex justify-between items-center shadow-inner relative overflow-hidden">
-                        <div class="z-10">
-                            <span class="text-slate-500 text-[10px] uppercase font-bold tracking-wider block">Typ gracza {{ target_user.username }}</span>
-
-                            {% if match.target_prediction %}
-                                {% if target_user == request.user or match.status == 'FINISHED' or match.status == 'LIVE' %}
-                                    <div class="text-2xl font-black text-amber-400 mt-1 flex items-center gap-2 tracking-wide">
-                                        {{ match.target_prediction.predicted_home }} : {{ match.target_prediction.predicted_away }}
-                                        {% if match.target_prediction.is_doubled %}
-                                            <span class="bg-amber-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-normal shadow-sm">X2</span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="text-slate-400 text-xs mt-2 space-y-0.5 font-medium">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="text-slate-600 text-xs">⚽ 1. gol:</span>
-                                            <span class="text-slate-300">
-                                                {% if match.target_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.name }}
-                                                {% elif match.target_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.name }}
-                                                {% elif match.target_prediction.predicted_first_team == 'NONE' %}Brak bramek
-                                                {% else %}-{% endif %}
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="text-slate-600 text-xs">👤 Strzelec:</span>
-                                            <span class="text-slate-300">{% if match.target_prediction.predicted_scorer %}{{ match.target_prediction.predicted_scorer }}{% else %}-{% endif %}</span>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="text-slate-400 text-sm font-bold mt-2.5 flex items-center gap-2">
-                                        <span class="text-lg">🔒</span> Typ ukryty
-                                    </div>
-                                    <span class="text-slate-600 text-[11px] block mt-0.5 italic">Zostanie odsłonięty po zakończeniu meczu.</span>
-                                {% endif %}
-                            {% else %}
-                                <span class="text-slate-600 text-xs italic block mt-2 font-medium">Gracz nie obstawił tego meczu</span>
-                            {% endif %}
-                        </div>
-
-                        {% if match.status == 'FINISHED' and match.target_prediction %}
-                        <div class="text-right z-10 shrink-0 pl-2">
-                            <span class="text-3xl font-black {% if match.target_prediction.points > 0 %}text-green-400 drop-shadow-[0_0_10px_rgba(34,197,94,0.2)]{% else %}text-red-400{% endif %}">
-                                +{{ match.target_prediction.points }}
-                            </span>
-                            <div class="text-[9px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">pkt</div>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    {% if target_user != request.user %}
-                    <div class="bg-slate-950/20 border border-slate-800/40 rounded-xl p-4 flex flex-col justify-center shadow-inner">
-                        <span class="text-slate-500 text-[10px] uppercase font-bold tracking-wider block">Twój aktualny typ</span>
-                        {% if match.viewer_prediction %}
-                            <div class="text-base font-bold text-slate-300 mt-1 flex items-center gap-2">
-                                {{ match.viewer_prediction.predicted_home }} : {{ match.viewer_prediction.predicted_away }}
-                                {% if match.viewer_prediction.is_doubled %}
-                                    <span class="bg-slate-800 text-slate-400 border border-slate-700 text-[8px] font-black px-1.5 py-0.2 rounded uppercase">X2</span>
-                                {% endif %}
-                            </div>
-                            <div class="text-slate-500 text-[11px] mt-1 font-medium space-y-0.5">
-                                <div>1. gol: <span class="text-slate-400">{% if match.viewer_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.name }}{% elif match.viewer_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.name }}{% else %}-{% endif %}</span></div>
-                                <div>Strzelec: <span class="text-slate-400">{% if match.viewer_prediction.predicted_scorer %}{{ match.viewer_prediction.predicted_scorer }}{% else %}-{% endif %}</span></div>
-                            </div>
-                        {% else %}
-                            <span class="text-slate-600 text-xs italic mt-1.5 font-medium">Nie obstawiałeś tego meczu</span>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-
-                </div>
-
+                {% endif %}
             </div>
-            {% endfor %}
 
+            <h2 class="text-xl font-bold mb-1">{{ profile.user.username }}</h2>
+            <p class="text-slate-500 text-sm mb-4">Uczestnik gry</p>
+
+            <div class="bg-slate-950/60 border border-slate-800 rounded-xl px-6 py-3 w-full">
+                <span class="text-slate-500 text-xs font-bold uppercase tracking-wider block">Suma punktów</span>
+                <span class="text-3xl font-black text-cyan-400">{{ profile.points }}</span>
+            </div>
         </div>
-        {% endfor %}
+
+        <div class="wc-card md:col-span-2 flex flex-col justify-between">
+            <div>
+                <h3 class="text-lg font-bold mb-4 border-b border-slate-800 pb-2">Ustawienia Konta</h3>
+
+                <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label">Zmień Avatar:</label>
+                        <input type="file" name="avatar" class="form-input file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-cyan-500 file:text-black hover:file:bg-cyan-400 cursor-pointer">
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn-primary w-full sm:w-auto">
+                            Zapisz zmiany
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-500 text-center sm:text-left">
+                Dołączyłeś do gry: {{ profile.user.date_joined|date:"d.m.Y" }}
+            </div>
+        </div>
+
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const tabs = document.querySelectorAll(".stage-tab");
-            const contents = document.querySelectorAll(".stage-content");
-
-            tabs.forEach(tab => {
-                tab.addEventListener("click", () => {
-                    // Ukryj wszystkie sekcje
-                    contents.forEach(content => content.classList.add("hidden"));
-
-                    // Przywróć nieaktywny styl dla wszystkich przycisków
-                    tabs.forEach(t => {
-                        t.classList.remove("bg-cyan-500", "text-black", "shadow-[0_0_15px_rgba(6,182,212,0.3)]");
-                        t.classList.add("bg-slate-900", "border", "border-slate-800", "text-slate-400");
-                    });
-
-                    // Aktywuj wybraną sekcję i nadaj jej podświetlony styl
-                    const targetId = tab.getAttribute("data-target");
-                    document.getElementById(targetId).classList.remove("hidden");
-                    tab.classList.remove("bg-slate-900", "border", "border-slate-800", "text-slate-400");
-                    tab.classList.add("bg-cyan-500", "text-black", "shadow-[0_0_15px_rgba(6,182,212,0.3)]");
-                });
-            });
-        });
-    </script>
-{% else %}
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center shadow-xl">
-        <h3 class="text-xl font-bold text-white mb-2">Brak meczów</h3>
-        <p class="text-slate-400 text-sm">Nie odnaleziono zsynchronizowanych faz turniejowych.</p>
-    </div>
-{% endif %}
+</div>
 {% endblock %}

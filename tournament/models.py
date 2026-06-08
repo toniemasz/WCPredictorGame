@@ -89,7 +89,7 @@ class Prediction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(default=0)
     is_doubled = models.BooleanField(default=False)
-
+    points_breakdown = models.JSONField(null=True, blank=True)
     class Meta:
         unique_together = ('user', 'match')
 
