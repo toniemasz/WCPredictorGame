@@ -3,286 +3,51 @@
 {% block content %}
 
 <div class="centered-content-wrapper mb-8">
-    <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 mb-6">
+
+    {# Nagłówek #}
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <div>
             <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-2">World Cup 2026 Matches</h1>
             <p class="text-slate-400 text-sm sm:text-base">Przewiduj mecze i pnij się w rankingu.</p>
         </div>
-
         {% if request.user.is_superuser %}
-        <form method="POST" action="{% url 'recalculate_points' %}" class="w-full md:w-auto">
+        <form method="POST" action="{% url 'recalculate_points' %}">
             {% csrf_token %}
-            <button type="submit" class="btn-purple w-full md:w-auto">
-                ⚙️ Przelicz wyniki (Admin)
-            </button>
+            <button type="submit" class="btn-purple">⚙️ Przelicz wyniki (Admin)</button>
         </form>
         {% endif %}
     </div>
 
+    {# Komunikaty #}
     {% if messages %}
-    <div class="mb-6">
+    <div class="mb-6 space-y-2">
         {% for message in messages %}
-            <div class="p-4 rounded-xl mb-2 text-sm {% if message.tags == 'error' %}bg-red-500/20 border border-red-500/40 text-red-400{% else %}bg-cyan-500/20 border border-cyan-500/40 text-cyan-400{% endif %} font-semibold">
-                {{ message }}
-            </div>
+        <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+            {{ message }}
+        </div>
         {% endfor %}
     </div>
     {% endif %}
 
+    {# Zakładki faz #}
     {% if matches_by_stage %}
-        <div class="flex gap-2 overflow-x-auto mb-6 pb-2 scrollbar-none snap-x">
-            {% for stage in matches_by_stage.keys %}
-                <button
-                    class="stage-tab tab-base snap-center {% if stage == active_stage %}tab-active{% else %}tab-inactive{% endif %}"
-                    data-target="stage-{{ stage|slugify }}">
-                    {{ stage }}
-                </button>
-            {% endfor %}
-        </div>
+    <div class="flex gap-2 overflow-x-auto mb-6 pb-2 scrollbar-none snap-x">
+        {% for stage in matches_by_stage.keys %}
+        <button class="stage-tab tab-base snap-center {% if stage == active_stage %}tab-active{% else %}tab-inactive{% endif %}"
+                data-target="stage-{{ stage|slugify }}">
+            {{ stage }}
+        </button>
+        {% endfor %}
+    </div>
 
-        <div class="space-y-4">
-            {% for stage, stage_matches in matches_by_stage.items %}
-            <div id="stage-{{ stage|slugify }}" class="stage-content space-y-4 {% if stage != active_stage %}hidden{% endif %}">
-
-                {% for match in stage_matches %}
-                <div class="wc-card">
-
-                    <div class="flex flex-col lg:flex-row justify-between items-center lg:items-start text-center lg:text-left gap-4 pb-4 border-b border-slate-800/60">
-
-                        <div class="w-full lg:w-auto flex flex-col items-center lg:items-start">
-                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 text-xl sm:text-2xl font-black">
-                                <div class="flex items-center gap-2">
-                                    <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
-                                         onerror="this.src='{% static 'flags/default.png' %}'"
-                                         class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover shadow-sm" alt="{{ match.home_team.name }}">
-                                    <span>{{ match.home_team.name }}</span>
-                                </div>
-                                <span class="text-cyan-500/40 text-base sm:text-lg font-bold">vs</span>
-                                <div class="flex items-center gap-2">
-                                    <span>{{ match.away_team.name }}</span>
-                                    <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
-                                         onerror="this.src='{% static 'flags/default.png' %}'"
-                                         class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover shadow-sm" alt="{{ match.away_team.name }}">
-                                </div>
-                            </div>
-
-                            <div class="text-slate-400 mt-2 text-xs sm:text-sm flex flex-wrap items-center justify-center lg:justify-start gap-2">
-                                <span>📅 {{ match.kickoff|date:"d.m.Y H:i" }}</span>
-                                <span class="text-slate-700 hidden sm:inline">|</span>
-                                <span class="text-slate-500 font-semibold">Faza: {{ match.stage }}</span>
-                            </div>
-
-                            {% if match.home_odds and match.draw_odds and match.away_odds %}
-                            <div class="flex justify-center lg:justify-start gap-2 mt-3 text-xs">
-                                <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-lg text-center min-w-[45px]">
-                                    <span class="text-slate-500 block text-[9px] font-bold uppercase">1</span>
-                                    <span class="text-amber-400 font-extrabold">{{ match.home_odds }}</span>
-                                </div>
-                                <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-lg text-center min-w-[45px]">
-                                    <span class="text-slate-500 block text-[9px] font-bold uppercase">X</span>
-                                    <span class="text-amber-400 font-extrabold">{{ match.draw_odds }}</span>
-                                </div>
-                                <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-lg text-center min-w-[45px]">
-                                    <span class="text-slate-500 block text-[9px] font-bold uppercase">2</span>
-                                    <span class="text-amber-400 font-extrabold">{{ match.away_odds }}</span>
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="flex flex-col items-center lg:items-end gap-2 w-full lg:w-auto">
-                            {% if match.status == "SCHEDULED" %}
-                                <span class="badge-scheduled">Zaplanowany</span>
-                            {% elif match.status == "LIVE" %}
-                                <span class="badge-live">W Trakcie</span>
-                            {% elif match.status == "FINISHED" %}
-                                <span class="badge-finished">Zakończony</span>
-                            {% endif %}
-
-                            {% if match.home_score != None %}
-                            <div class="text-4xl sm:text-5xl font-black bg-gradient-to-b from-white to-slate-400 text-transparent bg-clip-text tracking-tighter mt-1">
-                                {{ match.home_score }} : {{ match.away_score }}
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-2">
-                        {% if match.status == 'SCHEDULED' %}
-                            <form method="POST" action="{% url 'create_prediction' match.id %}" class="prediction-form bg-slate-950/40 rounded-xl p-4 border border-slate-800/80 flex flex-col gap-4">
-                                {% csrf_token %}
-
-                                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
-                                    <div class="flex items-center gap-3 justify-center">
-                                        <input type="number" name="predicted_home" required min="0" placeholder="0"
-                                               value="{% if match.user_prediction %}{{ match.user_prediction.predicted_home }}{% endif %}"
-                                               class="prediction-input">
-                                        <span class="text-slate-600 font-black text-xl">:</span>
-                                        <input type="number" name="predicted_away" required min="0" placeholder="0"
-                                               value="{% if match.user_prediction %}{{ match.user_prediction.predicted_away }}{% endif %}"
-                                               class="prediction-input">
-                                    </div>
-
-                                    <label class="bonus-label flex items-center gap-2 text-sm font-bold transition duration-300
-                                        {% if match.is_bonus_locked and not match.user_prediction.is_doubled %}
-                                            text-slate-600 cursor-not-allowed opacity-40
-                                        {% else %}
-                                            text-amber-400 cursor-pointer hover:text-amber-300
-                                        {% endif %}">
-                                        <input type="checkbox" name="is_doubled" class="bonus-checkbox w-5 h-5 accent-amber-500 cursor-pointer"
-                                               {% if match.user_prediction and match.user_prediction.is_doubled %}checked{% endif %}
-                                               {% if match.is_bonus_locked and not match.user_prediction.is_doubled %}disabled data-server-locked="true"{% endif %}>
-                                        <span>Bonus x2</span>
-                                    </label>
-                                </div>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-800/60">
-                                    <div>
-                                        <label class="form-label">Pierwsza bramka (drużyna):</label>
-                                        <select name="predicted_first_team" class="prediction-select">
-                                            <option value="">Wybierz...</option>
-                                            <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
-                                            <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
-                                            <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="form-label">Pierwszy strzelec:</label>
-                                        <select name="predicted_scorer" class="prediction-select">
-                                            <option value="">Wybierz zawodnika...</option>
-                                            {% for player in match.available_players %}
-                                                <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
-                                                    {{ player.name }} ({% if player.position %}{{ player.position }}{% else %}BRAK POZ.{% endif %})
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="save-status text-right text-xs font-bold mt-2 h-4 hidden opacity-0 transition-opacity duration-300"></div>
-
-                        {% elif match.status == 'FINISHED' or match.status == 'LIVE' %}
-                            {% if match.user_prediction %}
-                                <div class="p-4 rounded-xl border flex justify-between items-center
-                                    {% if match.status == 'FINISHED' %}
-                                        {% if match.user_prediction.points >= 3 %}
-                                            bg-green-500/10 border-green-500/30
-                                        {% elif match.user_prediction.points > 0 %}
-                                            bg-amber-500/10 border-amber-500/30
-                                        {% else %}
-                                            bg-red-500/10 border-red-500/30
-                                        {% endif %}
-                                    {% else %}
-                                        bg-slate-950 border-slate-800
-                                    {% endif %}">
-
-                                    <div class="text-left">
-                                        <span class="text-slate-400 uppercase tracking-wider text-[10px] font-bold">Twój typ</span>
-                                        <div class="font-black text-xl sm:text-2xl mt-0.5 text-white flex items-center gap-2">
-                                            {{ match.user_prediction.predicted_home }} : {{ match.user_prediction.predicted_away }}
-                                            {% if match.user_prediction.is_doubled %}
-                                                <span class="bg-amber-500 text-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-md uppercase">x2</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    {% if match.status == 'FINISHED' %}
-                                        <div class="text-right relative group flex flex-col items-end">
-
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <div class="cursor-help text-slate-500 hover:text-cyan-400 transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-                                                    </svg>
-                                                </div>
-                                                <div class="absolute bottom-full right-0 mb-2 w-64 p-3 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl text-[10px] text-slate-300 text-left opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10 whitespace-pre-line pointer-events-none">
-                                                    {{ rules_explanation }}
-                                                </div>
-
-                                                <span class="font-black text-2xl sm:text-3xl {% if match.user_prediction.points >= 3 %}text-green-400{% elif match.user_prediction.points > 0 %}text-amber-400{% else %}text-red-400{% endif %}">
-                                                    +{{ match.user_prediction.points }}
-                                                </span>
-                                            </div>
-
-                                            <div class="text-[9px] uppercase font-bold tracking-widest mt-0.5 {% if match.user_prediction.points >= 3 %}text-green-500{% elif match.user_prediction.points > 0 %}text-amber-500{% else %}text-red-500{% endif %}">
-                                                {% if match.user_prediction.points >= 3 %}Idealnie{% elif match.user_prediction.points > 0 %}Punktacja{% else %}Pudło{% endif %}
-                                            </div>
-
-                                            {% if match.user_prediction.points > 0 and match.user_prediction.points_breakdown %}
-                                            <details class="mt-2 group/details text-right">
-                                                <summary class="text-[10px] uppercase font-bold text-slate-500 cursor-pointer hover:text-cyan-400 transition-colors list-none flex items-center justify-end gap-1">
-                                                    <span>Szczegóły punktów</span>
-                                                </summary>
-                                                <div class="mt-1 p-2 bg-slate-950/50 border border-slate-800 rounded-lg text-xs space-y-1 text-left w-48 ml-auto">
-                                                    {% for key, detail in match.user_prediction.points_breakdown.items %}
-                                                    <div class="flex justify-between items-center text-slate-300">
-                                                        <span class="text-[10px]">{{ detail.name }}</span>
-                                                        <span class="font-bold text-cyan-400">+{{ detail.points }}</span>
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </details>
-                                            {% endif %}
-                                        </div>
-
-                                        <div class="w-full mt-4 pt-3 border-t border-slate-800/60 flex flex-col sm:flex-row justify-between gap-4 text-xs">
-
-                                            <div class="flex-1 bg-slate-950/30 p-3 rounded-lg border border-slate-800/40">
-                                                <span class="text-slate-500 uppercase tracking-widest text-[9px] font-bold block mb-2">Twój Typ</span>
-
-                                                <div class="flex justify-between mb-1">
-                                                    <span class="text-slate-400">1. Gol (Drużyna):</span>
-                                                    <span class="text-white font-semibold">
-                                                        {% if match.user_prediction.predicted_first_team == 'HOME' %} {{ match.home_team.name }}
-                                                        {% elif match.user_prediction.predicted_first_team == 'AWAY' %} {{ match.away_team.name }}
-                                                        {% elif match.user_prediction.predicted_first_team == 'NONE' %} Brak bramek
-                                                        {% else %} - {% endif %}
-                                                    </span>
-                                                </div>
-
-                                                <div class="flex justify-between">
-                                                    <span class="text-slate-400">1. Strzelec:</span>
-                                                    <span class="text-white font-semibold">{{ match.user_prediction.predicted_scorer|default:"Brak" }}</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-1 bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
-                                                <span class="text-slate-400 uppercase tracking-widest text-[9px] font-bold block mb-2">Faktycznie w meczu</span>
-
-                                                <div class="flex justify-between mb-1">
-                                                    <span class="text-slate-500">1. Gol (Drużyna):</span>
-                                                    <span class="{% if match.user_prediction.predicted_first_team == match.first_scoring_team or match.user_prediction.predicted_first_team == 'NONE' and match.home_score == 0 and match.away_score == 0 %}text-green-400{% else %}text-slate-200{% endif %} font-bold">
-                                                        {% if match.first_scoring_team == 'HOME' %} {{ match.home_team.name }}
-                                                        {% elif match.first_scoring_team == 'AWAY' %} {{ match.away_team.name }}
-                                                        {% elif match.home_score == 0 and match.away_score == 0 %} Brak bramek
-                                                        {% else %} Czeka na wpis admina... {% endif %}
-                                                    </span>
-                                                </div>
-
-                                                <div class="flex justify-between">
-                                                    <span class="text-slate-500">1. Strzelec:</span>
-                                                    <span class="{% if match.user_prediction.predicted_scorer|lower == match.first_scorer|lower and match.first_scorer %}text-green-400{% else %}text-slate-200{% endif %} font-bold">
-                                                        {{ match.first_scorer|default:"Czeka na wpis admina..." }}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            {% else %}
-                                <div class="p-4 rounded-xl border bg-slate-950/40 border-slate-800 text-center">
-                                    <span class="text-slate-500 text-xs sm:text-sm font-medium">Nie obstawiłeś tego meczu przed pierwszym gwizdkiem.</span>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-
-                </div>
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
+    {# Mecze #}
+    {% for stage, stage_matches in matches_by_stage.items %}
+    <div id="stage-{{ stage|slugify }}" class="stage-content space-y-4 {% if stage != active_stage %}hidden{% endif %}">
+        {% for match in stage_matches %}
+            {% include "tournament/components/match_card.html" %}
+        {% endfor %}
+    </div>
+    {% endfor %}
 
     {% else %}
     <div class="wc-card text-center p-8 sm:p-12">
@@ -290,99 +55,8 @@
         <p class="text-slate-400 text-sm">Mecze pojawią się tutaj po synchronizacji danych.</p>
     </div>
     {% endif %}
+
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const tabs = document.querySelectorAll(".stage-tab");
-        const contents = document.querySelectorAll(".stage-content");
-
-        tabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                contents.forEach(content => content.classList.add("hidden"));
-                tabs.forEach(t => {
-                    t.classList.remove("bg-cyan-500", "text-black", "shadow-[0_0_15px_rgba(6,182,212,0.3)]");
-                    t.classList.add("bg-slate-900", "border", "border-slate-800", "text-slate-400");
-                });
-                const targetId = tab.getAttribute("data-target");
-                document.getElementById(targetId).classList.remove("hidden");
-                tab.classList.remove("bg-slate-900", "border", "border-slate-800", "text-slate-400");
-                tab.classList.add("bg-cyan-500", "text-black", "shadow-[0_0_15px_rgba(6,182,212,0.3)]");
-            });
-        });
-
-        const stages = document.querySelectorAll(".stage-content");
-        stages.forEach(stage => {
-            const checkboxes = stage.querySelectorAll('.bonus-checkbox');
-            function toggleCheckboxes() {
-                let isAnyChecked = false;
-                checkboxes.forEach(cb => { if (cb.checked) isAnyChecked = true; });
-                checkboxes.forEach(cb => {
-                    if (cb.dataset.serverLocked === "true") return;
-                    const label = cb.closest(".bonus-label");
-                    if (isAnyChecked && !cb.checked) {
-                        cb.disabled = true;
-                        label.classList.add("opacity-20", "cursor-not-allowed", "grayscale");
-                        label.classList.remove("cursor-pointer", "hover:text-amber-300");
-                        cb.classList.add("hidden");
-                    } else {
-                        cb.disabled = false;
-                        label.classList.remove("opacity-20", "cursor-not-allowed", "grayscale");
-                        label.classList.add("cursor-pointer", "hover:text-amber-300");
-                        cb.classList.remove("hidden");
-                    }
-                });
-            }
-            checkboxes.forEach(cb => cb.addEventListener("change", toggleCheckboxes));
-            toggleCheckboxes();
-        });
-
-        document.querySelectorAll('.prediction-form').forEach(form => {
-            const inputs = form.querySelectorAll('input, select');
-            const statusEl = form.nextElementSibling;
-            let timeout = null;
-
-            inputs.forEach(field => {
-                const eventType = field.type === 'checkbox' ? 'change' : 'input';
-                field.addEventListener(eventType, () => {
-                    const home = form.querySelector('[name=predicted_home]').value;
-                    const away = form.querySelector('[name=predicted_away]').value;
-                    if (home === '' || away === '') return;
-
-                    statusEl.textContent = "Zapisywanie...";
-                    statusEl.className = "save-status text-right text-xs font-bold mt-2 h-4 text-slate-400 block opacity-100 transition-opacity duration-300";
-                    clearTimeout(timeout);
-
-                    const delay = field.type === 'checkbox' ? 0 : 600;
-                    timeout = setTimeout(() => {
-                        const formData = new FormData(form);
-                        fetch(form.action, {
-                            method: 'POST',
-                            body: formData,
-                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                statusEl.textContent = "✓ Zapisano pomyślnie";
-                                statusEl.className = "save-status text-right text-xs font-bold mt-2 h-4 text-green-400 block opacity-100 transition-opacity duration-300";
-                                setTimeout(() => {
-                                    statusEl.classList.remove('opacity-100');
-                                    statusEl.classList.add('opacity-0');
-                                }, 2500);
-                            } else {
-                                statusEl.textContent = "✕ " + data.message;
-                                statusEl.className = "save-status text-right text-xs font-bold mt-2 h-4 text-red-400 block opacity-100 transition-opacity duration-300";
-                            }
-                        })
-                        .catch(error => {
-                            statusEl.textContent = "✕ Błąd połączenia";
-                            statusEl.className = "save-status text-right text-xs font-bold mt-2 h-4 text-red-400 block opacity-100 transition-opacity duration-300";
-                        });
-                    }, delay);
-                });
-            });
-        });
-    });
-</script>
+<script src="{% static 'js/match_list.js' %}"></script>
 {% endblock %}

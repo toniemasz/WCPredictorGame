@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="centered-content-wrapper text-center py-10 sm:py-16">
+
+    <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-5 bg-gradient-to-r from-cyan-400 via-teal-200 to-white text-transparent bg-clip-text leading-tight">
+        Przewiduj Wyniki World Cup 2026
+    </h1>
+
+    <p class="text-slate-400 text-base sm:text-xl max-w-xl mx-auto mb-10 font-medium leading-relaxed">
+        Dołącz do rywalizacji ze znajomymi, zbieraj punkty za dokładne typy, trafiaj pierwszych strzelców bramek i zgarniaj bonusy!
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+        <a href="/matches/" class="btn-primary w-full sm:w-auto px-8 py-4 text-base">
+            ⚽ Obstawiaj Mecze
+        </a>
+        <a href="/leaderboard/" class="btn-secondary w-full sm:w-auto px-8 py-4 text-base">
+            📊 Zobacz Ranking
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
+        <div class="wc-card">
+            <div class="text-cyan-400 text-3xl font-black mb-3">01</div>
+            <h3 class="text-lg font-bold mb-2">Typuj wyniki</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Wprowadzaj dokładne wyniki bramkowe przed rozpoczęciem każdego meczu.</p>
+        </div>
+        <div class="wc-card">
+            <div class="text-amber-400 text-3xl font-black mb-3">02</div>
+            <h3 class="text-lg font-bold mb-2">Używaj Bonusu x2</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Wybierz jeden kluczowy mecz w rundzie, w którym podwoisz swoje punkty.</p>
+        </div>
+        <div class="wc-card">
+            <div class="text-purple-400 text-3xl font-black mb-3">03</div>
+            <h3 class="text-lg font-bold mb-2">Dodatkowe punkty</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Wskazuj drużynę strzelającą pierwszego gola oraz konkretnego zawodnika.</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

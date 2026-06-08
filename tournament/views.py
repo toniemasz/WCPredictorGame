@@ -1,10 +1,11 @@
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
-from tournament.models import Match, Profile, TeamPlayer
+from tournament.models import Match, Profile, TeamPlayer, BonusUsage
 from tournament.services.import_service import ImportService
 from tournament.forms import RegisterForm
 from django.contrib.auth.decorators import login_required
@@ -28,6 +29,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from tournament.services.player_import_service import PlayerImportService
 
 
+BONUS_LIMIT = getattr(settings, 'BONUS_LIMIT_PER_STAGE', 2)
 
 
 def home_view(request):
@@ -40,29 +42,39 @@ def home_view(request):
 
 @login_required
 def match_list(request):
-
     if Match.objects.count() == 0:
         ImportService.import_matches()
 
-    # Optymalizacja zapytań SQL za pomocą select_related i prefetch_related
-    matches = Match.objects.select_related('home_team', 'away_team').prefetch_related('home_team__players', 'away_team__players').order_by("kickoff")
+    matches = Match.objects.select_related(
+        'home_team', 'away_team'
+    ).prefetch_related(
+        'home_team__players', 'away_team__players'
+    ).order_by("kickoff")
+
     user_predictions = Prediction.objects.filter(user=request.user)
     pred_dict = {p.match_id: p for p in user_predictions}
 
-    locked_bonuses_stages = set(
-        Prediction.objects.filter(
-            user=request.user,
-            is_doubled=True,
-            match__kickoff__lte=timezone.now()
-        ).values_list('match__stage', flat=True)
-    )
+    bonus_usages = BonusUsage.objects.filter(user=request.user)
+    bonus_dict = {b.stage: b.count for b in bonus_usages}
 
     matches_by_stage = {}
     for match in matches:
         match.user_prediction = pred_dict.get(match.id)
-        match.is_bonus_locked = match.stage in locked_bonuses_stages
 
-        match.available_players = list(match.home_team.players.all()) + list(match.away_team.players.all())
+        used    = bonus_dict.get(match.stage, 0)
+        remaining = BONUS_LIMIT - used
+        match.bonus_remaining = remaining
+
+        # Zablokowany jeśli: limit wyczerpany I ten mecz nie ma już zaznaczonego bonusu
+        match.is_bonus_locked = (
+            remaining <= 0
+            and not (match.user_prediction and match.user_prediction.is_doubled)
+        )
+
+        match.available_players = (
+            list(match.home_team.players.all()) +
+            list(match.away_team.players.all())
+        )
 
         if match.stage not in matches_by_stage:
             matches_by_stage[match.stage] = []
@@ -77,15 +89,12 @@ def match_list(request):
     if not active_stage and matches_by_stage:
         active_stage = list(matches_by_stage.keys())[-1]
 
-    return render(
-        request,
-        "tournament/match_list.html",
-        {
-            'rules_explanation': ScoringService.get_rules_explanation(),
-            "matches_by_stage": matches_by_stage,
-            "active_stage": active_stage,
-        }
-    )
+    return render(request, "tournament/match_list.html", {
+        'rules_explanation': ScoringService.get_rules_explanation(),
+        'matches_by_stage':  matches_by_stage,
+        'active_stage':      active_stage,
+        'bonus_limit':       BONUS_LIMIT,
+    })
 
 def register_view(request):
     # Jeśli użytkownik jest już zalogowany, odeślij go do meczów
@@ -195,14 +204,13 @@ def profile_view(request, user_id=None):
 
 @login_required
 def create_prediction(request, match_id):
-    match = get_object_or_404(Match, pk=match_id)
-
-    # Sprawdzamy, czy to zapytanie AJAX (z JavaScriptu)
+    match   = get_object_or_404(Match, pk=match_id)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if timezone.now() >= match.kickoff:
         msg = "Ten mecz już się rozpoczął! Nie możesz zmienić typu."
-        if is_ajax: return JsonResponse({"status": "error", "message": msg}, status=400)
+        if is_ajax:
+            return JsonResponse({"status": "error", "message": msg}, status=400)
         messages.error(request, msg)
         return redirect("match_list")
 
@@ -211,49 +219,92 @@ def create_prediction(request, match_id):
         away = request.POST.get("predicted_away")
         is_doubled = request.POST.get("is_doubled") == "on"
 
-        # Nie zapisujemy pustych wartości
-        if home == "" or away == "" or home is None or away is None:
-            if is_ajax: return JsonResponse({"status": "error", "message": "Wpisz obie wartości"})
+        if not home or not away:
+            if is_ajax:
+                return JsonResponse({"status": "error", "message": "Wpisz obie wartości"})
             return redirect("match_list")
 
-        if is_doubled:
-            existing_double = Prediction.objects.filter(
+        # Czy user miał już bonus na tym meczu?
+        existing = Prediction.objects.filter(
+            user=request.user, match=match
+        ).first()
+        had_bonus_before = existing.is_doubled if existing else False
+
+        # Pobierz lub utwórz wpis BonusUsage dla tej rundy
+        bonus_usage, _ = BonusUsage.objects.get_or_create(
+            user=request.user,
+            stage=match.stage
+        )
+
+        if is_doubled and not had_bonus_before:
+            # Chce nowy bonus — sprawdź limit
+            if bonus_usage.count >= BONUS_LIMIT:
+                msg = f"Wykorzystałeś już wszystkie bonusy x2 w rundzie {match.stage}!"
+                if is_ajax:
+                    return JsonResponse({"status": "error", "message": msg}, status=400)
+                messages.error(request, msg)
+                return redirect("match_list")
+
+            # Sprawdź czy inny mecz w tej rundzie ma bonus i czy można go przenieść
+            other_doubled = Prediction.objects.filter(
                 user=request.user,
                 match__stage=match.stage,
                 is_doubled=True
             ).exclude(match=match).first()
 
-            if existing_double:
-                if existing_double.match.kickoff <= timezone.now():
-                    msg = f"Twój Bonus x2 w rundzie {match.stage} jest zamrożony na meczu {existing_double.match.home_team} vs {existing_double.match.away_team}!"
-                    if is_ajax: return JsonResponse({"status": "error", "message": msg}, status=400)
+            if other_doubled:
+                if other_doubled.match.kickoff <= timezone.now():
+                    # Zamrożony — nie można zabrać
+                    msg = (
+                        f"Twój Bonus x2 w rundzie {match.stage} jest zamrożony "
+                        f"na meczu {other_doubled.match.home_team} vs {other_doubled.match.away_team}!"
+                    )
+                    if is_ajax:
+                        return JsonResponse({"status": "error", "message": msg}, status=400)
                     messages.error(request, msg)
                     return redirect("match_list")
                 else:
-                    existing_double.is_doubled = False
-                    existing_double.save(update_fields=['is_doubled'])
+                    # Przenieś bonus (nie zmienia licznika — to wciąż jedno użycie)
+                    other_doubled.is_doubled = False
+                    other_doubled.save(update_fields=['is_doubled'])
+                    # Licznik się nie zmienia bo przenosimy, nie dodajemy
 
-        # Zapis typu
+            else:
+                # Nowy bonus w tej rundzie — inkrementuj licznik
+                bonus_usage.count += 1
+                bonus_usage.save()
+
+        elif had_bonus_before and not is_doubled:
+            # Użytkownik odznaczył bonus — zwolnij użycie
+            # Ale tylko jeśli mecz jeszcze nie wystartował (a wiemy że tak, bo jesteśmy przed kickoff)
+            bonus_usage.count = max(0, bonus_usage.count - 1)
+            bonus_usage.save()
+
         Prediction.objects.update_or_create(
             user=request.user,
             match=match,
             defaults={
-                "predicted_home": home,
-                "predicted_away": away,
-                "is_doubled": is_doubled,
-                "predicted_first_team": request.POST.get("predicted_first_team"),
-                "predicted_scorer": request.POST.get("predicted_scorer"),
+                "predicted_home":        home,
+                "predicted_away":        away,
+                "is_doubled":            is_doubled,
+                "predicted_first_team":  request.POST.get("predicted_first_team"),
+                "predicted_scorer":      request.POST.get("predicted_scorer"),
             }
         )
 
-        # Sukces! Zwracamy odpowiedź dla JavaScriptu
         if is_ajax:
-            return JsonResponse({"status": "success"})
+            # Zwróć też aktualny stan bonusów żeby JS mógł zaktualizować UI
+            bonus_usage.refresh_from_db()
+            remaining = BONUS_LIMIT - bonus_usage.count
+            return JsonResponse({
+                "status":           "success",
+                "bonus_remaining":  remaining,
+                "stage":            match.stage,
+            })
 
         messages.success(request, "Twój typ został zapisany!")
 
     return redirect("match_list")
-
 
 @login_required
 def recalculate_points_view(request):

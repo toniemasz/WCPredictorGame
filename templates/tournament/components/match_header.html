@@ -1,0 +1,50 @@
+{% load static %}
+<div class="flex flex-col lg:flex-row justify-between items-start gap-4 pb-4 border-b border-slate-800/60">
+
+    {# Lewa: drużyny + meta + kursy #}
+    <div class="flex-1 min-w-0">
+        <div class="flex flex-col sm:flex-row items-center lg:items-center justify-center lg:justify-start gap-3 text-xl sm:text-2xl font-black mb-2">
+            <div class="flex items-center gap-2">
+                <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
+                     onerror="this.src='{% static 'flags/default.png' %}'"
+                     class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover" alt="">
+                <span>{{ match.home_team.name }}</span>
+            </div>
+            <span class="text-cyan-500/40 text-base font-bold">vs</span>
+            <div class="flex items-center gap-2">
+                <span>{{ match.away_team.name }}</span>
+                <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
+                     onerror="this.src='{% static 'flags/default.png' %}'"
+                     class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover" alt="">
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-slate-500 mb-3">
+            <span>📅 {{ match.kickoff|date:"d.m.Y H:i" }}</span>
+            <span class="text-slate-700">·</span>
+            <span class="font-semibold text-slate-400">Faza: {{ match.stage }}</span>
+        </div>
+
+        {% if match.home_odds and match.draw_odds and match.away_odds %}
+        <div class="flex justify-center lg:justify-start gap-2">
+            <div class="odds-chip"><span class="odds-label">1</span><span class="odds-value">{{ match.home_odds }}</span></div>
+            <div class="odds-chip"><span class="odds-label">X</span><span class="odds-value">{{ match.draw_odds }}</span></div>
+            <div class="odds-chip"><span class="odds-label">2</span><span class="odds-value">{{ match.away_odds }}</span></div>
+        </div>
+        {% endif %}
+    </div>
+
+    {# Prawa: status + wynik #}
+    <div class="flex flex-col items-end gap-2 shrink-0">
+        {% if match.status == "SCHEDULED" %}<span class="badge-scheduled">Zaplanowany</span>
+        {% elif match.status == "LIVE" %}<span class="badge-live">W Trakcie</span>
+        {% elif match.status == "FINISHED" %}<span class="badge-finished">Zakończony</span>{% endif %}
+
+        {% if match.home_score != None %}
+        <div class="text-4xl sm:text-5xl font-black bg-gradient-to-b from-white to-slate-400 text-transparent bg-clip-text tracking-tighter">
+            {{ match.home_score }} : {{ match.away_score }}
+        </div>
+        {% endif %}
+    </div>
+
+</div>

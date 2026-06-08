@@ -123,6 +123,16 @@ class TeamPlayer(models.Model):
     def __str__(self):
         return self.name
 
+class BonusUsage(models.Model):
+    user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bonus_usages')
+    stage = models.CharField(max_length=50)
+    count = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('user', 'stage')
+
+    def __str__(self):
+        return f"{self.user} | {self.stage} | {self.count}"
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):

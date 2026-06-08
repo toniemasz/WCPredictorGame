@@ -1,0 +1,78 @@
+{% load static %}
+<form method="POST" action="{% url 'create_prediction' match.id %}"
+      class="prediction-form bg-slate-950/40 rounded-xl p-4 border border-slate-800/80 flex flex-col gap-4">
+    {% csrf_token %}
+
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <input type="number" name="predicted_home" required min="0" placeholder="0"
+                   value="{% if match.user_prediction %}{{ match.user_prediction.predicted_home }}{% endif %}"
+                   class="prediction-input">
+            <span class="text-slate-600 font-black text-xl">:</span>
+            <input type="number" name="predicted_away" required min="0" placeholder="0"
+                   value="{% if match.user_prediction %}{{ match.user_prediction.predicted_away }}{% endif %}"
+                   class="prediction-input">
+        </div>
+
+        <div class="flex items-center gap-3">
+
+    <label class="bonus-label flex items-center gap-2 text-sm font-bold transition duration-300
+        {% if match.is_bonus_locked %}
+            text-slate-600 cursor-not-allowed opacity-40
+        {% else %}
+            text-amber-400 cursor-pointer hover:text-amber-300
+        {% endif %}">
+        <input type="checkbox" name="is_doubled"
+               class="bonus-checkbox w-5 h-5 accent-amber-500"
+               {% if match.user_prediction and match.user_prediction.is_doubled %}checked{% endif %}
+               {% if match.is_bonus_locked %}disabled data-server-locked="true"{% endif %}>
+        <span>Bonus x2</span>
+    </label>
+
+    {# Licznik bonusów — pokazuj tylko jeśli bonus nie jest aktualnie użyty na tym meczu #}
+    {% if not match.user_prediction.is_doubled %}
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full border
+            {% if match.bonus_remaining == 0 %}
+                bg-red-500/10 border-red-500/30 text-red-400
+            {% elif match.bonus_remaining == 1 %}
+                bg-amber-500/10 border-amber-500/30 text-amber-400
+            {% else %}
+                bg-slate-800 border-slate-700 text-slate-400
+            {% endif %}">
+            {% if match.bonus_remaining == 0 %}
+                Brak bonusów
+            {% elif match.bonus_remaining == 1 %}
+                Ostatni bonus!
+            {% else %}
+                {{ match.bonus_remaining }} bonusy
+            {% endif %}
+        </span>
+    {% endif %}
+
+</div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-800/60">
+        <div>
+            <label class="form-label">Pierwsza bramka (drużyna):</label>
+            <select name="predicted_first_team" class="prediction-select">
+                <option value="">Wybierz...</option>
+                <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
+                <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
+                <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Pierwszy strzelec:</label>
+            <select name="predicted_scorer" class="prediction-select">
+                <option value="">Wybierz zawodnika...</option>
+                {% for player in match.available_players %}
+                <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
+                    {{ player.name }} ({% if player.position %}{{ player.position }}{% else %}BRAK POZ.{% endif %})
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</form>
+<div class="save-status text-right text-xs font-bold mt-2 h-4 hidden opacity-0 transition-opacity duration-300"></div>

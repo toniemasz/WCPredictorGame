@@ -1,0 +1,11 @@
+{% load static %}
+<div class="wc-card">
+    {% include "tournament/components/match_header.html" %}
+    <div class="mt-4 pt-2">
+        {% if match.status == 'SCHEDULED' %}
+            {% include "tournament/components/match_prediction_form.html" %}
+        {% elif match.status == 'FINISHED' or match.status == 'LIVE' %}
+            {% include "tournament/components/match_result.html" %}
+        {% endif %}
+    </div>
+</div>
