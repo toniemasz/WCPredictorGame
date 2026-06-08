@@ -32,7 +32,7 @@ FOOTBALL_DATA_API_KEY = os.getenv("FOOTBALL_DATA_API_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
 
-BONUS_LIMIT_PER_STAGE = 2
+MAX_BONUSES_PER_ROUND = 2
 
 
 if DEBUG:
