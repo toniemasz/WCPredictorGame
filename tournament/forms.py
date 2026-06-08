@@ -6,7 +6,7 @@ from .models import Profile, Match
 
 
 class RegisterForm(forms.ModelForm):
-    email = forms.EmailField()
+    email = forms.EmailField(required=False)
 
     password = forms.CharField(
         widget=forms.PasswordInput
