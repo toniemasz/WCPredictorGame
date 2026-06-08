@@ -1,50 +1,202 @@
 {% load static %}
-<div class="flex flex-col lg:flex-row justify-between items-start gap-4 pb-4 border-b border-slate-800/60">
 
-    {# Lewa: drużyny + meta + kursy #}
-    <div class="flex-1 min-w-0">
-        <div class="flex flex-col sm:flex-row items-center lg:items-center justify-center lg:justify-start gap-3 text-xl sm:text-2xl font-black mb-2">
-            <div class="flex items-center gap-2">
-                <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
-                     onerror="this.src='{% static 'flags/default.png' %}'"
-                     class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover" alt="">
-                <span>{{ match.home_team.name }}</span>
-            </div>
-            <span class="text-cyan-500/40 text-base font-bold">vs</span>
-            <div class="flex items-center gap-2">
-                <span>{{ match.away_team.name }}</span>
-                <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
-                     onerror="this.src='{% static 'flags/default.png' %}'"
-                     class="w-7 h-5 sm:w-8 sm:h-6 rounded border border-slate-700 object-cover" alt="">
-            </div>
+<div class="p-6 md:p-8 rounded-3xl
+            bg-gradient-to-br from-slate-900 via-slate-950 to-black
+            border border-slate-700/50
+            backdrop-blur-xl
+            shadow-[0_0_50px_rgba(0,255,255,0.05)]">
+
+    <div class="flex flex-col items-center">
+
+        <!-- DATA -->
+        <div class="text-slate-400 text-xs md:text-sm uppercase tracking-[0.3em] mb-2 text-center">
+            {{ match.kickoff|date:"d.m.Y H:i" }}
         </div>
 
-        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-slate-500 mb-3">
-            <span>📅 {{ match.kickoff|date:"d.m.Y H:i" }}</span>
-            <span class="text-slate-700">·</span>
-            <span class="font-semibold text-slate-400">Faza: {{ match.stage }}</span>
-        </div>
+        <!-- COUNTDOWN -->
+        {% if match.status == "SCHEDULED" %}
+        <div class="mb-8 text-center">
 
-        {% if match.home_odds and match.draw_odds and match.away_odds %}
-        <div class="flex justify-center lg:justify-start gap-2">
-            <div class="odds-chip"><span class="odds-label">1</span><span class="odds-value">{{ match.home_odds }}</span></div>
-            <div class="odds-chip"><span class="odds-label">X</span><span class="odds-value">{{ match.draw_odds }}</span></div>
-            <div class="odds-chip"><span class="odds-label">2</span><span class="odds-value">{{ match.away_odds }}</span></div>
+            <div class="text-slate-500 text-xs md:text-sm uppercase tracking-widest">
+                Mecz rozpocznie się za
+            </div>
+
+            <!-- placeholder -->
+            <div class="text-cyan-400 text-lg md:text-xl font-bold mt-1">
+                03h 25m
+            </div>
+
         </div>
         {% endif %}
-    </div>
 
-    {# Prawa: status + wynik #}
-    <div class="flex flex-col items-end gap-2 shrink-0">
-        {% if match.status == "SCHEDULED" %}<span class="badge-scheduled">Zaplanowany</span>
-        {% elif match.status == "LIVE" %}<span class="badge-live">W Trakcie</span>
-        {% elif match.status == "FINISHED" %}<span class="badge-finished">Zakończony</span>{% endif %}
+        <!-- MECZ -->
+        <div class="w-full">
 
-        {% if match.home_score != None %}
-        <div class="text-4xl sm:text-5xl font-black bg-gradient-to-b from-white to-slate-400 text-transparent bg-clip-text tracking-tighter">
-            {{ match.home_score }} : {{ match.away_score }}
+            <div class="grid
+                        grid-cols-1
+                        lg:grid-cols-[1fr_auto_1fr]
+                        items-center
+                        gap-6 lg:gap-10">
+
+                <!-- HOME -->
+                <div class="flex items-center
+                            justify-center lg:justify-end
+                            gap-3 md:gap-4">
+
+                    <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
+                         class="w-12 h-8 md:w-14 md:h-10
+                                rounded-xl
+                                border border-slate-600
+                                object-cover
+                                shrink-0"
+                         alt="">
+
+                    <span class="text-xl md:text-3xl xl:text-4xl
+                                 font-black
+                                 text-white
+                                 text-center lg:text-right
+                                 break-words">
+                        {{ match.home_team.name }}
+                    </span>
+
+                </div>
+
+                <!-- WYNIK -->
+                <div class="flex justify-center">
+
+                    <div class="text-center">
+
+                        <div class="text-6xl md:text-7xl xl:text-8xl
+                                    font-black
+                                    font-mono
+                                    leading-none">
+
+                            {% if match.home_score != None %}
+                                <span class="text-white">
+                                    {{ match.home_score }}
+                                </span>
+                            {% else %}
+                                <span class="text-white">-</span>
+                            {% endif %}
+
+                            <span class="text-cyan-400 mx-1 md:mx-3">:</span>
+
+                            {% if match.away_score != None %}
+                                <span class="text-white">
+                                    {{ match.away_score }}
+                                </span>
+                            {% else %}
+                                <span class="text-white">-</span>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- AWAY -->
+                <div class="flex items-center
+                            justify-center lg:justify-start
+                            gap-3 md:gap-4">
+
+                    <span class="text-xl md:text-3xl xl:text-4xl
+                                 font-black
+                                 text-white
+                                 text-center lg:text-left
+                                 break-words">
+                        {{ match.away_team.name }}
+                    </span>
+
+                    <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
+                         class="w-12 h-8 md:w-14 md:h-10
+                                rounded-xl
+                                border border-slate-600
+                                object-cover
+                                shrink-0"
+                         alt="">
+
+                </div>
+
+            </div>
+
         </div>
-        {% endif %}
+
+        <!-- PRZEWIDYWANIE -->
+        <div class="mt-10 text-center">
+
+            <div class="text-slate-400
+                        text-xs md:text-sm
+                        uppercase
+                        tracking-[0.35em]
+                        mb-3">
+
+                Twoje przewidywanie
+
+            </div>
+
+            <div class="text-5xl md:text-6xl
+                        font-black
+                        text-cyan-400
+                        font-mono
+                        leading-none">
+
+                1 : 0
+
+            </div>
+
+        </div>
+
+        <!-- STATUS -->
+        <div class="flex flex-wrap justify-center gap-4 md:gap-6 mt-10 md:mt-12">
+
+            {% if match.status == "SCHEDULED" %}
+            <span class="px-6 md:px-8 py-3 md:py-4
+                         rounded-full
+                         bg-slate-800
+                         border border-slate-600
+                         text-slate-300
+                         text-sm md:text-lg
+                         font-bold">
+                Zaplanowany
+            </span>
+
+            {% elif match.status == "LIVE" %}
+            <span class="px-6 md:px-8 py-3 md:py-4
+                         rounded-full
+                         bg-red-500/15
+                         border border-red-500/40
+                         text-red-400
+                         text-sm md:text-lg
+                         font-bold
+                         animate-pulse">
+                🔴 Na żywo
+            </span>
+
+            {% elif match.status == "FINISHED" %}
+            <span class="px-6 md:px-8 py-3 md:py-4
+                         rounded-full
+                         bg-emerald-500/15
+                         border border-emerald-500/40
+                         text-emerald-400
+                         text-sm md:text-lg
+                         font-bold">
+                ✓ Zakończony
+            </span>
+            {% endif %}
+
+            <span class="px-6 md:px-8 py-3 md:py-4
+                         rounded-full
+                         bg-cyan-500/10
+                         border border-cyan-500/30
+                         text-cyan-300
+                         text-sm md:text-lg
+                         font-bold">
+                {{ match.stage }}
+            </span>
+
+        </div>
+
     </div>
 
 </div>

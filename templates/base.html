@@ -46,6 +46,17 @@
 
             /* Nawigacja menu */
             .nav-link { @apply text-slate-300 hover:text-cyan-400 font-semibold text-sm transition-colors py-2 px-1; }
+            .stage-tab-active::after {
+                    content: "";
+                    position: absolute;
+                    left: 15%;
+                    right: 15%;
+                    bottom: -4px;
+                    height: 3px;
+                    border-radius: 999px;
+                    background: #22d3ee;
+                    box-shadow: 0 0 12px #22d3ee;
+                }
         }
     </style>
 </head>

@@ -40,7 +40,6 @@ class RegisterForm(forms.ModelForm):
 
         return avatar
 
-    # Twoja dotychczasowa walidacja haseł
     def clean(self):
         cleaned_data = super().clean()
 

@@ -31,18 +31,50 @@
 
     {# Zakładki faz #}
     {% if matches_by_stage %}
-    <div class="flex gap-2 overflow-x-auto mb-6 pb-2 scrollbar-none snap-x">
-        {% for stage in matches_by_stage.keys %}
-        <button class="stage-tab tab-base snap-center {% if stage == active_stage %}tab-active{% else %}tab-inactive{% endif %}"
-                data-target="stage-{{ stage|slugify }}">
-            {{ stage }}
-        </button>
-        {% endfor %}
-    </div>
+        <div class="flex gap-4 overflow-x-auto mb-8 scrollbar-none">
+
+            {% for stage in matches_by_stage.keys %}
+            <button
+                class="stage-tab group relative overflow-hidden whitespace-nowrap
+                       px-8 py-4 rounded-2xl font-bold tracking-wide
+                       transition-all duration-300 border"
+
+                {% if stage == active_stage %}
+                    style="
+                        background: linear-gradient(135deg,#00d4ff,#3b82f6);
+                        border-color:#22d3ee;
+                        color:white;
+                        box-shadow:
+                            0 0 15px rgba(34,211,238,.4),
+                            0 0 35px rgba(59,130,246,.25);
+                    "
+                {% else %}
+                    style="
+                        background: rgba(12,25,60,.9);
+                        border-color:#1f3b68;
+                        color:#94a3b8;
+                    "
+                {% endif %}
+                data-target="stage-{{ stage|slugify }}"
+            >
+
+                <span class="relative z-10 flex items-center gap-2">
+                    🏆
+                    {{ stage }}
+                </span>
+
+                {% if stage == active_stage %}
+                <div class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 animate-pulse"></div>
+                {% endif %}
+            </button>
+            {% endfor %}
+
+        </div>
 
     {# Mecze #}
     {% for stage, stage_matches in matches_by_stage.items %}
-    <div id="stage-{{ stage|slugify }}" class="stage-content space-y-4 {% if stage != active_stage %}hidden{% endif %}">
+    <div id="stage-{{ stage|slugify }}" class="stage-content space-y-4 {% if stage != active_stage %}hidden{% endif %}"
+    data-bonus-limit="{{ bonus_limit }}">
         {% for match in stage_matches %}
             {% include "tournament/components/match_card.html" %}
         {% endfor %}

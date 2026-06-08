@@ -17,30 +17,40 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         const stages = document.querySelectorAll(".stage-content");
-        stages.forEach(stage => {
-            const checkboxes = stage.querySelectorAll('.bonus-checkbox');
-            function toggleCheckboxes() {
-                let isAnyChecked = false;
-                checkboxes.forEach(cb => { if (cb.checked) isAnyChecked = true; });
-                checkboxes.forEach(cb => {
-                    if (cb.dataset.serverLocked === "true") return;
-                    const label = cb.closest(".bonus-label");
-                    if (isAnyChecked && !cb.checked) {
-                        cb.disabled = true;
-                        label.classList.add("opacity-20", "cursor-not-allowed", "grayscale");
-                        label.classList.remove("cursor-pointer", "hover:text-amber-300");
-                        cb.classList.add("hidden");
-                    } else {
-                        cb.disabled = false;
-                        label.classList.remove("opacity-20", "cursor-not-allowed", "grayscale");
-                        label.classList.add("cursor-pointer", "hover:text-amber-300");
-                        cb.classList.remove("hidden");
-                    }
-                });
-            }
-            checkboxes.forEach(cb => cb.addEventListener("change", toggleCheckboxes));
-            toggleCheckboxes();
-        });
+            stages.forEach(stage => {
+                const checkboxes = stage.querySelectorAll('.bonus-checkbox');
+
+                const limit = parseInt(stage.dataset.bonusLimit) || 2;
+
+                function toggleCheckboxes() {
+                    // Zliczamy tylko te, które są zaznaczone w TEJ konkretnej fazie
+                    const checkedCount = stage.querySelectorAll('.bonus-checkbox:checked').length;
+                    const isLimitReached = checkedCount >= limit;
+
+                    checkboxes.forEach(cb => {
+                        if (cb.dataset.serverLocked === "true") return;
+
+                        const label = cb.closest(".bonus-label");
+
+                        // Logika: Jeśli osiągnięto limit I ten konkretny nie jest zaznaczony -> blokuj
+                        if (isLimitReached && !cb.checked) {
+                            cb.disabled = true;
+                            label.classList.add("opacity-20", "cursor-not-allowed", "grayscale");
+                            label.classList.remove("cursor-pointer", "hover:text-amber-300");
+                            cb.classList.add("hidden");
+                        } else {
+                            // Odblokuj w przeciwnym razie
+                            cb.disabled = false;
+                            label.classList.remove("opacity-20", "cursor-not-allowed", "grayscale");
+                            label.classList.add("cursor-pointer", "hover:text-amber-300");
+                            cb.classList.remove("hidden");
+                        }
+                    });
+                }
+
+                checkboxes.forEach(cb => cb.addEventListener("change", toggleCheckboxes));
+                toggleCheckboxes(); // Inicjalizacja przy ładowaniu
+            });
 
         document.querySelectorAll('.prediction-form').forEach(form => {
             const inputs = form.querySelectorAll('input, select');

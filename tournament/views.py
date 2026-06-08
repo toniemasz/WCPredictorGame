@@ -65,7 +65,6 @@ def match_list(request):
         remaining = BONUS_LIMIT - used
         match.bonus_remaining = remaining
 
-        # Zablokowany jeśli: limit wyczerpany I ten mecz nie ma już zaznaczonego bonusu
         match.is_bonus_locked = (
             remaining <= 0
             and not (match.user_prediction and match.user_prediction.is_doubled)
