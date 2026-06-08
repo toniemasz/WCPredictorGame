@@ -28,6 +28,8 @@ from tournament.services.odds_sync import OddsSync
 from tournament.services.scoring_service import ScoringService
 from django.contrib.admin.views.decorators import staff_member_required
 from tournament.services.player_import_service import PlayerImportService
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from .tests import match
 
 BONUS_LIMIT = getattr(settings, 'BONUS_LIMIT_PER_STAGE', 2)
@@ -251,7 +253,9 @@ def recalculate_points_view(request):
 @login_required
 def leaderboard_view(request):
     # Pobieramy profile posortowane od największej liczby punktów z optymalizacją zapytania do tabeli User
-    profiles = Profile.objects.select_related('user').order_by('-points')
+    profiles = Profile.objects.select_related('user').annotate(
+        total_points=Coalesce(Sum('user__prediction__points'), 0)
+    ).order_by('-total_points')
     return render(
         request,
         "tournament/leaderboard.html",

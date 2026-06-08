@@ -31,11 +31,13 @@
                                         {{ p.user.username|slice:":2"|upper }}
                                     </div>
                                 {% endif %}
-                                <span class="{% if p.user == request.user %}text-cyan-400 font-bold{% endif %}">{{ p.user.username }}</span>
+                                <a href="{% url 'user_profile' p.user.id %}" class="hover:text-cyan-300 transition-colors {% if p.user == request.user %}text-cyan-400 font-bold{% else %}text-slate-200{% endif %}">
+                                    {{ p.user.username }}
+<                               </a>
                             </div>
                         </td>
                         <td class="wc-table-td text-right font-black text-cyan-400 text-base">
-                            {{ p.points }}
+                            {{ p.total_points }}
                         </td>
                     </tr>
                     {% empty %}
