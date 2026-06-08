@@ -26,4 +26,9 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('prediction/<int:match_id>/', views.create_prediction, name='create_prediction'),
     path('recalculate/', views.recalculate_points_view, name='recalculate_points'),
+    path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('dashboard/admin/import-matches/', views.admin_trigger_import, name='admin_trigger_import'),
+    path('dashboard/admin/sync-odds/', views.admin_trigger_odds, name='admin_trigger_odds'),
+    path('dashboard/admin/recalculate/', views.admin_trigger_recalculate, name='admin_trigger_recalculate'),
+    path('dashboard/admin/add-players/', views.admin_add_players, name='admin_add_players'),
 ]

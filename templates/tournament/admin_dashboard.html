@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto animate-fade-in">
+    
+    <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl border-l-4 border-l-amber-500">
+        <div>
+            <h1 class="text-4xl font-black text-white tracking-tight flex items-center gap-3">
+                <span class="text-amber-500">🛠️</span> Panel Administratora
+            </h1>
+            <p class="text-slate-400 text-sm mt-1">Zarządzaj silnikiem gry, aktualizacjami API oraz punktacją graczy w czasie rzeczywistym.</p>
+        </div>
+        <div class="bg-slate-950 px-4 py-2 rounded-lg text-xs font-mono text-slate-500 border border-slate-800">
+            Status sesji: <span class="text-green-400 font-bold">Superuser</span>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="p-4 rounded-xl text-sm font-semibold border transition duration-200
+                    {% if message.tags == 'success' %}bg-green-500/10 border-green-500/30 text-green-400
+                    {% else %}bg-red-500/10 border-red-500/30 text-red-400{% endif %}">
+                    {% if message.tags == 'success' %}✓{% else %}⚠️{% endif %} {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-700/80 transition duration-200">
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-xl mb-4">
+                    🧮
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Przelicz Punkty</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Wymusza ponowne sprawdzenie wszystkich typowań użytkowników ze stanem faktycznym rozegranych meczów i aktualizuje tabelę rankingową.
+                </p>
+            </div>
+            <div class="mt-6">
+                <a href="{% url 'admin_trigger_recalculate' %}" 
+                   onclick="return confirm('Czy na pewno chcesz przeliczyć punkty dla wszystkich graczy? Operacja może zająć chwilę.')"
+                   class="block w-full bg-cyan-500 hover:bg-cyan-400 text-black font-black text-center py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-500/10">
+                    Przelicz teraz
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-700/80 transition duration-200">
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl mb-4">
+                    📡
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Pobierz Mecze & Wyniki</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Odpytuje bezpośrednio Football-Data API. Aktualizuje aktualne wyniki meczów (LIVE) oraz zatwierdza statusy zakończonych spotkań.
+                </p>
+            </div>
+            <div class="mt-6">
+                <a href="{% url 'admin_trigger_import' %}" 
+                   class="block w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-center py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition">
+                    Synchronizuj API
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-700/80 transition duration-200">
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl mb-4">
+                    🎲
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Aktualizuj Kursy</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Pobiera najświeższe mnożniki i kursy bukmacherskie (1, X, 2) ze zintegrowanego skryptu i przypisuje je do nadchodzących meczów.
+                </p>
+            </div>
+            <div class="mt-6">
+                <a href="{% url 'admin_trigger_odds' %}" 
+                   class="block w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-center py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition">
+                    Odśwież kursy
+                </a>
+            </div>
+        </div>
+
+        {% if players_missing %}
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-700/80 transition duration-200">
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl mb-4">
+                    🎲
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Dodaj zawodników</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Pobiera zawodników z pliku json i dodaje je do bazy danych. (UWAGA CZYNNOŚĆ WYKONYWANA JEDNORAZOWO)
+                </p>
+            </div>
+            <div class="mt-6">
+                <a href="{% url 'admin_add_players' %}"
+                   class="block w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-center py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition">
+                    Dodaj zawodników!!!
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="mt-8 bg-slate-950 border border-slate-800/80 rounded-2xl p-4 text-center text-xs text-slate-500">
+        Przypomnienie: Te akcje modyfikują globalny stan bazy danych Supabase. Używaj ich rozważnie w trakcie trwania kluczowych spotkań.
+    </div>
+
+</div>
+{% endblock %}

@@ -78,7 +78,6 @@ class OddsSync:
         ).exclude(
             odds_api_event_id__isnull=True
         )
-
         for match in matches:
 
             try:

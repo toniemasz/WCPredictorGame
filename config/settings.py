@@ -21,7 +21,7 @@ import os
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+TIME_ZONE = 'Europe/Warsaw'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -40,6 +40,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +67,7 @@ CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 
 CELERY_TIMEZONE = "Europe/Warsaw"
+USE_TZ = True
 
 CELERY_BEAT_SCHEDULE = {
     "daily-update": {
@@ -168,3 +170,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "WCPredictor Admin",
+    "site_header": "WCPredictor",
+    "site_brand": "Panel Zarządzania",
+    "welcome_sign": "Witaj w panelu WCPredictor Game",
+    "copyright": "WCPredictor Team",
+    "search_model": ["auth.User", "tournament.Match"],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "icons": {
+        "auth.user": "fas fa-users",
+        "tournament.match": "fas fa-football-ball",
+        "tournament.team": "fas fa-flag",
+        "tournament.prediction": "fas fa-dice",
+        "tournament.profile": "fas fa-user-cog",
+        "tournament.teamplayer": "fas fa-running",
+    },
+}

@@ -21,7 +21,11 @@
             </a>
 
             <div class="flex gap-6 items-center">
-
+                {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}" class="bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-amber-400 font-bold px-3 py-1.5 rounded-xl text-xs uppercase tracking-wide transition">
+                        🛠️ Panel Admina
+                    </a>
+                {% endif %}
                 <a href="/" class="hover:text-cyan-400 transition">
                     Home
                 </a>

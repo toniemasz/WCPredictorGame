@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
-from tournament.models import Match, Profile
+from tournament.models import Match, Profile, TeamPlayer
 from tournament.services.import_service import ImportService
 from tournament.forms import RegisterForm
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,11 @@ from django.http import JsonResponse
 
 from .services.scoring_service import ScoringService
 from tournament.services.bootstrap_service import BootstrapService
+from tournament.services.import_service import ImportService
+from tournament.services.odds_sync import OddsSync
+from tournament.services.scoring_service import ScoringService
+from django.contrib.admin.views.decorators import staff_member_required
+from tournament.services.player_import_service import PlayerImportService
 
 
 
@@ -277,3 +282,55 @@ def leaderboard_view(request):
         "tournament/leaderboard.html",
         {"profiles": profiles}
     )
+
+@staff_member_required
+def admin_dashboard(request):
+    players_missing = TeamPlayer.objects.count() < 1100
+    """Główny widok panelu kontrolnego administratora"""
+    return render(request, "tournament/admin_dashboard.html",
+                  {
+                      "players_missing": players_missing
+                  })
+
+@staff_member_required
+def admin_trigger_import(request):
+    """Ręczne wymuszenie pobrania/aktualizacji meczów z Football-Data API"""
+    try:
+        ImportService.import_matches()
+        messages.success(request, "Sukces! Mecze oraz ich statusy (LIVE/FINISHED) zostały pomyślnie zsynchronizowane z API.")
+    except Exception as e:
+        messages.error(request, f"Błąd podczas integracji z API meczów: {str(e)}")
+    return redirect('admin_dashboard')
+
+@staff_member_required
+def admin_trigger_odds(request):
+    """Ręczne wymuszenie synchronizacji kursów bukmacherskich"""
+    try:
+        OddsSync.connect_existing_matches()
+        OddsSync.sync_odds()
+        messages.success(request, "Sukces! Kursy bukmacherskie (1, X, 2) zostały pomyślnie zaktualizowane.")
+    except Exception as e:
+        messages.error(request, f"Błąd podczas pobierania kursów: {str(e)}")
+    return redirect('admin_dashboard')
+
+@staff_member_required
+def admin_trigger_recalculate(request):
+    """Ręczne wymuszenie przeliczenia punktów za wszystkie typowania"""
+    try:
+        # Wywołujemy logikę przeliczania punktów z Twojego serwisu scoringowego
+        ScoringService.recalculate_all_predictions()
+        messages.success(request, "Sukces! Punkty dla wszystkich użytkowników zostały przeliczone na nowo.")
+    except Exception as e:
+        messages.error(request, f"Błąd podczas przeliczania punktacji: {str(e)}")
+    return redirect('admin_dashboard')
+
+
+@staff_member_required
+def admin_add_players(request):
+    """Ręczne wymuszenie synchronizacji kursów bukmacherskich"""
+    try:
+        PlayerImportService.import_players('world_cup_players.json')
+        messages.success(request, "Sukces! Dodano nowych graczy.")
+    except Exception as e:
+        messages.error(request, f"Błąd podczas pobierania kursów: {str(e)}")
+    return redirect('admin_dashboard')
