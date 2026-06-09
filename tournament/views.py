@@ -1,36 +1,23 @@
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-
-from tournament.models import Match, Profile, TeamPlayer, BonusUsage
-from tournament.services.import_service import ImportService
-from tournament.forms import RegisterForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
-from .models import Prediction
-from .forms import PredictionForm
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from tournament.models import Match, Prediction
-from tournament.services.import_service import ImportService
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .services.prediction_service import PredictionService
-from .services.scoring_service import ScoringService
+from tournament.models import Match, Prediction
+from tournament.models import Profile, TeamPlayer, BonusUsage
 from tournament.services.bootstrap_service import BootstrapService
 from tournament.services.import_service import ImportService
 from tournament.services.odds_sync import OddsSync
-from tournament.services.scoring_service import ScoringService
-from django.contrib.admin.views.decorators import staff_member_required
 from tournament.services.player_import_service import PlayerImportService
-from django.db.models import Sum
-from django.db.models.functions import Coalesce
-from .tests import match
+from tournament.services.scoring_service import ScoringService
+from .services.prediction_service import PredictionService
 
 BONUS_LIMIT = getattr(settings, 'BONUS_LIMIT_PER_STAGE', 2)
 
@@ -99,32 +86,76 @@ def match_list(request):
     })
 
 
-
 def register_view(request):
-    # Jeśli użytkownik jest już zalogowany, odeślij go do meczów
-    if request.user.is_authenticated:
-        return redirect("match_list")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password_confirm')
+        email = request.POST.get('email')
 
-    if request.method == "POST":
-        form = RegisterForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data["username"],
-                email=form.cleaned_data["email"],
-                password=form.cleaned_data["password"]
-            )
-            avatar = form.cleaned_data.get("avatar")
-            if avatar:
-                user.profile.avatar = avatar
-                user.profile.save()
+        # TWARDA WALIDACJA NA BACKENDZIE
+        if password != password_confirm:
+            # Tworzymy słownik z błędami, żeby dopasować się do Twojego HTML {% if form.errors %}
+            # Możesz też użyć wbudowanego systemu messages
+            fake_form_errors = {'password': ['Hasła nie są identyczne!']}
+            return render(request, 'register.html', {'form': {'errors': fake_form_errors}})
 
-            login(request, user)
-            return redirect("match_list")
-    else:
-        form = RegisterForm()
+        # Dopiero gdy backend potwierdzi, że hasła są identyczne, uderzamy do bazy
+        if not User.objects.filter(username=username).exists():
+            user = User.objects.create_user(username=username, email=email, password=password)
+            return redirect('login')
+        else:
+            fake_form_errors = {'username': ['Taki użytkownik już istnieje.']}
+            return render(request, 'register.html', {'form': {'errors': fake_form_errors}})
 
-    return render(request, "registration/register.html", {"form": form})
+    return render(request, 'register.html')
 
+
+def forgot_password_troll_view(request):
+    if request.method == 'POST':
+        # Pobieramy odpowiedź, usuwamy białe znaki i zamieniamy na małe litery
+        answer = request.POST.get('creator_name', '').strip().lower()
+
+        # Sprawdzamy warianty (tomasz, tomek itp.)
+        if answer in ['tomasz', 'tomek']:
+            # Zapisujemy w sesji, że użytkownik przeszedł test!
+            request.session['passed_troll_gate'] = True
+            return redirect('password_reset_stage2')
+        else:
+            # Zła odpowiedź - odrzucamy
+            return render(request, 'registration/forgot_password_troll.html', {
+                'error': 'Pudło! Jak możesz nie znać imienia swojego stwórcy?! Spróbuj ponownie.'
+            })
+
+    # Domyślny GET (wyświetlenie formularza)
+    return render(request, 'registration/forgot_password_troll.html', {'error': ''})
+
+
+def password_reset_stage2_view(request):
+    # BACKENDOWY STRAŻNIK: Sprawdzamy, czy użytkownik przeszedł Etap 1
+    if not request.session.get('passed_troll_gate'):
+        # Jeśli nie, wywalamy go z powrotem na śmieszną stronę
+        return redirect('forgot_password_stage1')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        new_password = request.POST.get('new_password')
+
+        try:
+            user = User.objects.get(username=username)
+            user.set_password(new_password)  # Bezpieczne haszowanie hasła w Django
+            user.save()
+
+            # Czyścimy sesję po udanej zmianie, żeby nie mógł tu wrócić bez podania imienia
+            del request.session['passed_troll_gate']
+
+            return redirect('login')  # Przekierowanie do logowania po sukcesie
+        except User.DoesNotExist:
+            return render(request, 'registration/password_reset_real.html', {
+                'error': 'Taki użytkownik nie istnieje!'
+            })
+
+    return render(request, 'registration/password_reset_real.html')
 
 def login_view(request):
     # Jeśli użytkownik jest już zalogowany, odeślij go do meczów

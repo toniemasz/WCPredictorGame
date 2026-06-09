@@ -15,7 +15,11 @@ from . import views
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('matches/', views.match_list, name='match_list'),
+    # ETAP 1: Śmieszna bramka pod adresem /forgot-password/
+    path('forgot-password/', views.forgot_password_troll_view, name='forgot_password_stage1'),
 
+    # ETAP 2: Właściwy reset hasła pod adresem /reset-password/
+    path('reset-password/', views.password_reset_stage2_view, name='password_reset_stage2'),
     # RANKING I PROFILE
     path('leaderboard/', views.leaderboard_view, name='leaderboard'),
     path('profile/', views.profile_view, name='my_profile'),

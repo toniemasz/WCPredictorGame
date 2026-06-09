@@ -6,50 +6,22 @@ from .models import Profile, Match
 
 
 class RegisterForm(forms.ModelForm):
-    email = forms.EmailField(required=False)
-
-    password = forms.CharField(
-        widget=forms.PasswordInput
-    )
-
-    password_confirm = forms.CharField(
-        widget=forms.PasswordInput
-    )
-
-    avatar = forms.ImageField(
-        required=False
-    )
+    password = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = [
-            "username",
-            "email",
-            "password"
-        ]
-
-    # NOWA METODA: Walidacja rozmiaru avatara
-    def clean_avatar(self):
-        avatar = self.cleaned_data.get("avatar")
-
-        if avatar:
-            limit_mb = 2
-            # Przeliczamy megabajty na bajty (2 * 1024 * 1024)
-            if avatar.size > limit_mb * 1024 * 1024:
-                raise ValidationError(f"Zbyt duży plik. Maksymalny rozmiar avatara to {limit_mb} MB.")
-
-        return avatar
+        fields = ['username', 'email']
 
     def clean(self):
+        # Ta metoda odpala się po kliknięciu wyślij, ale ZANIM dane trafią do bazy
         cleaned_data = super().clean()
-
         password = cleaned_data.get("password")
         password_confirm = cleaned_data.get("password_confirm")
 
         if password and password_confirm and password != password_confirm:
-            raise forms.ValidationError(
-                "Hasła nie są identyczne."
-            )
+            # Odpalamy błąd - formularz zostanie oznaczony jako NIEPOPRAWNY
+            self.add_error('password_confirm', "Podane hasła nie zgadzają się!")
 
         return cleaned_data
 
