@@ -91,14 +91,13 @@ def register_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         password_confirm = request.POST.get('password_confirm')
-        email = request.POST.get('email')
 
         # TWARDA WALIDACJA NA BACKENDZIE
         if password != password_confirm:
             # Tworzymy słownik z błędami, żeby dopasować się do Twojego HTML {% if form.errors %}
             # Możesz też użyć wbudowanego systemu messages
             fake_form_errors = {'password': ['Hasła nie są identyczne!']}
-            return render(request, 'register.html', {'form': {'errors': fake_form_errors}})
+            return render(request, 'registration/register.html', {'form': {'errors': fake_form_errors}})
 
         # Dopiero gdy backend potwierdzi, że hasła są identyczne, uderzamy do bazy
         if not User.objects.filter(username=username).exists():
@@ -106,9 +105,9 @@ def register_view(request):
             return redirect('login')
         else:
             fake_form_errors = {'username': ['Taki użytkownik już istnieje.']}
-            return render(request, 'register.html', {'form': {'errors': fake_form_errors}})
+            return render(request, 'registration/register.html', {'form': {'errors': fake_form_errors}})
 
-    return render(request, 'register.html')
+    return render(request, 'registration/register.html')
 
 
 def forgot_password_troll_view(request):
