@@ -105,7 +105,7 @@ class Prediction(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    avatar = models.CharField(max_length=255, default='default.png')
     points = models.IntegerField(default=0)
 
     def __str__(self):
@@ -143,6 +143,36 @@ class BonusUsage(models.Model):
     def __str__(self):
         return f"{self.user} | {self.stage} | {self.count}"
 
+
+class ApiSyncStatus(models.Model):
+    SYNC_MATCHES = "matches"
+
+    STATUS_PENDING = "pending"
+    STATUS_SUCCESS = "success"
+    STATUS_ERROR = "error"
+
+    STATUS_CHOICES = (
+        (STATUS_PENDING, "W toku"),
+        (STATUS_SUCCESS, "Zaktualizowano"),
+        (STATUS_ERROR, "Błąd aktualizacji"),
+    )
+
+    sync_name = models.CharField(max_length=50, unique=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING
+    )
+    last_attempt_at = models.DateTimeField(null=True, blank=True)
+    last_success_at = models.DateTimeField(null=True, blank=True)
+    processed_count = models.PositiveIntegerField(default=0)
+    created_count = models.PositiveIntegerField(default=0)
+    last_error = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.sync_name}: {self.get_status_display()}"
+
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
@@ -154,5 +184,4 @@ def save_profile(sender, instance, **kwargs):
         instance.profile.save()
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
-
 

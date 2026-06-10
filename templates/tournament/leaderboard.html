@@ -24,8 +24,8 @@
                         </td>
                         <td class="wc-table-td">
                             <div class="flex items-center gap-3">
-                                {% if p.avatar %}
-                                    <img src="{{ p.avatar.url }}" class="w-8 h-8 rounded-full border border-slate-700 object-cover" alt="avatar">
+                                {% if p.avatar_url %}
+                                    <img src="{{ p.avatar_url }}" class="w-8 h-8 rounded-full border border-slate-700 object-cover" alt="avatar">
                                 {% else %}
                                     <div class="w-8 h-8 rounded-full border border-slate-700 bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-400">
                                         {{ p.user.username|slice:":2"|upper }}
@@ -33,7 +33,7 @@
                                 {% endif %}
                                 <a href="{% url 'user_profile' p.user.id %}" class="hover:text-cyan-300 transition-colors {% if p.user == request.user %}text-cyan-400 font-bold{% else %}text-slate-200{% endif %}">
                                     {{ p.user.username }}
-<                               </a>
+                                </a>
                             </div>
                         </td>
                         <td class="wc-table-td text-right font-black text-cyan-400 text-base">

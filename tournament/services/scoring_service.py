@@ -138,3 +138,14 @@ class ScoringService:
                 pred.points = total_points
                 pred.points_breakdown = breakdown
                 pred.save(update_fields=['points', 'points_breakdown'])
+
+    @classmethod
+    def recalculate_finished_matches(cls):
+        from tournament.models import Match
+
+        matches = Match.objects.filter(status__in=['LIVE', 'FINISHED'])
+
+        for match in matches:
+            cls.recalculate_match(match)
+
+        return matches.count()

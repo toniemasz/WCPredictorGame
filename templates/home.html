@@ -1,38 +1,110 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="centered-content-wrapper text-center py-10 sm:py-16">
-    <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-cyan-400 via-teal-200 to-white text-transparent bg-clip-text">
-        Przewiduj Wyniki World Cup 2026
-    </h1>
-    <p class="text-slate-400 text-base sm:text-xl max-w-xl mx-auto mb-8 font-medium">
-        Dołącz do rywalizacji ze znajomymi, zbieraj punkty za dokładne typy, trafiaj pierwszych strzelców bramek i zgarniaj bonusy!
-    </p>
+<div class="centered-content-wrapper py-8 sm:py-12">
+    <section class="text-center">
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-cyan-400 via-teal-200 to-white text-transparent bg-clip-text">
+            {{ home_content.hero.title }}
+        </h1>
+        <p class="text-slate-400 text-base sm:text-xl max-w-2xl mx-auto mb-8 font-medium">
+            {{ home_content.hero.subtitle }}
+        </p>
 
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="/matches/" class="btn-primary w-full sm:w-auto px-8 py-4 text-base">
-            ⚽ Obstawiaj Mecze
-        </a>
-        <a href="/leaderboard/" class="btn-secondary w-full sm:w-auto px-8 py-4 text-base">
-            📊 Zobacz Ranking
-        </a>
-    </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="{{ home_content.hero.primary_action.url }}" class="btn-primary w-full sm:w-auto px-8 py-4 text-base">
+                {{ home_content.hero.primary_action.label }}
+            </a>
+            <a href="{{ home_content.hero.secondary_action.url }}" class="btn-secondary w-full sm:w-auto px-8 py-4 text-base">
+                {{ home_content.hero.secondary_action.label }}
+            </a>
+        </div>
+    </section>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 text-left">
-        <div class="wc-card">
-            <div class="text-cyan-400 text-3xl font-bold mb-2">01</div>
-            <h3 class="text-lg font-bold mb-1">Typuj wyniki</h3>
-            <p class="text-slate-400 text-sm">Wprowadzaj dokładne wyniki bramkowe przed rozpoczęciem każdego meczu.</p>
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-14 text-left">
+        {% for step in home_content.quick_steps %}
+            <div class="wc-card">
+                <div class="{{ step.accent }} text-3xl font-bold mb-2">{{ step.number }}</div>
+                <h3 class="text-lg font-bold mb-1">{{ step.title }}</h3>
+                <p class="text-slate-400 text-sm">{{ step.description }}</p>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="mt-10 wc-card">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">
+                    {{ home_content.game_info.title }}
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base max-w-2xl">
+                    {{ home_content.game_info.intro }}
+                </p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 min-w-52">
+                <div class="text-[10px] uppercase tracking-wider font-bold text-slate-500 mb-1">
+                    Mecze z API
+                </div>
+                <div class="text-sm font-bold text-cyan-300">
+                    {{ matches_sync.status_label }}
+                </div>
+                <div class="text-xs text-slate-500 mt-1">
+                    {% if matches_sync.last_success_at %}
+                        Ostatnio: {{ matches_sync.last_success_at|date:"d.m.Y H:i" }}
+                    {% elif matches_sync.last_attempt_at %}
+                        Ostatnia próba: {{ matches_sync.last_attempt_at|date:"d.m.Y H:i" }}
+                    {% else %}
+                        Brak zapisanej synchronizacji
+                    {% endif %}
+                </div>
+                {% if matches_sync.last_success_at %}
+                    <div class="text-xs text-slate-500 mt-2">
+                        Przetworzono: {{ matches_sync.processed_count }} · Nowe: {{ matches_sync.created_count }}
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        <div class="wc-card">
-            <div class="text-amber-400 text-3xl font-bold mb-2">02</div>
-            <h3 class="text-lg font-bold mb-1">Używaj Bonusu x2</h3>
-            <p class="text-slate-400 text-sm">Wybierz jeden kluczowy mecz w rundzie, w którym podwoisz swoje punkty.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {% for section in home_content.game_info.sections %}
+                <div class="bg-slate-950/50 border border-slate-800 rounded-xl p-4">
+                    <h3 class="text-lg font-bold mb-3">{{ section.title }}</h3>
+                    <ul class="space-y-2">
+                        {% for item in section.items %}
+                            <li class="text-sm text-slate-400 leading-relaxed flex gap-2">
+                                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-cyan-400"></span>
+                                <span>{{ item }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
         </div>
-        <div class="wc-card">
-            <div class="text-purple-400 text-3xl font-bold mb-2">03</div>
-            <h3 class="text-lg font-bold mb-1">Dodatkowe punkty</h3>
-            <p class="text-slate-400 text-sm">Wskazuj drużynę strzelającą pierwszego gola oraz konkretnego zawodnika.</p>
+    </section>
+
+    <section class="mt-10">
+        <div class="flex items-end justify-between gap-4 mb-4">
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+                {{ home_content.patch_notes.title }}
+            </h2>
         </div>
-    </div>
+
+        <div class="space-y-4">
+            {% for note in home_content.patch_notes.items %}
+                <article class="wc-card">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                        <h3 class="text-lg font-bold">{{ note.title }}</h3>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ note.version }}</span>
+                    </div>
+                    <ul class="space-y-2">
+                        {% for change in note.changes %}
+                            <li class="text-sm text-slate-400 flex gap-2">
+                                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-400"></span>
+                                <span>{{ change }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
 </div>
 {% endblock %}

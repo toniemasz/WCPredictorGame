@@ -1,94 +1,43 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.db.models import Sum
-from django.db.models.functions import Coalesce
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 
-from tournament.models import Match, Prediction
-from tournament.models import Profile, TeamPlayer, BonusUsage
+from tournament.models import TeamPlayer
 from tournament.services.bootstrap_service import BootstrapService
 from tournament.services.import_service import ImportService
+from tournament.services.home_service import HomePageService
+from tournament.services.match_service import MatchListService
 from tournament.services.odds_sync import OddsSync
 from tournament.services.player_import_service import PlayerImportService
+from tournament.services.profile_service import ProfileService
 from tournament.services.scoring_service import ScoringService
 from .services.prediction_service import PredictionService
-
-BONUS_LIMIT = getattr(settings, 'BONUS_LIMIT_PER_STAGE', 2)
 
 
 def home_view(request):
 
     return render(
         request,
-        "home.html"
+        "home.html",
+        HomePageService.get_context()
     )
 
 
 @login_required
 def match_list(request):
-    if Match.objects.count() == 0:
-        ImportService.import_matches()
-
-    matches = Match.objects.select_related(
-        'home_team', 'away_team'
-    ).prefetch_related(
-        'home_team__players', 'away_team__players'
-    ).order_by("kickoff")
-
-    user_predictions = Prediction.objects.filter(user=request.user)
-    pred_dict = {p.match_id: p for p in user_predictions}
-
-    bonus_usages = BonusUsage.objects.filter(user=request.user)
-    bonus_dict = {b.stage: b.count for b in bonus_usages}
-
-    matches_by_stage = {}
-    for match in matches:
-        match.user_prediction = pred_dict.get(match.id)
-
-        used    = bonus_dict.get(match.stage, 0)
-        remaining = BONUS_LIMIT - used
-        match.bonus_remaining = remaining
-
-        match.is_bonus_locked = (
-            remaining <= 0
-            and not (match.user_prediction and match.user_prediction.is_doubled)
-        )
-
-        match.available_players = (
-            list(match.home_team.players.all()) +
-            list(match.away_team.players.all())
-        )
-
-        if match.stage not in matches_by_stage:
-            matches_by_stage[match.stage] = []
-        matches_by_stage[match.stage].append(match)
-
-    active_stage = None
-    for stage, stage_matches in matches_by_stage.items():
-        if any(m.status in ['LIVE', 'SCHEDULED'] for m in stage_matches):
-            active_stage = stage
-            break
-
-    if not active_stage and matches_by_stage:
-        active_stage = list(matches_by_stage.keys())[-1]
-
-    return render(request, "tournament/match_list.html", {
-        'rules_explanation': ScoringService.get_rules_explanation(),
-        'matches_by_stage':  matches_by_stage,
-        'active_stage':      active_stage,
-        'bonus_limit':       BONUS_LIMIT,
-    })
+    context = MatchListService.get_match_list_context(request.user)
+    return render(request, "tournament/match_list.html", context)
 
 
 def register_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        email = request.POST.get('email', '')
         password = request.POST.get('password')
         password_confirm = request.POST.get('password_confirm')
 
@@ -101,13 +50,29 @@ def register_view(request):
 
         # Dopiero gdy backend potwierdzi, że hasła są identyczne, uderzamy do bazy
         if not User.objects.filter(username=username).exists():
-            user = User.objects.create_user(username=username, email=email, password=password)
+            User.objects.create_user(username=username, email=email, password=password)
             return redirect('login')
         else:
             fake_form_errors = {'username': ['Taki użytkownik już istnieje.']}
             return render(request, 'registration/register.html', {'form': {'errors': fake_form_errors}})
 
     return render(request, 'registration/register.html')
+
+
+@login_required
+def profile_view(request, user_id=None):
+    target_user = ProfileService.get_target_user(request.user, user_id)
+
+    if request.method == 'POST':
+        try:
+            if ProfileService.update_profile(request.user, target_user, request.POST):
+                messages.success(request, 'Profil został zaktualizowany!')
+                return redirect('profile')
+        except ValueError as error:
+            messages.error(request, str(error))
+
+    context = ProfileService.get_profile_context(request.user, target_user=target_user)
+    return render(request, 'tournament/profile.html', context)
 
 
 def forgot_password_troll_view(request):
@@ -179,61 +144,6 @@ def logout_view(request):
     return redirect("match_list")
 
 
-@login_required
-def profile_view(request, user_id=None):
-    # Ustalamy, czy użytkownik ogląda siebie, czy profil innego gracza
-    if user_id is None:
-        target_user = request.user
-    else:
-        target_user = get_object_or_404(User, pk=user_id)
-
-    profile = get_object_or_404(Profile, user=target_user)
-
-    # Pobieramy mecze i optymalizujemy zapytania SQL pod kątem flag zespołów
-    matches = Match.objects.select_related('home_team', 'away_team').order_by("kickoff")
-
-    # Pobieramy typy właściciela oglądanego profilu
-    target_predictions = Prediction.objects.filter(user=target_user)
-    target_pred_dict = {p.match_id: p for p in target_predictions}
-
-    # Pobieramy typy zalogowanego przeglądającego (do porównania), jeśli oglądamy kogoś innego
-    viewer_pred_dict = {}
-    if request.user != target_user:
-        viewer_predictions = Prediction.objects.filter(user=request.user)
-        viewer_pred_dict = {p.match_id: p for p in viewer_predictions}
-    else:
-        viewer_pred_dict = target_pred_dict
-
-    # Grupowanie meczów po fazie turnieju (tak samo jak w match_list)
-    matches_by_stage = {}
-    for match in matches:
-        match.target_prediction = target_pred_dict.get(match.id)
-        match.viewer_prediction = viewer_pred_dict.get(match.id)
-
-        if match.stage not in matches_by_stage:
-            matches_by_stage[match.stage] = []
-        matches_by_stage[match.stage].append(match)
-
-    # Wyznaczenie aktywnej fazy do domyślnego wyświetlenia karty
-    active_stage = None
-    for stage, stage_matches in matches_by_stage.items():
-        if any(m.status in ['LIVE', 'SCHEDULED'] for m in stage_matches):
-            active_stage = stage
-            break
-
-    if not active_stage and matches_by_stage:
-        active_stage = list(matches_by_stage.keys())[-1]
-
-    return render(
-        request,
-        "tournament/profile.html",
-        {
-            "profile": profile,
-            "target_user": target_user,
-            "matches_by_stage": matches_by_stage,
-            "active_stage": active_stage,
-        }
-    )
 
 
 @login_required
@@ -268,13 +178,7 @@ def recalculate_points_view(request):
         messages.error(request, "Brak uprawnień.")
         return redirect("match_list")
 
-    # Pobieramy tylko te mecze, które mogą mieć wyniki
-    matches = Match.objects.filter(status__in=['LIVE', 'FINISHED'])
-    count = 0
-
-    for m in matches:
-        ScoringService.recalculate_match(m)
-        count += 1
+    count = ScoringService.recalculate_finished_matches()
 
     messages.success(request, f"Sukces! Przeliczono punkty dla {count} meczów.")
     return redirect("match_list")
@@ -282,14 +186,10 @@ def recalculate_points_view(request):
 
 @login_required
 def leaderboard_view(request):
-    # Pobieramy profile posortowane od największej liczby punktów z optymalizacją zapytania do tabeli User
-    profiles = Profile.objects.select_related('user').annotate(
-        total_points=Coalesce(Sum('user__prediction__points'), 0)
-    ).order_by('-total_points')
     return render(
         request,
         "tournament/leaderboard.html",
-        {"profiles": profiles}
+        {"profiles": ProfileService.get_leaderboard_profiles()}
     )
 
 @staff_member_required
@@ -326,9 +226,8 @@ def admin_trigger_odds(request):
 def admin_trigger_recalculate(request):
     """Ręczne wymuszenie przeliczenia punktów za wszystkie typowania"""
     try:
-        # Wywołujemy logikę przeliczania punktów z Twojego serwisu scoringowego
-        recalculate_points_view(request)
-        messages.success(request, "Sukces! Punkty dla wszystkich użytkowników zostały przeliczone na nowo.")
+        count = ScoringService.recalculate_finished_matches()
+        messages.success(request, f"Sukces! Punkty dla {count} meczów zostały przeliczone na nowo.")
     except Exception as e:
         messages.error(request, f"Błąd podczas przeliczania punktacji: {str(e)}")
     return redirect('admin_dashboard')

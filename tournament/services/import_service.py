@@ -1,8 +1,9 @@
 from django.utils.dateparse import parse_datetime
 
-from tournament.models import Team, Match, TeamPlayer
+from tournament.models import ApiSyncStatus, Match, Team
 from tournament.services.football_api import FootballDataAPI
 from tournament.services.scoring_service import ScoringService
+from tournament.services.sync_status_service import SyncStatusService
 
 
 class ImportService:
@@ -76,9 +77,16 @@ class ImportService:
 
     @classmethod
     def import_matches(cls):
+        SyncStatusService.record_attempt(ApiSyncStatus.SYNC_MATCHES)
 
-        data = FootballDataAPI.get_world_cup_matches()
+        try:
+            data = FootballDataAPI.get_world_cup_matches()
+        except Exception as error:
+            SyncStatusService.record_error(ApiSyncStatus.SYNC_MATCHES, error)
+            raise
+
         created_matches = 0
+        processed_matches = 0
 
         for api_match in data.get("matches", []):
             home = api_match["homeTeam"]
@@ -86,6 +94,8 @@ class ImportService:
 
             if not home.get("name") or not away.get("name"):
                 continue
+
+            processed_matches += 1
 
             home_team, _ = Team.objects.get_or_create(
                 code=home["tla"], defaults={"name": home["name"]}
@@ -134,5 +144,11 @@ class ImportService:
 
             if status in ["LIVE", "FINISHED"]:
                 ScoringService.recalculate_match(match)
+
+        SyncStatusService.record_success(
+            ApiSyncStatus.SYNC_MATCHES,
+            processed_count=processed_matches,
+            created_count=created_matches,
+        )
 
         return created_matches
