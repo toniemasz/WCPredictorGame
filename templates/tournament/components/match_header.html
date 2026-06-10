@@ -30,11 +30,11 @@
             </span>
         {% else %}
             <div class="flex items-center gap-1 justify-center my-0.5">
-                <input type="number" name="predicted_home" min="0" placeholder="0"
+                <input type="number" name="predicted_home" min="0" placeholder="-"
                        value="{{ match.user_prediction.predicted_home|default_if_none:'' }}"
                        class="w-10 h-10 text-center bg-slate-900 border border-slate-700 rounded-lg text-lg font-black text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all p-0">
                 <span class="text-slate-600 font-black text-sm">:</span>
-                <input type="number" name="predicted_away" min="0" placeholder="0"
+                <input type="number" name="predicted_away" min="0" placeholder="-"
                        value="{{ match.user_prediction.predicted_away|default_if_none:'' }}"
                        class="w-10 h-10 text-center bg-slate-900 border border-slate-700 rounded-lg text-lg font-black text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all p-0">
             </div>
