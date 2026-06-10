@@ -34,6 +34,17 @@ def match_list(request):
     return render(request, "tournament/match_list.html", context)
 
 
+@login_required
+def match_predictions_view(request, match_id):
+    try:
+        context = MatchListService.get_public_predictions_context(match_id)
+    except ValueError as error:
+        messages.error(request, str(error))
+        return redirect("match_list")
+
+    return render(request, "tournament/match_predictions.html", context)
+
+
 def register_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')

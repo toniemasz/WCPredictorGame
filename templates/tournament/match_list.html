@@ -2,92 +2,117 @@
 {% load static %}
 {% block content %}
 
-<div class="centered-content-wrapper mb-8">
-
-    {# Nagłówek #}
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+<div class="max-w-6xl mx-auto w-full mb-8">
+    <div class="flex flex-col lg:flex-row justify-between gap-5 mb-6">
         <div>
-            <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-2">World Cup 2026 Matches</h1>
-            <p class="text-slate-400 text-sm sm:text-base">Przewiduj mecze i pnij się w rankingu.</p>
+            <p class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-2">World Cup 2026</p>
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-2">Mecze i typy</h1>
+            <p class="text-slate-400 text-sm sm:text-base max-w-2xl">
+                Wybierz rundę, uzupełnij wynik i dopnij dodatkowe typy przed pierwszym gwizdkiem.
+            </p>
         </div>
+
         {% if request.user.is_superuser %}
-        <form method="POST" action="{% url 'recalculate_points' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-purple">⚙️ Przelicz wyniki (Admin)</button>
-        </form>
+            <form method="POST" action="{% url 'recalculate_points' %}" class="shrink-0">
+                {% csrf_token %}
+                <button type="submit" class="btn-purple w-full lg:w-auto">Przelicz wyniki</button>
+            </form>
         {% endif %}
     </div>
 
-    {# Komunikaty #}
     {% if messages %}
-    <div class="mb-6 space-y-2">
-        {% for message in messages %}
-        <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    {# Zakładki faz #}
-    {% if matches_by_stage %}
-        <div class="flex gap-4 overflow-x-auto mb-8 scrollbar-none">
-
-            {% for stage in matches_by_stage.keys %}
-            <button
-                class="stage-tab group relative overflow-hidden whitespace-nowrap
-                       px-8 py-4 rounded-2xl font-bold tracking-wide
-                       transition-all duration-300 border"
-
-                {% if stage == active_stage %}
-                    style="
-                        background: linear-gradient(135deg,#00d4ff,#3b82f6);
-                        border-color:#22d3ee;
-                        color:white;
-                        box-shadow:
-                            0 0 15px rgba(34,211,238,.4),
-                            0 0 35px rgba(59,130,246,.25);
-                    "
-                {% else %}
-                    style="
-                        background: rgba(12,25,60,.9);
-                        border-color:#1f3b68;
-                        color:#94a3b8;
-                    "
-                {% endif %}
-                data-target="stage-{{ stage|slugify }}"
-            >
-
-                <span class="relative z-10 flex items-center gap-2">
-                    🏆
-                    {{ stage }}
-                </span>
-
-                {% if stage == active_stage %}
-                <div class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 animate-pulse"></div>
-                {% endif %}
-            </button>
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
             {% endfor %}
-
         </div>
-
-    {# Mecze #}
-    {% for stage, stage_matches in matches_by_stage.items %}
-    <div id="stage-{{ stage|slugify }}" class="stage-content space-y-4 {% if stage != active_stage %}hidden{% endif %}"
-    data-bonus-limit="{{ bonus_limit }}">
-        {% for match in stage_matches %}
-            {% include "tournament/components/match_card.html" %}
-        {% endfor %}
-    </div>
-    {% endfor %}
-
-    {% else %}
-    <div class="wc-card text-center p-8 sm:p-12">
-        <h2 class="text-xl sm:text-2xl font-bold mb-2">Brak meczów</h2>
-        <p class="text-slate-400 text-sm">Mecze pojawią się tutaj po synchronizacji danych.</p>
-    </div>
     {% endif %}
 
+    {% if stage_groups %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Twoje typy</div>
+                <div class="text-3xl font-black text-cyan-400">{{ summary.predicted_matches }} / {{ summary.total_matches }}</div>
+                <p class="text-xs text-slate-500 mt-1">meczów z zapisanym wynikiem</p>
+            </div>
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Do uzupełnienia</div>
+                <div class="text-3xl font-black {% if summary.incomplete_predictions %}text-red-400{% else %}text-emerald-400{% endif %}">
+                    {{ summary.incomplete_predictions }}
+                </div>
+                <p class="text-xs text-slate-500 mt-1">typów bez pełnych opcji dodatkowych</p>
+            </div>
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Status turnieju</div>
+                <div class="flex flex-wrap gap-2 text-xs font-bold">
+                    <span class="px-2.5 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-300">Planowane: {{ summary.scheduled_matches }}</span>
+                    <span class="px-2.5 py-1 rounded-full border border-red-500/20 bg-red-500/10 text-red-300">LIVE: {{ summary.live_matches }}</span>
+                    <span class="px-2.5 py-1 rounded-full border border-slate-700 bg-slate-950 text-slate-300">Zakończone: {{ summary.finished_matches }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6 overflow-x-auto pb-2">
+            <div class="flex gap-3 min-w-max">
+                {% for stage in stage_groups %}
+                    <button
+                        class="stage-tab relative min-w-48 rounded-xl border px-4 py-3 text-left transition-all duration-200"
+                        data-target="{{ stage.id }}"
+                        data-active="{% if stage.is_active %}true{% else %}false{% endif %}"
+                    >
+                        <div class="flex items-center justify-between gap-3 mb-2">
+                            <span class="font-black text-sm">{{ stage.name }}</span>
+                            <span class="text-[10px] uppercase tracking-wider font-bold">{{ stage.status_label }}</span>
+                        </div>
+                        <div class="text-xs text-slate-400">
+                            Obstawione: <strong class="text-white">{{ stage.predicted_matches }}/{{ stage.total_matches }}</strong>
+                        </div>
+                        {% if stage.incomplete_predictions %}
+                            <div class="text-xs text-red-300 mt-1">
+                                Braki: {{ stage.incomplete_predictions }}
+                            </div>
+                        {% else %}
+                            <div class="text-xs text-emerald-300 mt-1">Bez braków</div>
+                        {% endif %}
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% for stage in stage_groups %}
+            <section
+                id="{{ stage.id }}"
+                class="stage-content {% if not stage.is_active %}hidden{% endif %}"
+                data-bonus-limit="{{ bonus_limit }}"
+            >
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="text-2xl font-black tracking-tight">{{ stage.name }}</h2>
+                        <p class="text-sm text-slate-500">
+                            {{ stage.predicted_matches }} / {{ stage.total_matches }} meczów obstawionych
+                            {% if stage.incomplete_predictions %}
+                                <span class="text-red-300 font-bold">· {{ stage.incomplete_predictions }} do uzupełnienia</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">{{ stage.status_label }}</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {% for match in stage.matches %}
+                        {% include "tournament/components/match_card.html" %}
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    {% else %}
+        <div class="wc-card text-center p-8 sm:p-12">
+            <h2 class="text-xl sm:text-2xl font-bold mb-2">Brak meczów</h2>
+            <p class="text-slate-400 text-sm">Mecze pojawią się tutaj po synchronizacji danych.</p>
+        </div>
+    {% endif %}
 </div>
 
 <script src="{% static 'js/match_list.js' %}"></script>

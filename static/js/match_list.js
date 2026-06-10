@@ -5,37 +5,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const savedStage = localStorage.getItem("activeStage");
 
-    if (savedStage) {
-    const tab = document.querySelector(
-        `.stage-tab[data-target="${savedStage}"]`
-    );
-
-    if (tab) {
-        setTimeout(() => tab.click(), 50);
+    function setTabState(tab, isActive) {
+        tab.dataset.active = isActive ? "true" : "false";
+        tab.style.background = isActive
+            ? "linear-gradient(135deg, rgba(8,145,178,.35), rgba(15,23,42,.95))"
+            : "rgba(15,23,42,.72)";
+        tab.style.borderColor = isActive ? "#22d3ee" : "#1e293b";
+        tab.style.color = isActive ? "white" : "#94a3b8";
+        tab.style.boxShadow = isActive
+            ? "0 0 0 1px rgba(34,211,238,.25), 0 14px 30px rgba(8,145,178,.12)"
+            : "none";
     }
-}
+
+    tabs.forEach(tab => {
+        setTabState(tab, tab.dataset.active === "true");
+    });
+
+    if (savedStage) {
+        const tab = document.querySelector(
+            `.stage-tab[data-target="${savedStage}"]`
+        );
+
+        if (tab) {
+            setTimeout(() => tab.click(), 50);
+        }
+    }
 
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
             localStorage.setItem(
-            "activeStage",
-            tab.getAttribute("data-target")
+                "activeStage",
+                tab.getAttribute("data-target")
             );
 
             contents.forEach(content => content.classList.add("hidden"));
-            tabs.forEach(t => {
-                t.style.background = "rgba(12,25,60,.9)";
-                t.style.borderColor = "#1f3b68";
-                t.style.color = "#94a3b8";
-                t.style.boxShadow = "none";
-            });
+            tabs.forEach(t => setTabState(t, false));
+
             const targetId = tab.getAttribute("data-target");
-            document.getElementById(targetId).classList.remove("hidden");
-            tab.style.background = "linear-gradient(135deg,#00d4ff,#3b82f6)";
-            tab.style.borderColor = "#22d3ee";
-            tab.style.color = "white";
-            tab.style.boxShadow =
-                    "0 0 15px rgba(34,211,238,.4), 0 0 35px rgba(59,130,246,.25)";
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.remove("hidden");
+            }
+            setTabState(tab, true);
         });
     });
 

@@ -26,6 +26,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('matches/<int:match_id>/predictions/', views.match_predictions_view, name='match_predictions'),
     path('prediction/<int:match_id>/', views.create_prediction, name='create_prediction'),
     path('recalculate/', views.recalculate_points_view, name='recalculate_points'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
