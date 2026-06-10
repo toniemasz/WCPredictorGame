@@ -11,13 +11,6 @@
                 Wybierz rundę, uzupełnij wynik i dopnij dodatkowe typy przed pierwszym gwizdkiem.
             </p>
         </div>
-
-        {% if request.user.is_superuser %}
-            <form method="POST" action="{% url 'recalculate_points' %}" class="shrink-0">
-                {% csrf_token %}
-                <button type="submit" class="btn-purple w-full lg:w-auto">Przelicz wyniki</button>
-            </form>
-        {% endif %}
     </div>
 
     {% if messages %}
@@ -29,6 +22,16 @@
             {% endfor %}
         </div>
     {% endif %}
+
+    <div
+        id="match-api-update-banner"
+        data-update-url="{% url 'auto_update_matches' %}"
+        class="hidden mb-6 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-100 shadow-lg shadow-amber-950/20"
+        role="status"
+        aria-live="polite"
+    >
+        Uwaga: aktualizacja wyników meczów, proszę czekać.
+    </div>
 
     {% if stage_groups %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

@@ -11,6 +11,7 @@ from tournament.models import TeamPlayer
 from tournament.services.bootstrap_service import BootstrapService
 from tournament.services.import_service import ImportService
 from tournament.services.home_service import HomePageService
+from tournament.services.match_auto_update_service import MatchAutoUpdateService
 from tournament.services.match_service import MatchListService
 from tournament.services.odds_sync import OddsSync
 from tournament.services.player_import_service import PlayerImportService
@@ -32,6 +33,13 @@ def home_view(request):
 def match_list(request):
     context = MatchListService.get_match_list_context(request.user)
     return render(request, "tournament/match_list.html", context)
+
+
+@login_required
+def auto_update_matches_view(request):
+    result = MatchAutoUpdateService.check_and_update_matches()
+    status_code = 500 if result["status"] == "error" else 200
+    return JsonResponse(result, status=status_code)
 
 
 @login_required

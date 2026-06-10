@@ -2,7 +2,7 @@
 <div class="flex justify-between items-center w-full pb-3 border-b border-slate-800/60">
     <div class="flex flex-col items-center w-[32%] min-w-0">
         <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
-             onerror="this.src='{% static 'flags/default.png' %}'"
+             onerror="this.onerror=null; this.src='{% static 'flags/default.svg' %}'"
              class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
         <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.home_team.name_pl|default:match.home_team.name }}</span>
     </div>
@@ -20,6 +20,14 @@
             <div class="text-2xl font-black text-red-500 tracking-tighter">
                 {{ match.home_score }} : {{ match.away_score }}
             </div>
+            <span class="text-[9px] leading-tight text-slate-500 mt-1">
+                Aktualizacja wyniku:
+                {% if match.last_api_update_at %}
+                    {{ match.last_api_update_at|date:"H:i" }}
+                {% else %}
+                    brak danych
+                {% endif %}
+            </span>
         {% else %}
             <div class="flex items-center gap-1 justify-center my-0.5">
                 <input type="number" name="predicted_home" min="0" placeholder="0"
@@ -35,7 +43,7 @@
 
     <div class="flex flex-col items-center w-[32%] min-w-0">
         <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
-             onerror="this.src='{% static 'flags/default.png' %}'"
+             onerror="this.onerror=null; this.src='{% static 'flags/default.svg' %}'"
              class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
         <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.away_team.name_pl|default:match.away_team.name }}</span>
     </div>

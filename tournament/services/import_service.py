@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
 from tournament.models import ApiSyncStatus, Match, Team
@@ -80,7 +81,7 @@ class ImportService:
         SyncStatusService.record_attempt(ApiSyncStatus.SYNC_MATCHES)
 
         try:
-            data = FootballDataAPI.get_world_cup_matches()
+            data = cls._fetch_matches()
         except Exception as error:
             SyncStatusService.record_error(ApiSyncStatus.SYNC_MATCHES, error)
             raise
@@ -89,60 +90,16 @@ class ImportService:
         processed_matches = 0
 
         for api_match in data.get("matches", []):
-            home = api_match["homeTeam"]
-            away = api_match["awayTeam"]
-
-            if not home.get("name") or not away.get("name"):
+            if not cls._has_named_teams(api_match):
                 continue
 
             processed_matches += 1
-
-            home_team, _ = Team.objects.get_or_create(
-                code=home["tla"], defaults={"name": home["name"]}
-            )
-            away_team, _ = Team.objects.get_or_create(
-                code=away["tla"], defaults={"name": away["name"]}
-            )
-
-            for team in [home_team, away_team]:
-                if not team.name_pl:
-                    team.name_pl = cls.COUNTRY_TRANSLATIONS.get(
-                        team.name,
-                        team.name
-                    )
-                    team.save(update_fields=["name_pl"])
-
-            status = cls.STATUS_MAPPING.get(api_match["status"], "SCHEDULED")
-
-            raw_stage = api_match.get("stage", "GROUP_STAGE")
-            matchday = api_match.get("matchday")
-
-            if raw_stage == "GROUP_STAGE" and matchday:
-                final_stage_name = f"Runda {matchday}"
-            else:
-                final_stage_name = cls.STAGE_MAPPING.get(raw_stage, raw_stage)
-
-            home_score = api_match.get("score", {}).get("fullTime", {}).get("home")
-            away_score = api_match.get("score", {}).get("fullTime", {}).get("away")
-
-            match, created = Match.objects.update_or_create(
-                football_data_match_id=api_match["id"],
-                defaults={
-                    "home_team": home_team,
-                    "away_team": away_team,
-                    "kickoff": parse_datetime(api_match["utcDate"]),
-                    "status": status,
-                    "stage": final_stage_name,
-                    "home_score": home_score,
-                    "away_score": away_score
-                }
-            )
-
+            match, created = cls._update_match_from_api(api_match)
 
             if created:
                 created_matches += 1
 
-            if status in ["LIVE", "FINISHED"]:
+            if match.status in ["LIVE", "FINISHED"]:
                 ScoringService.recalculate_match(match)
 
         SyncStatusService.record_success(
@@ -152,3 +109,94 @@ class ImportService:
         )
 
         return created_matches
+
+    @staticmethod
+    def _fetch_matches():
+        return FootballDataAPI.get_world_cup_matches()
+
+    @staticmethod
+    def _has_named_teams(api_match):
+        home = api_match["homeTeam"]
+        away = api_match["awayTeam"]
+        return bool(home.get("name") and away.get("name"))
+
+    @classmethod
+    def _update_match_from_api(cls, api_match):
+        home_team = cls._get_or_create_team(api_match["homeTeam"])
+        away_team = cls._get_or_create_team(api_match["awayTeam"])
+        home_score, away_score = cls._get_full_time_score(api_match)
+        status = cls._get_status(api_match)
+        update_time = timezone.now()
+        final_update_time = cls._get_final_update_time(
+            api_match["id"],
+            status,
+            update_time,
+        )
+
+        return Match.objects.update_or_create(
+            football_data_match_id=api_match["id"],
+            defaults={
+                "home_team": home_team,
+                "away_team": away_team,
+                "kickoff": parse_datetime(api_match["utcDate"]),
+                "status": status,
+                "stage": cls._get_stage_name(api_match),
+                "home_score": home_score,
+                "away_score": away_score,
+                "last_api_update_at": update_time,
+                "final_api_update_at": final_update_time,
+            }
+        )
+
+    @staticmethod
+    def _get_final_update_time(api_match_id, status, update_time):
+        if status != "FINISHED":
+            return None
+
+        existing_final_update = Match.objects.filter(
+            football_data_match_id=api_match_id
+        ).values_list(
+            "final_api_update_at",
+            flat=True,
+        ).first()
+
+        return existing_final_update or update_time
+
+    @classmethod
+    def _get_or_create_team(cls, api_team):
+        team, _ = Team.objects.get_or_create(
+            code=api_team["tla"],
+            defaults={"name": api_team["name"]}
+        )
+        cls._sync_team_translation(team)
+        return team
+
+    @classmethod
+    def _sync_team_translation(cls, team):
+        if team.name_pl:
+            return
+
+        team.name_pl = cls.COUNTRY_TRANSLATIONS.get(
+            team.name,
+            team.name
+        )
+        team.save(update_fields=["name_pl"])
+
+    @classmethod
+    def _get_status(cls, api_match):
+        return cls.STATUS_MAPPING.get(api_match["status"], "SCHEDULED")
+
+    @classmethod
+    def _get_stage_name(cls, api_match):
+        raw_stage = api_match.get("stage", "GROUP_STAGE")
+        matchday = api_match.get("matchday")
+
+        if raw_stage == "GROUP_STAGE" and matchday:
+            return f"Runda {matchday}"
+
+        return cls.STAGE_MAPPING.get(raw_stage, raw_stage)
+
+    @staticmethod
+    def _get_full_time_score(api_match):
+        score = api_match.get("score", {}).get("fullTime", {})
+        return score.get("home"), score.get("away")

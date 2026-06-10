@@ -19,113 +19,189 @@ class ScoringService:
             f"• Poprawna różnica bramek: +{correct_goal_diff_points} punkt\n"
             f"• Poprawny pierwszy strzelec: +{correct_first_scorer_points} punkty\n"
             f"• Poprawna pierwsza bramka drużyny: +{correct_first_team_scored} punkty\n"
-            f"• Bonus x2: podwaja całkowitą sumę punktów. (limit 2 na rundę)"
+            f"• Bonus x2: podwaja całkowitą sumę punktów. (limit 2 na rundę)\n"
             f"• Bonus za underdoga: Czym wyższy kurs tym więcej bonusu jeżeli drużyna wygra"
         )
 
 
 
-    @staticmethod
-    def calculate_points(match, prediction):
-        # 1. Zabezpieczenie: Liczymy punkty tylko gdy admin wpisał jakikolwiek wynik (nawet LIVE)
-        if match.home_score is None or match.away_score is None:
+    @classmethod
+    def calculate_points(cls, match, prediction):
+        if cls._match_has_no_result(match):
             return 0, {}
 
         points = 0
         breakdown = {}
-        pred_diff = prediction.predicted_home - prediction.predicted_away
-        actual_diff = match.home_score - match.away_score
+
+        points = cls._add_score_points(match, prediction, points, breakdown)
+        points = cls._add_first_goal_points(match, prediction, points, breakdown)
+        points = cls._add_underdog_points(match, prediction, points, breakdown)
+        points = cls._apply_double_bonus(prediction, points, breakdown)
+
+        return points, breakdown
+
+    @staticmethod
+    def _match_has_no_result(match):
+        return match.home_score is None or match.away_score is None
+
+    @classmethod
+    def _add_score_points(cls, match, prediction, points, breakdown):
+        pred_diff = abs(prediction.predicted_home - prediction.predicted_away)
+        actual_diff = abs(match.home_score - match.away_score)
+        home_winner = match.home_score > match.away_score
+        away_winner = match.away_score > match.home_score
+        draw = match.home_score == match.away_score
+        pred_home_winner = prediction.predicted_home > prediction.predicted_away
+        pred_away_winner = prediction.predicted_away > prediction.predicted_home
+        pred_draw = prediction.predicted_home == prediction.predicted_away
+
+        if prediction.predicted_home is not None and prediction.predicted_away is not None:
+            if prediction.predicted_home == match.home_score and prediction.predicted_away == match.away_score:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'exact_score',
+                    "Dokładny wynik",
+                    correct_result_points,
+                )
+
+            if pred_diff == actual_diff:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'diff_correct_outcome',
+                    "Poprawna różnica bramek",
+                    correct_goal_diff_points,
+                )
+
+            if prediction.predicted_home == match.home_score and prediction.predicted_away != match.away_score:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'home_correct_outcome',
+                    "Poprawna ilość bramek dla Gospodarzy",
+                    correct_home_or_away_goals_points,
+                )
+
+            if prediction.predicted_home != match.home_score and prediction.predicted_away == match.away_score:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'away_correct_outcome',
+                    "Poprawna ilość bramek dla Gości",
+                    correct_home_or_away_goals_points,
+                )
+
+            if (home_winner and pred_home_winner) or (away_winner and pred_away_winner) or (draw and pred_draw):
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'home_or_away_winner',
+                    "Poprawna wygrana",
+                    correct_home_or_away_win_points,
+                )
+
+        return points
+
+    @classmethod
+    def _add_first_goal_points(cls, match, prediction, points, breakdown):
         actual_first_team = match.first_scoring_team
         pred_first_team = prediction.predicted_first_team
         actual_scorer = (match.first_scorer or "").strip().lower()
         pred_scorer = (prediction.predicted_scorer or "").strip().lower()
 
+        if pred_first_team and actual_first_team:
+            if prediction.predicted_first_team == actual_first_team:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'first_team',
+                    "Poprawna drużyna która strzeliła gola jako pierwsza",
+                    correct_first_team_scored,
+                )
+
+        if pred_scorer and actual_scorer:
+            if pred_scorer == actual_scorer:
+                points = cls._add_breakdown(
+                    points,
+                    breakdown,
+                    'first_scorer',
+                    "Trafiony strzelec 1 bramki",
+                    correct_first_scorer_points,
+                )
+
+        return points
+
+    @classmethod
+    def _add_underdog_points(cls, match, prediction, points, breakdown):
         odd_home = match.home_odds
         odd_away = match.away_odds
         odd_draw = match.draw_odds
 
+        if not (odd_home and odd_away and odd_draw):
+            return points
+
+        odd_home_bonus = cls._calculate_underdog_bonus(odd_home)
+        odd_away_bonus = cls._calculate_underdog_bonus(odd_away)
+        odd_draw_bonus = cls._calculate_underdog_bonus(odd_draw)
+
         home_winner = match.home_score > match.away_score
         away_winner = match.away_score > match.home_score
         draw = match.home_score == match.away_score
-
         pred_home_winner = prediction.predicted_home > prediction.predicted_away
         pred_away_winner = prediction.predicted_away > prediction.predicted_home
         pred_draw = prediction.predicted_home == prediction.predicted_away
 
+        if draw and pred_draw and odd_draw_bonus > 0:
+            points = cls._add_breakdown(
+                points,
+                breakdown,
+                'underdog_bonus_draw',
+                "Bonus za trafiony remis",
+                odd_draw_bonus,
+            )
 
-        if prediction.predicted_home is not None and prediction.predicted_away is not None:
-            if prediction.predicted_home == match.home_score and prediction.predicted_away == match.away_score:
-                points += correct_result_points
-                breakdown['exact_score'] = {"name": "Dokładny wynik", "points": correct_result_points}
+        if home_winner and pred_home_winner and odd_home_bonus > 0:
+            points = cls._add_breakdown(
+                points,
+                breakdown,
+                'underdog_bonus_home',
+                "Bonus za underdoga",
+                odd_home_bonus,
+            )
 
-                #Różnica goli poprawna
+        if away_winner and pred_away_winner and odd_away_bonus > 0:
+            points = cls._add_breakdown(
+                points,
+                breakdown,
+                'underdog_bonus_away',
+                "Bonus za underdoga",
+                odd_away_bonus,
+            )
 
-            if pred_diff == actual_diff:
-                points += correct_goal_diff_points
-                breakdown['diff_correct_outcome'] = {"name": "Poprawna różnica bramek", "points": correct_goal_diff_points}
-            #Home dobrze
-            if prediction.predicted_home == match.home_score and prediction.predicted_away != match.away_score:
-                points += correct_home_or_away_goals_points
-                breakdown['home_correct_outcome'] = {"name": "Poprawna ilość bramek dla Gospodarzy", "points": correct_home_or_away_goals_points}
-            # AWAY dobrze
-            if prediction.predicted_home != match.home_score and prediction.predicted_away == match.away_score:
-                points += correct_home_or_away_goals_points
-                breakdown['away_correct_outcome'] = {"name": "Poprawna ilość bramek dla Gości", "points": correct_home_or_away_goals_points}
-            if (home_winner and pred_home_winner) or (away_winner and pred_away_winner) or (draw and pred_draw):
-                points += correct_home_or_away_win_points
-                breakdown['home_or_away_winner'] = {"name": "Poprawna wygrana", "points": correct_home_or_away_win_points}
+        return points
 
+    @staticmethod
+    def _calculate_underdog_bonus(odd):
+        if odd < 3:
+            return 0
 
-        if pred_first_team and actual_first_team:
-            if prediction.predicted_first_team == actual_first_team:
-                points += correct_first_team_scored
-                breakdown['first_team'] = {"name": "Poprawna drużyna która strzeliła gola jako pierwsza", "points": correct_first_team_scored}
+        return round(math.log(float(odd) / 3) * 10)
 
-        if pred_scorer and actual_scorer:
-            if pred_scorer == actual_scorer:
-                points += correct_first_scorer_points
-                breakdown['first_scorer'] = {"name": "Trafiony strzelec 1 bramki", "points": correct_first_scorer_points}
-
-        if odd_home and odd_away and odd_draw:
-
-            if odd_home < 3:
-                odd_home_bonus = 0
-            else:
-                odd_home_bonus = round(math.log(odd_home / 3) * 10)
-
-            if odd_away < 3:
-                odd_away_bonus = 0
-            else:
-                odd_away_bonus = round(math.log(odd_away / 3) * 10)
-
-            if odd_draw:
-                if odd_draw < 3:
-                    odd_draw_bonus = 0
-                else:
-                    odd_draw_bonus = round(math.log(float(odd_draw) / 3) * 10)
-
-                if draw and pred_draw and odd_draw_bonus > 0:
-                    points += odd_draw_bonus
-                    breakdown['underdog_bonus_draw'] = {
-                        "name": "Bonus za trafiony remis",
-                        "points": odd_draw_bonus
-                    }
-            if home_winner and pred_home_winner and odd_home_bonus > 0:
-                points += odd_home_bonus
-                breakdown['underdog_bonus_home'] = {"name": "Bonus za underdoga",
-                                           "points": odd_home_bonus}
-            if away_winner and pred_away_winner and odd_away_bonus > 0:
-                points += odd_away_bonus
-                breakdown['underdog_bonus_away'] = {"name": "Bonus za underdoga",
-                                           "points": odd_away_bonus}
-
-
+    @classmethod
+    def _apply_double_bonus(cls, prediction, points, breakdown):
         if prediction.is_doubled and points > 0:
-            base_points = points  # zapisujemy, ile punktów dał nam mnożnik
+            base_points = points
             points *= 2
             breakdown['bonus'] = {"name": "Bonus x2 (Mnożnik)", "points": base_points}
 
-        return points, breakdown
+        return points
+
+    @staticmethod
+    def _add_breakdown(points, breakdown, key, name, awarded_points):
+        points += awarded_points
+        breakdown[key] = {"name": name, "points": awarded_points}
+        return points
 
     @classmethod
     def recalculate_match(cls, match):

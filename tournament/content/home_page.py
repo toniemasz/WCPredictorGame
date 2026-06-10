@@ -3,7 +3,7 @@ HOME_PAGE_CONTENT = {
         "title": "Przewiduj Wyniki World Cup 2026",
         "subtitle": (
             "Dołącz do rywalizacji ze znajomymi, zbieraj punkty za dokładne "
-            "typy, trafiaj pierwszych strzelców bramek i zgarniaj bonusy."
+            "typy, trafiaj pierwszych strzelców bramek i wygraj ze wszystkimi."
         ),
         "primary_action": {
             "label": "Obstawiaj mecze",
@@ -116,7 +116,7 @@ HOME_PAGE_CONTENT = {
                 "version": "2026.06.10",
                 "title": "Profile, avatary i strona główna",
                 "changes": [
-                    "Naprawiono wyświetlanie avatarów na leaderboardzie.",
+                    "Dodano wybieranie awatarów na profilu.",
                     "Przeniesiono część logiki widoków do serwisów.",
                     "Dodano edytowalną sekcję informacji o grze na ekranie głównym.",
                 ],

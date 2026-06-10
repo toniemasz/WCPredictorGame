@@ -1,4 +1,78 @@
 document.addEventListener("DOMContentLoaded", function() {
+    function initializeApiUpdateCheck() {
+        const banner = document.getElementById("match-api-update-banner");
+        if (!banner || !banner.dataset.updateUrl) {
+            return;
+        }
+
+        const initialMessage = "Uwaga: aktualizacja wyników meczów, proszę czekać.";
+        const baseClasses = "mb-6 rounded-xl border px-4 py-3 text-sm font-bold shadow-lg";
+        const stateClasses = {
+            pending: "border-amber-400/30 bg-amber-400/10 text-amber-100 shadow-amber-950/20",
+            success: "border-emerald-400/30 bg-emerald-400/10 text-emerald-100 shadow-emerald-950/20",
+            error: "border-red-400/30 bg-red-400/10 text-red-100 shadow-red-950/20",
+        };
+
+        function showBanner(message, state = "pending") {
+            banner.textContent = message;
+            banner.className = `${baseClasses} ${stateClasses[state]}`;
+        }
+
+        function hideBanner() {
+            banner.textContent = initialMessage;
+            banner.className = `hidden ${baseClasses} ${stateClasses.pending}`;
+        }
+
+        const delayedBanner = setTimeout(() => {
+            showBanner(initialMessage);
+        }, 250);
+
+        fetch(banner.dataset.updateUrl, {
+            method: "GET",
+            credentials: "same-origin",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        })
+        .then(response => response.json().then(data => ({
+            ok: response.ok,
+            data,
+        })))
+        .then(({ ok, data }) => {
+            clearTimeout(delayedBanner);
+
+            if (!ok || data.status === "error") {
+                showBanner(
+                    data.message || "Nie udało się zaktualizować wyników meczów.",
+                    "error"
+                );
+                setTimeout(hideBanner, 5000);
+                return;
+            }
+
+            if (data.updated) {
+                showBanner("Wyniki meczów zostały zaktualizowane. Odświeżam widok...", "success");
+                setTimeout(() => window.location.reload(), 700);
+                return;
+            }
+
+            if (data.reason === "already_running") {
+                showBanner(initialMessage);
+                setTimeout(() => window.location.reload(), 5000);
+                return;
+            }
+
+            hideBanner();
+        })
+        .catch(() => {
+            clearTimeout(delayedBanner);
+            showBanner("Nie udało się sprawdzić aktualizacji wyników.", "error");
+            setTimeout(hideBanner, 5000);
+        });
+    }
+
+    initializeApiUpdateCheck();
+
     // --- Obsługa Zakładek (Etapów) ---
     const tabs = document.querySelectorAll(".stage-tab");
     const contents = document.querySelectorAll(".stage-content");

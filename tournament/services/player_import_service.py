@@ -17,9 +17,7 @@ class PlayerImportService:
 
     @classmethod
     def check_team_mapping(cls, json_path):
-
-        with open(json_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = cls._load_json(json_path)
 
         total = len(data)
         matched = 0
@@ -29,14 +27,7 @@ class PlayerImportService:
 
         for country_name in data.keys():
 
-            db_name = cls.NAME_MAPPING.get(
-                country_name,
-                country_name
-            )
-
-            team = Team.objects.filter(
-                name__iexact=db_name
-            ).first()
+            team = cls._get_team_for_country(country_name)
 
 
             if team:
@@ -71,9 +62,7 @@ class PlayerImportService:
 
     @classmethod
     def import_players(cls, json_path):
-
-        with open(json_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = cls._load_json(json_path)
 
         created = 0
         updated = 0
@@ -81,14 +70,7 @@ class PlayerImportService:
 
         for country_name, players in data.items():
 
-            db_name = cls.NAME_MAPPING.get(
-                country_name,
-                country_name
-            )
-
-            team = Team.objects.filter(
-                name__iexact=db_name
-            ).first()
+            team = cls._get_team_for_country(country_name)
 
             if not team:
                 print(
@@ -100,15 +82,7 @@ class PlayerImportService:
 
             for player in players:
 
-                obj, was_created = TeamPlayer.objects.update_or_create(
-                    api_player_id=player["id"],
-                    defaults={
-                        "team": team,
-                        "name": player["name"],
-                        "position": player.get("position"),
-                        "jersey_number": player.get("jersey_number")
-                    }
-                )
+                was_created = cls._update_player(team, player)
 
                 if was_created:
                     created += 1
@@ -122,3 +96,32 @@ class PlayerImportService:
         print(
             f"Łącznie: {created + updated}"
         )
+
+    @staticmethod
+    def _load_json(json_path):
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    @classmethod
+    def _get_team_for_country(cls, country_name):
+        db_name = cls.NAME_MAPPING.get(
+            country_name,
+            country_name
+        )
+
+        return Team.objects.filter(
+            name__iexact=db_name
+        ).first()
+
+    @staticmethod
+    def _update_player(team, player):
+        _, was_created = TeamPlayer.objects.update_or_create(
+            api_player_id=player["id"],
+            defaults={
+                "team": team,
+                "name": player["name"],
+                "position": player.get("position"),
+                "jersey_number": player.get("jersey_number")
+            }
+        )
+        return was_created

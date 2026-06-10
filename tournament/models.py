@@ -66,6 +66,8 @@ class Match(models.Model):
         null=True,
         blank=True
     )
+    last_api_update_at = models.DateTimeField(null=True, blank=True)
+    final_api_update_at = models.DateTimeField(null=True, blank=True)
 
     first_scoring_team = models.CharField(max_length=10, choices=TEAM_CHOICES, null=True, blank=True)
     first_scorer = models.CharField(
@@ -184,4 +186,3 @@ def save_profile(sender, instance, **kwargs):
         instance.profile.save()
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
-

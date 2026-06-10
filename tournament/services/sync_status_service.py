@@ -6,22 +6,22 @@ from tournament.models import ApiSyncStatus
 class SyncStatusService:
     @staticmethod
     def record_attempt(sync_name):
-        status, _ = ApiSyncStatus.objects.get_or_create(sync_name=sync_name)
+        status = SyncStatusService._get_status(sync_name)
         status.status = ApiSyncStatus.STATUS_PENDING
         status.last_attempt_at = timezone.now()
-        status.save(update_fields=["status", "last_attempt_at"])
+        SyncStatusService._save_status(status, ["status", "last_attempt_at"])
         return status
 
     @staticmethod
     def record_success(sync_name, processed_count=0, created_count=0):
-        status, _ = ApiSyncStatus.objects.get_or_create(sync_name=sync_name)
+        status = SyncStatusService._get_status(sync_name)
         status.status = ApiSyncStatus.STATUS_SUCCESS
         status.last_attempt_at = timezone.now()
         status.last_success_at = status.last_attempt_at
         status.last_error = ""
         status.processed_count = processed_count
         status.created_count = created_count
-        status.save(update_fields=[
+        SyncStatusService._save_status(status, [
             "status",
             "last_attempt_at",
             "last_success_at",
@@ -33,11 +33,11 @@ class SyncStatusService:
 
     @staticmethod
     def record_error(sync_name, error_message):
-        status, _ = ApiSyncStatus.objects.get_or_create(sync_name=sync_name)
+        status = SyncStatusService._get_status(sync_name)
         status.status = ApiSyncStatus.STATUS_ERROR
         status.last_attempt_at = timezone.now()
         status.last_error = str(error_message)[:1000]
-        status.save(update_fields=[
+        SyncStatusService._save_status(status, [
             "status",
             "last_attempt_at",
             "last_error",
@@ -70,3 +70,12 @@ class SyncStatusService:
             "created_count": status.created_count,
             "last_error": status.last_error,
         }
+
+    @staticmethod
+    def _get_status(sync_name):
+        status, _ = ApiSyncStatus.objects.get_or_create(sync_name=sync_name)
+        return status
+
+    @staticmethod
+    def _save_status(status, fields):
+        status.save(update_fields=fields)

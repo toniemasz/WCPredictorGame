@@ -15,6 +15,7 @@ from . import views
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('matches/', views.match_list, name='match_list'),
+    path('matches/auto-update/', views.auto_update_matches_view, name='auto_update_matches'),
     path('forgot-password/', views.forgot_password_troll_view, name='forgot_password_stage1'),
 
     path('reset-password/', views.password_reset_stage2_view, name='password_reset_stage2'),
