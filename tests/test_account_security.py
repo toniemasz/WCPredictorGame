@@ -42,6 +42,7 @@ def test_password_reset_requires_email_code(client, user):
     user.refresh_from_db()
     assert response.status_code == 200
     assert user.check_password("pass") is True
+    assert "Kod jest nieprawidłowy albo wygasł." in response.content.decode()
 
     response = client.post(
         reverse("password_reset_stage2"),
@@ -169,6 +170,56 @@ def test_password_reset_code_can_be_resent_from_confirm_page(client, user):
         purpose=AccountSecurityCode.PURPOSE_PASSWORD_RESET,
         used_at__isnull=True,
     ).count() == 1
+
+
+@pytest.mark.django_db
+def test_password_reset_email_send_error_is_shown_on_request_page(client, monkeypatch, user):
+    user.email = "tester@example.com"
+    user.save(update_fields=["email"])
+
+    def broken_send_mail(*args, **kwargs):
+        raise RuntimeError("smtp unavailable")
+
+    monkeypatch.setattr(
+        "tournament.services.account_security_service.send_mail",
+        broken_send_mail,
+    )
+
+    response = client.post(
+        reverse("forgot_password_stage1"),
+        {"email": "tester@example.com"},
+    )
+
+    assert response.status_code == 200
+    assert "Nie udało się wysłać maila z kodem." in response.content.decode()
+
+
+@pytest.mark.django_db
+def test_password_reset_resend_email_error_stays_on_confirm_page(client, monkeypatch, user):
+    user.email = "tester@example.com"
+    user.save(update_fields=["email"])
+
+    def broken_send_mail(*args, **kwargs):
+        raise RuntimeError("smtp unavailable")
+
+    monkeypatch.setattr(
+        "tournament.services.account_security_service.send_mail",
+        broken_send_mail,
+    )
+
+    response = client.post(
+        reverse("forgot_password_stage1"),
+        {
+            "email": "tester@example.com",
+            "next": reverse("password_reset_stage2"),
+        },
+        follow=True,
+    )
+
+    assert response.status_code == 200
+    assert response.redirect_chain == [(reverse("password_reset_stage2"), 302)]
+    assert "Nie udało się wysłać maila z kodem." in response.content.decode()
+    assert "Ustaw nowe hasło" in response.content.decode()
 
 
 @pytest.mark.django_db

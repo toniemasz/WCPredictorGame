@@ -60,6 +60,21 @@ def csrf_failure_view(request, reason=""):
     return custom_error_view(request, status_code=403)
 
 
+PASSWORD_RESET_NOTICE_SESSION_KEY = "password_reset_notice"
+
+
+def _password_reset_notice(level, text):
+    return {"level": level, "text": text}
+
+
+def _store_password_reset_notice(request, level, text):
+    request.session[PASSWORD_RESET_NOTICE_SESSION_KEY] = _password_reset_notice(level, text)
+
+
+def _pop_password_reset_notice(request):
+    return request.session.pop(PASSWORD_RESET_NOTICE_SESSION_KEY, None)
+
+
 def home_view(request):
     return render(
         request,
@@ -262,8 +277,12 @@ def profile_view(request, user_id=None):
 
 
 def password_reset_request_view(request):
+    notice = None
+    email_value = ""
+
     if request.method == 'POST':
         email = request.POST.get("email", "")
+        return_to_confirm = request.POST.get("next") == reverse("password_reset_stage2")
         try:
             normalized_email = AccountSecurityService.normalize_email(email)
             AccountSecurityService.request_password_reset(normalized_email)
@@ -271,24 +290,37 @@ def password_reset_request_view(request):
                 AccountSecurityService.PASSWORD_RESET_SESSION_EMAIL
             ] = normalized_email
             if AccountSecurityService.uses_console_email_backend():
-                messages.warning(
-                    request,
+                notice = _password_reset_notice(
+                    "warning",
                     "Kod został wygenerowany, ale aplikacja używa konsolowego backendu e-mail. Ustaw SMTP, żeby wiadomość trafiła do skrzynki.",
                 )
             else:
-                messages.success(
-                    request,
+                notice = _password_reset_notice(
+                    "success",
                     "Jeżeli ten adres jest przypisany do konta, wysłaliśmy kod do zmiany hasła.",
                 )
+            _store_password_reset_notice(request, notice["level"], notice["text"])
             return redirect("password_reset_stage2")
         except ValueError as error:
-            messages.error(request, str(error))
+            notice = _password_reset_notice("error", str(error))
+            email_value = email
+            if return_to_confirm:
+                _store_password_reset_notice(request, notice["level"], notice["text"])
+                return redirect("password_reset_stage2")
 
-    return render(request, 'registration/forgot_password_troll.html', {'error': ''})
+    return render(
+        request,
+        'registration/forgot_password_troll.html',
+        {
+            "email": email_value,
+            "notice": notice,
+        },
+    )
 
 
 def password_reset_confirm_view(request):
     email = request.session.get(AccountSecurityService.PASSWORD_RESET_SESSION_EMAIL, "")
+    notice = _pop_password_reset_notice(request)
 
     if request.method == 'POST':
         email = request.POST.get("email") or email
@@ -303,9 +335,16 @@ def password_reset_confirm_view(request):
             messages.success(request, "Hasło zostało zmienione. Możesz się zalogować.")
             return redirect("login")
         except ValueError as error:
-            messages.error(request, str(error))
+            notice = _password_reset_notice("error", str(error))
 
-    return render(request, 'registration/password_reset_real.html', {"email": email})
+    return render(
+        request,
+        'registration/password_reset_real.html',
+        {
+            "email": email,
+            "notice": notice,
+        },
+    )
 
 
 @login_required

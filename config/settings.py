@@ -120,9 +120,10 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
 EMAIL_USE_SSL = env_bool("EMAIL_USE_SSL", False)
 EMAIL_TIMEOUT = env_int("EMAIL_TIMEOUT", 10)
-DEFAULT_FROM_EMAIL = os.getenv(
-    "DEFAULT_FROM_EMAIL",
-    "WCPredictor <noreply@wcpredictor.local>",
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL") or (
+    f"WCPredictor <{EMAIL_HOST_USER}>"
+    if EMAIL_HOST_USER
+    else "WCPredictor <noreply@wcpredictor.local>"
 )
 
 STATIC_URL = '/static/'

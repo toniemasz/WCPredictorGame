@@ -1,4 +1,5 @@
 import secrets
+import logging
 from datetime import timedelta
 
 from django.conf import settings
@@ -13,6 +14,9 @@ from django.utils import timezone
 from django.utils.crypto import constant_time_compare
 
 from tournament.models import AccountSecurityCode
+
+
+logger = logging.getLogger(__name__)
 
 
 class AccountSecurityService:
@@ -235,10 +239,16 @@ class AccountSecurityService:
 
     @staticmethod
     def _send_code_email(email, subject, message):
-        send_mail(
-            subject,
-            message,
-            getattr(settings, "DEFAULT_FROM_EMAIL", None),
-            [email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                getattr(settings, "DEFAULT_FROM_EMAIL", None),
+                [email],
+                fail_silently=False,
+            )
+        except Exception as exc:
+            logger.exception("Failed to send security code email to %s", email)
+            raise ValueError(
+                "Nie udało się wysłać maila z kodem. Sprawdź konfigurację SMTP na serwerze."
+            ) from exc
