@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto w-full">
+    <div class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-2">Statystyki</p>
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight">Podsumowanie rund</h1>
+            <p class="text-slate-400 text-sm sm:text-base mt-2">Twoje wyniki, ranking rundy i najciekawsze mecze.</p>
+        </div>
+        {% if has_finished_stage %}
+            <form method="GET" class="flex gap-2">
+                <select name="stage" class="form-input min-w-56">
+                    {% for stage in finished_stages %}
+                        <option value="{{ stage }}" {% if stage == selected_stage %}selected{% endif %}>{{ stage }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn-primary" type="submit">Pokaż</button>
+            </form>
+        {% endif %}
+    </div>
+
+    {% if not has_finished_stage %}
+        <div class="wc-card text-center p-8 sm:p-12">
+            <h2 class="text-2xl font-black mb-2">Statystyki pojawią się po zakończeniu rundy</h2>
+            <p class="text-slate-400 text-sm">Runda musi mieć wszystkie mecze zakończone i zapisane wyniki końcowe.</p>
+        </div>
+    {% else %}
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Punkty</div>
+                <div class="text-3xl font-black text-cyan-400">{{ user_stats.total_points }}</div>
+            </div>
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Miejsce</div>
+                <div class="text-3xl font-black text-white">{% if user_stats.rank %}#{{ user_stats.rank }}{% else %}-{% endif %}</div>
+            </div>
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Dokładne wyniki</div>
+                <div class="text-3xl font-black text-emerald-400">{{ user_stats.exact_scores }}</div>
+            </div>
+            <div class="wc-card">
+                <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Skuteczność</div>
+                <div class="text-3xl font-black text-amber-400">{{ user_stats.outcome_percent }}%</div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Moje statystyki</h2>
+                {% if user_stats.message %}
+                    <div class="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">{{ user_stats.message }}</div>
+                {% endif %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Obstawione: <strong>{{ user_stats.predicted_matches }}/{{ user_stats.total_matches }}</strong> ({{ user_stats.prediction_percent }}%)</div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Nieobstawione: <strong>{{ user_stats.missing_matches }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Dokładne: <strong>{{ user_stats.exact_scores }}</strong> ({{ user_stats.exact_percent }}%)</div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Rozstrzygnięcia: <strong>{{ user_stats.correct_outcomes }}</strong> ({{ user_stats.outcome_percent }}%)</div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Różnica bramek: <strong>{{ user_stats.correct_diffs }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Gole gospodarzy/gości: <strong>{{ user_stats.correct_home_goals }}/{{ user_stats.correct_away_goals }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Średnio pkt/typ: <strong>{{ user_stats.average_points }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Blisko dokładnego: <strong>{{ user_stats.near_exact_matches }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Najdłuższa seria: <strong>{{ user_stats.longest_outcome_streak }}</strong></div>
+                    <div class="rounded-xl bg-slate-950/70 border border-slate-800 p-3">Zmiana miejsca: <strong>{% if user_stats.rank_change is None %}-{% elif user_stats.rank_change > 0 %}+{{ user_stats.rank_change }}{% else %}{{ user_stats.rank_change }}{% endif %}</strong></div>
+                </div>
+            </div>
+
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Statystyki rundy</h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Użytkownicy</span><strong>{{ global_stats.participant_count }}</strong></div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Wszystkie typy</span><strong>{{ global_stats.prediction_count }}</strong></div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Śr. typów/użytkownik</span><strong>{{ global_stats.average_predictions_per_user }}</strong></div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Globalne obstawienie</span><strong>{{ global_stats.global_prediction_percent }}%</strong></div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Dokładne globalnie</span><strong>{{ global_stats.exact_scores }} ({{ global_stats.exact_percent }}%)</strong></div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-400">Rozstrzygnięcia globalnie</span><strong>{{ global_stats.correct_outcomes }} ({{ global_stats.outcome_percent }}%)</strong></div>
+                    <div class="flex justify-between"><span class="text-slate-400">Śr. pkt/użytkownik</span><strong>{{ global_stats.average_points_per_user }}</strong></div>
+                </div>
+            </div>
+
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Ranking rundy</h2>
+                <div class="space-y-2">
+                    {% for row in global_stats.ranking %}
+                        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm">
+                            <span><strong>#{{ row.rank }}</strong> {{ row.user.username }}</span>
+                            <span class="font-black text-cyan-300">{{ row.points }} pkt</span>
+                        </div>
+                    {% empty %}
+                        <p class="text-sm text-slate-500">Brak typów w tej rundzie.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Najciekawsze mecze</h2>
+                <div class="space-y-3 text-sm">
+                    <div><span class="text-slate-500 block">Najłatwiejszy</span><strong>{{ global_stats.easiest_match.label|default:"-" }}</strong></div>
+                    <div><span class="text-slate-500 block">Najtrudniejszy</span><strong>{{ global_stats.hardest_match.label|default:"-" }}</strong></div>
+                    <div><span class="text-slate-500 block">Najwięcej dokładnych trafień</span><strong>{{ global_stats.most_exact_match.label|default:"-" }}</strong></div>
+                    <div><span class="text-slate-500 block">Najwięcej punktów łącznie</span><strong>{{ global_stats.most_points_match.label|default:"-" }}</strong></div>
+                </div>
+            </div>
+
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Bonus x2</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">Moje bonusy: <strong>{{ user_stats.bonus_used }}</strong></div>
+                    <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">Moje pkt z bonusów: <strong>{{ user_stats.bonus_points }}</strong></div>
+                    <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">Globalnie bonusów: <strong>{{ global_stats.bonus_used }}</strong></div>
+                    <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">Globalne pkt bonusowe: <strong>{{ global_stats.bonus_points }}</strong></div>
+                </div>
+            </div>
+
+            <div class="wc-card">
+                <h2 class="text-2xl font-black mb-4">Historia rund</h2>
+                <div class="space-y-2">
+                    {% for row in round_history %}
+                        <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-3 text-sm">
+                            <div class="flex justify-between gap-3">
+                                <strong>{{ row.stage }}</strong>
+                                <span class="text-slate-500">{{ row.finished_at|date:"d.m.Y" }}</span>
+                            </div>
+                            <div class="mt-2 text-slate-400">
+                                {{ row.points }} pkt · miejsce {% if row.rank %}#{{ row.rank }}{% else %}-{% endif %} · dokładne {{ row.exact_scores }} · skuteczność {{ row.outcome_percent }}% · typy {{ row.predicted_matches }}/{{ row.total_matches }}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-sm text-slate-500">Historia pojawi się po zakończeniu rund.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+{% endblock %}

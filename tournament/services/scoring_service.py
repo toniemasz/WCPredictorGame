@@ -1,14 +1,17 @@
 # tournament/services/scoring_service.py
 import math
 
-correct_result_points = 5
-correct_home_or_away_goals_points = 3
-correct_goal_diff_points = 3
+correct_result_points = 4
+correct_home_or_away_goals_points = 2
+correct_goal_diff_points = 1
 correct_home_or_away_win_points = 2
 correct_first_scorer_points = 10
-correct_first_team_scored = 5
+correct_first_team_scored = 2
 
 class ScoringService:
+    NO_SCORER = "NO_SCORER"
+    NO_SCORER_LABEL = "Brak strzelca"
+
     @staticmethod
     def get_rules_explanation():
         return (
@@ -74,7 +77,7 @@ class ScoringService:
                     correct_goal_diff_points,
                 )
 
-            if prediction.predicted_home == match.home_score and prediction.predicted_away != match.away_score:
+            if prediction.predicted_home == match.home_score:
                 points = cls._add_breakdown(
                     points,
                     breakdown,
@@ -83,7 +86,7 @@ class ScoringService:
                     correct_home_or_away_goals_points,
                 )
 
-            if prediction.predicted_home != match.home_score and prediction.predicted_away == match.away_score:
+            if prediction.predicted_away == match.away_score:
                 points = cls._add_breakdown(
                     points,
                     breakdown,
@@ -107,8 +110,8 @@ class ScoringService:
     def _add_first_goal_points(cls, match, prediction, points, breakdown):
         actual_first_team = match.first_scoring_team
         pred_first_team = prediction.predicted_first_team
-        actual_scorer = (match.first_scorer or "").strip().lower()
-        pred_scorer = (prediction.predicted_scorer or "").strip().lower()
+        actual_scorer = cls._normalize_actual_scorer(match)
+        pred_scorer = cls.normalize_scorer(prediction.predicted_scorer)
 
         if pred_first_team and actual_first_team:
             if prediction.predicted_first_team == actual_first_team:
@@ -131,6 +134,44 @@ class ScoringService:
                 )
 
         return points
+
+    @classmethod
+    def normalize_scorer(cls, scorer):
+        scorer = (scorer or "").strip()
+        if not scorer:
+            return ""
+
+        if scorer == cls.NO_SCORER or scorer.lower() in {"brak strzelca", "no scorer"}:
+            return cls.NO_SCORER
+
+        return scorer.lower()
+
+    @classmethod
+    def _normalize_actual_scorer(cls, match):
+        if match.first_scoring_team == "NONE":
+            return cls.NO_SCORER
+
+        return cls.normalize_scorer(match.first_scorer)
+
+    @classmethod
+    def get_scorer_label(cls, scorer, empty_label="-"):
+        if cls.normalize_scorer(scorer) == cls.NO_SCORER:
+            return cls.NO_SCORER_LABEL
+
+        return (scorer or "").strip() or empty_label
+
+    @classmethod
+    def get_actual_scorer_label(cls, match, empty_label="-"):
+        if cls._normalize_actual_scorer(match) == cls.NO_SCORER:
+            return cls.NO_SCORER_LABEL
+
+        return cls.get_scorer_label(match.first_scorer, empty_label)
+
+    @classmethod
+    def scorers_match(cls, predicted_scorer, match):
+        pred_scorer = cls.normalize_scorer(predicted_scorer)
+        actual_scorer = cls._normalize_actual_scorer(match)
+        return bool(pred_scorer and actual_scorer and pred_scorer == actual_scorer)
 
     @classmethod
     def _add_underdog_points(cls, match, prediction, points, breakdown):

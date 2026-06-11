@@ -130,9 +130,22 @@ class TeamPlayer(models.Model):
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=10, null=True, blank=True)
     jersey_number = models.CharField(max_length=10, null=True, blank=True)
+    nationality = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_nationality(self):
+        return self.nationality or self.team.name_pl or self.team.name
+
+    @property
+    def display_label(self):
+        details = [
+            self.position or "pozycja b/d",
+            self.display_nationality,
+        ]
+        return f"{self.name} · {' · '.join(details)}"
 
 class BonusUsage(models.Model):
     user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bonus_usages')
@@ -173,6 +186,58 @@ class ApiSyncStatus(models.Model):
 
     def __str__(self):
         return f"{self.sync_name}: {self.get_status_display()}"
+
+
+class MatchComment(models.Model):
+    MAX_LENGTH = 500
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="match_comments")
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name="comments")
+    content = models.TextField(max_length=MAX_LENGTH)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ("-created_at", "-id")
+
+    def __str__(self):
+        return f"{self.user} @ {self.match}: {self.content[:40]}"
+
+
+class MatchCommentReaction(models.Model):
+    REACTION_GOOD = "good"
+    REACTION_FUNNY = "funny"
+    REACTION_FIRE = "fire"
+
+    REACTION_CHOICES = (
+        (REACTION_GOOD, "👍 dobry typ"),
+        (REACTION_FUNNY, "😂 śmieszny komentarz"),
+        (REACTION_FIRE, "🔥 mocna opinia"),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_reactions")
+    comment = models.ForeignKey(MatchComment, on_delete=models.CASCADE, related_name="reactions")
+    reaction = models.CharField(max_length=20, choices=REACTION_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "comment")
+
+
+class MatchWatch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="match_watches")
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name="watch_entries")
+    want_to_watch = models.BooleanField(default=True)
+    watched = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "match")
+
+    def __str__(self):
+        return f"{self.user} | {self.match} | watched={self.watched}"
 
 
 @receiver(post_save, sender=User)

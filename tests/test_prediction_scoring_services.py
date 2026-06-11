@@ -1,5 +1,7 @@
 import math
+from datetime import timezone as datetime_timezone
 from decimal import Decimal
+from zoneinfo import ZoneInfo
 
 import pytest
 from django.test import override_settings
@@ -64,6 +66,37 @@ def test_save_prediction_requires_both_scores(user, future_match, home, away):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize("home,away", [("-1", "0"), ("1.5", "0"), ("abc", "0")])
+def test_save_prediction_rejects_invalid_score_values(user, future_match, home, away):
+    with pytest.raises(ValueError):
+        PredictionService.save_prediction(
+            user,
+            future_match.id,
+            {"predicted_home": home, "predicted_away": away},
+        )
+
+
+@pytest.mark.django_db
+def test_save_prediction_uses_timezone_aware_kickoff_consistently(user, make_match):
+    warsaw_tz = ZoneInfo("Europe/Warsaw")
+    kickoff = timezone.datetime(2026, 6, 11, 21, 0, tzinfo=warsaw_tz)
+    match = make_match(kickoff=kickoff)
+
+    with pytest.raises(ValueError, match="Mecz już się rozpoczął"):
+        with pytest.MonkeyPatch.context() as monkeypatch:
+            monkeypatch.setattr(
+                timezone,
+                "now",
+                lambda: timezone.datetime(2026, 6, 11, 19, 1, tzinfo=datetime_timezone.utc),
+            )
+            PredictionService.save_prediction(
+                user,
+                match.id,
+                {"predicted_home": "1", "predicted_away": "0"},
+            )
+
+
+@pytest.mark.django_db
 @override_settings(BONUS_LIMIT_PER_STAGE=1)
 def test_save_prediction_enforces_bonus_limit(user, make_match):
     first_match = make_match(stage="Runda bonus")
@@ -110,6 +143,39 @@ def test_save_prediction_removes_existing_bonus(user, future_match):
     assert result["bonus_remaining"] == 2
 
 
+@pytest.mark.django_db
+def test_save_prediction_allows_explicit_no_scorer_with_no_goals(user, future_match):
+    PredictionService.save_prediction(
+        user,
+        future_match.id,
+        {
+            "predicted_home": "0",
+            "predicted_away": "0",
+            "predicted_first_team": "NONE",
+            "predicted_scorer": ScoringService.NO_SCORER,
+        },
+    )
+
+    prediction = Prediction.objects.get(user=user, match=future_match)
+    assert prediction.predicted_first_team == "NONE"
+    assert prediction.predicted_scorer == ScoringService.NO_SCORER
+
+
+@pytest.mark.django_db
+def test_save_prediction_rejects_no_scorer_with_scoring_team(user, future_match):
+    with pytest.raises(ValueError, match="Brak strzelca"):
+        PredictionService.save_prediction(
+            user,
+            future_match.id,
+            {
+                "predicted_home": "1",
+                "predicted_away": "0",
+                "predicted_first_team": "HOME",
+                "predicted_scorer": ScoringService.NO_SCORER,
+            },
+        )
+
+
 def test_get_rules_explanation_contains_point_values():
     rules = ScoringService.get_rules_explanation()
 
@@ -133,6 +199,8 @@ def test_calculate_points_exact_score_with_bonus(finished_match, user):
     expected_base = (
         correct_result_points
         + correct_goal_diff_points
+        + correct_home_or_away_goals_points
+        + correct_home_or_away_goals_points
         + correct_home_or_away_win_points
         + correct_first_team_scored
         + correct_first_scorer_points
@@ -166,6 +234,99 @@ def test_calculate_points_draw_underdog(make_match, user):
         + correct_home_or_away_win_points
         + round(math.log(float(match.draw_odds) / 3) * 10)
     )
+
+
+@pytest.mark.django_db
+def test_calculate_points_awards_outcome_points_for_correct_draw(make_match, user):
+    match = make_match(
+        status="FINISHED",
+        home_score=2,
+        away_score=2,
+        draw_odds=Decimal("2.50"),
+    )
+    prediction = Prediction.objects.create(
+        user=user,
+        match=match,
+        predicted_home=1,
+        predicted_away=1,
+    )
+
+    points, breakdown = ScoringService.calculate_points(match, prediction)
+
+    assert "home_or_away_winner" in breakdown
+    assert points == correct_goal_diff_points + correct_home_or_away_win_points
+
+
+@pytest.mark.django_db
+def test_calculate_points_exact_zero_zero_gets_full_score_points(make_match, user):
+    match = make_match(
+        status="FINISHED",
+        home_score=0,
+        away_score=0,
+        draw_odds=Decimal("2.50"),
+        first_scoring_team="NONE",
+        first_scorer="",
+    )
+    prediction = Prediction.objects.create(
+        user=user,
+        match=match,
+        predicted_home=0,
+        predicted_away=0,
+        predicted_first_team="NONE",
+        predicted_scorer="",
+    )
+
+    points, breakdown = ScoringService.calculate_points(match, prediction)
+
+    assert points == (
+        correct_result_points
+        + correct_goal_diff_points
+        + correct_home_or_away_goals_points
+        + correct_home_or_away_goals_points
+        + correct_home_or_away_win_points
+        + correct_first_team_scored
+    )
+    assert set(breakdown) == {
+        "exact_score",
+        "diff_correct_outcome",
+        "home_correct_outcome",
+        "away_correct_outcome",
+        "home_or_away_winner",
+        "first_team",
+    }
+
+
+@pytest.mark.django_db
+def test_calculate_points_explicit_no_scorer_gets_first_scorer_points(make_match, user):
+    match = make_match(
+        status="FINISHED",
+        home_score=0,
+        away_score=0,
+        draw_odds=Decimal("2.50"),
+        first_scoring_team="NONE",
+        first_scorer=ScoringService.NO_SCORER,
+    )
+    prediction = Prediction.objects.create(
+        user=user,
+        match=match,
+        predicted_home=0,
+        predicted_away=0,
+        predicted_first_team="NONE",
+        predicted_scorer=ScoringService.NO_SCORER,
+    )
+
+    points, breakdown = ScoringService.calculate_points(match, prediction)
+
+    assert points == (
+        correct_result_points
+        + correct_goal_diff_points
+        + correct_home_or_away_goals_points
+        + correct_home_or_away_goals_points
+        + correct_home_or_away_win_points
+        + correct_first_team_scored
+        + correct_first_scorer_points
+    )
+    assert breakdown["first_scorer"]["points"] == correct_first_scorer_points
 
 
 @pytest.mark.django_db

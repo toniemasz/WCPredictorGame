@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
-from celery.schedules import crontab
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -22,6 +21,20 @@ import os
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def env_bool(name, default=False):
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.lower() in ("true", "1", "t", "yes", "on")
+
+
+def env_int(name, default=0):
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return int(value)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -29,7 +42,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 FOOTBALL_DATA_API_KEY = os.getenv("FOOTBALL_DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
+DEBUG = env_bool("DEBUG", False)
+AUTO_MATCH_API_SYNC_ENABLED = env_bool("AUTO_MATCH_API_SYNC_ENABLED", True)
 
 
 MAX_BONUSES_PER_ROUND = 2
@@ -39,6 +53,14 @@ if DEBUG:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 else:
     ALLOWED_HOSTS = ["*", ".onrender.com"]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", not DEBUG)
+SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", not DEBUG)
+CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", not DEBUG)
+SECURE_HSTS_SECONDS = env_int("SECURE_HSTS_SECONDS", 3600 if not DEBUG else 0)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
+SECURE_HSTS_PRELOAD = env_bool("SECURE_HSTS_PRELOAD", False)
 
 
 # Application definition
@@ -64,6 +86,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tournament.middleware.CustomErrorPageMiddleware',
 
 
 ]
@@ -74,20 +97,12 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 CELERY_TIMEZONE = "Europe/Warsaw"
 USE_TZ = True
 
-CELERY_BEAT_SCHEDULE = {
-    "daily-update": {
-        "task": "tournament.tasks.daily_update",
-        "schedule": crontab(hour=6, minute=0),
-    },
-    "smart-live-update": {
-        "task": "tournament.tasks.conditional_live_update",
-        "schedule": crontab(minute="*/5"),
-    },
-}
+CELERY_BEAT_SCHEDULE = {}
 
 ROOT_URLCONF = 'config.urls'
 
 LOGIN_URL = "/login/"
+CSRF_FAILURE_VIEW = "tournament.views.csrf_failure_view"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 

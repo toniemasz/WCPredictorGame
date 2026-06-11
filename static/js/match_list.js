@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (data.reason === "already_running") {
                 showBanner(initialMessage);
-                setTimeout(() => window.location.reload(), 5000);
+                setTimeout(hideBanner, 5000);
                 return;
             }
 
@@ -77,8 +77,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const tabs = document.querySelectorAll(".stage-tab");
     const contents = document.querySelectorAll(".stage-content");
 
-    const savedStage = localStorage.getItem("activeStage");
-
     function setTabState(tab, isActive) {
         tab.dataset.active = isActive ? "true" : "false";
         tab.style.background = isActive
@@ -95,23 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
         setTabState(tab, tab.dataset.active === "true");
     });
 
-    if (savedStage) {
-        const tab = document.querySelector(
-            `.stage-tab[data-target="${savedStage}"]`
-        );
-
-        if (tab) {
-            setTimeout(() => tab.click(), 50);
-        }
-    }
-
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
-            localStorage.setItem(
-                "activeStage",
-                tab.getAttribute("data-target")
-            );
-
             contents.forEach(content => content.classList.add("hidden"));
             tabs.forEach(t => setTabState(t, false));
 
@@ -129,7 +112,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const inputs = form.querySelectorAll('input, select');
         const cardContainer = form.closest('.wc-card');
         const statusEl = cardContainer ? cardContainer.querySelector('.save-status') : form.nextElementSibling;
+        const firstTeamSelect = form.querySelector('[name=predicted_first_team]');
+        const scorerSelect = form.querySelector('[name=predicted_scorer]');
         let timeout = null;
+
+        if (firstTeamSelect && scorerSelect) {
+            firstTeamSelect.addEventListener('change', () => {
+                if (firstTeamSelect.value === 'NONE') {
+                    scorerSelect.value = 'NO_SCORER';
+                } else if (scorerSelect.value === 'NO_SCORER') {
+                    scorerSelect.value = '';
+                }
+            });
+        }
 
         function triggerSave(immediate = false, reloadAfterSave = false) {
             const home = form.querySelector('[name=predicted_home]').value;

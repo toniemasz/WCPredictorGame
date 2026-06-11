@@ -1,10 +1,20 @@
 # tournament/admin.py
-from django.contrib import admin
 from datetime import timedelta
-from .models import Match, Team, Prediction, Profile, TeamPlayer
+
 from django.contrib import admin
 from django import forms
-from .models import Match, Team, TeamPlayer, Prediction, Profile
+
+from .models import (
+    Match,
+    MatchComment,
+    MatchCommentReaction,
+    MatchWatch,
+    Prediction,
+    Profile,
+    Team,
+    TeamPlayer,
+)
+from .services.scoring_service import ScoringService
 
 
 @admin.action(description="Wymuś dodanie +2 godzin do czasu meczu (kickoff)")
@@ -52,11 +62,13 @@ class MatchAdminForm(forms.ModelForm):
                     team__in=[home_team, away_team]
                 ).select_related('team').order_by('team__name', 'name')
 
-                player_choices = [('', '--------- (Wybierz strzelca)')]
+                player_choices = [
+                    ('', '--------- (Wybierz strzelca)'),
+                    (ScoringService.NO_SCORER, ScoringService.NO_SCORER_LABEL),
+                ]
 
                 for p in players:
-                    # Format wyświetlania: "Nazwisko (Reprezentacja)"
-                    player_choices.append((p.name, f"{p.name} ({p.team.name})"))
+                    player_choices.append((p.name, p.display_label))
 
                 # Zastępujemy domyślny CharField rozwijaną listą (ChoiceField)
                 self.fields['first_scorer'] = forms.ChoiceField(
@@ -71,6 +83,21 @@ class MatchAdminForm(forms.ModelForm):
                 if current_scorer and current_scorer not in [c[0] for c in player_choices]:
                     player_choices.append((current_scorer, f"{current_scorer} (wpisany ręcznie)"))
                     self.fields['first_scorer'].choices = player_choices
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_scoring_team = cleaned_data.get("first_scoring_team")
+        first_scorer = cleaned_data.get("first_scorer")
+
+        if first_scoring_team == "NONE":
+            cleaned_data["first_scorer"] = ScoringService.NO_SCORER
+        elif first_scorer == ScoringService.NO_SCORER:
+            self.add_error(
+                "first_scorer",
+                "Brak strzelca można ustawić tylko przy opcji Brak bramek.",
+            )
+
+        return cleaned_data
 
 
 @admin.register(Match)
@@ -90,9 +117,28 @@ class TeamAdmin(admin.ModelAdmin):
 
 @admin.register(TeamPlayer)
 class TeamPlayerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'team', 'position')
-    list_filter = ('team', 'position')
-    search_fields = ('name',)
+    list_display = ('name', 'team', 'position', 'nationality')
+    list_filter = ('team', 'position', 'nationality')
+    search_fields = ('name', 'nationality')
+
+
+@admin.register(MatchComment)
+class MatchCommentAdmin(admin.ModelAdmin):
+    list_display = ("user", "match", "created_at", "is_deleted")
+    list_filter = ("is_deleted", "created_at")
+    search_fields = ("user__username", "content", "match__home_team__name", "match__away_team__name")
+
+
+@admin.register(MatchCommentReaction)
+class MatchCommentReactionAdmin(admin.ModelAdmin):
+    list_display = ("user", "comment", "reaction", "created_at")
+    list_filter = ("reaction", "created_at")
+
+
+@admin.register(MatchWatch)
+class MatchWatchAdmin(admin.ModelAdmin):
+    list_display = ("user", "match", "want_to_watch", "watched", "updated_at")
+    list_filter = ("want_to_watch", "watched")
 
 
 admin.site.register(Prediction)

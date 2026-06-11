@@ -3,6 +3,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.conf import settings
 from tournament.models import Prediction, Match, BonusUsage
+from tournament.services.scoring_service import ScoringService
 
 
 class PredictionService:
@@ -12,9 +13,16 @@ class PredictionService:
         match = PredictionService._get_match(match_id)
         PredictionService._validate_match_is_open(match)
 
-        home = data.get("predicted_home")
-        away = data.get("predicted_away")
-        PredictionService._validate_score_input(home, away)
+        home, away = PredictionService._validate_score_input(
+            data.get("predicted_home"),
+            data.get("predicted_away"),
+        )
+        cleaned_data = {
+            **data,
+            "predicted_home": home,
+            "predicted_away": away,
+        }
+        PredictionService._validate_first_goal_input(cleaned_data)
 
         is_doubled = data.get("is_doubled", False)
         limit = PredictionService._get_bonus_limit()
@@ -27,7 +35,7 @@ class PredictionService:
             existing.is_doubled if existing else False,
             limit,
         )
-        PredictionService._save_prediction(user, match, data)
+        PredictionService._save_prediction(user, match, cleaned_data)
 
         return {
             "status": "success",
@@ -49,6 +57,35 @@ class PredictionService:
     def _validate_score_input(home, away):
         if home is None or away is None or home == "" or away == "":
             raise ValueError("Wpisz obie wartości wyniku.")
+        return (
+            PredictionService._parse_score(home, "gospodarzy"),
+            PredictionService._parse_score(away, "gości"),
+        )
+
+    @staticmethod
+    def _parse_score(value, label):
+        try:
+            score = int(value)
+        except (TypeError, ValueError):
+            raise ValueError(f"Wynik {label} musi być liczbą całkowitą.")
+
+        if score < 0:
+            raise ValueError(f"Wynik {label} nie może być ujemny.")
+
+        return score
+
+    @staticmethod
+    def _validate_first_goal_input(data):
+        predicted_first_team = data.get("predicted_first_team")
+        predicted_scorer = (data.get("predicted_scorer") or "").strip()
+
+        if predicted_scorer == ScoringService.NO_SCORER and predicted_first_team != "NONE":
+            raise ValueError("Brak strzelca można wybrać tylko razem z opcją Brak bramek.")
+
+        if predicted_first_team == "NONE" and predicted_scorer and predicted_scorer != ScoringService.NO_SCORER:
+            raise ValueError("Przy opcji Brak bramek wybierz Brak strzelca.")
+
+        data["predicted_scorer"] = predicted_scorer
 
     @staticmethod
     def _get_bonus_limit():

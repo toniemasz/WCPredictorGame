@@ -3,19 +3,23 @@ from copy import deepcopy
 from django.conf import settings
 
 from tournament.content.home_page import HOME_PAGE_CONTENT
+from tournament.services.profile_service import ProfileService
 from tournament.services.scoring_service import ScoringService
+from tournament.services.stats_service import StatsService
 from tournament.services.sync_status_service import SyncStatusService
 
 
 class HomePageService:
     @classmethod
-    def get_context(cls):
+    def get_context(cls, user=None, country_language="pl"):
         content = deepcopy(HOME_PAGE_CONTENT)
         cls._inject_scoring_rules(content)
 
         return {
             "home_content": cls._format_content(content),
             "matches_sync": SyncStatusService.get_matches_sync_info(),
+            "round_summary": StatsService.get_home_summary(user, country_language),
+            "podium_profiles": ProfileService.get_leaderboard_profiles()[:3],
         }
 
     @classmethod

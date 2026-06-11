@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto w-full">
+    <div class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-2">Osiągnięcia</p>
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight">Twoje odznaki</h1>
+            <p class="text-slate-400 text-sm sm:text-base mt-2">
+                Odblokowane za typy, trafienia, bonusy i aktywność w grze.
+            </p>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-slate-950 px-5 py-3 text-center">
+            <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Postęp</div>
+            <div class="text-2xl font-black text-cyan-300">{{ unlocked_count }} / {{ total_count }}</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for achievement in achievements %}
+            <article class="wc-card {% if achievement.unlocked %}border-cyan-500/30 bg-cyan-500/5{% else %}opacity-75{% endif %}">
+                <div class="flex items-start gap-4">
+                    <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border text-3xl {% if achievement.unlocked %}border-cyan-400 bg-cyan-400/10{% else %}border-slate-700 bg-slate-950 text-slate-500{% endif %}">
+                        {% if achievement.unlocked %}{{ achievement.emoji }}{% else %}🔒{% endif %}
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-black">{{ achievement.title }}</h2>
+                        <p class="mt-1 text-sm text-slate-400 leading-relaxed">{{ achievement.description }}</p>
+                        <div class="mt-3 text-xs font-bold {% if achievement.unlocked %}text-emerald-300{% else %}text-slate-500{% endif %}">
+                            {% if achievement.unlocked %}Odblokowane{% else %}Zablokowane{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

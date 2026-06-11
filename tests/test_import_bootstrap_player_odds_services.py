@@ -1,4 +1,5 @@
 import json
+from datetime import timezone as datetime_timezone
 from datetime import timedelta
 from unittest.mock import Mock
 
@@ -85,6 +86,25 @@ def test_import_matches_creates_updates_skips_and_records_success(monkeypatch):
 
 
 @pytest.mark.django_db
+def test_import_matches_stores_api_kickoff_as_aware_utc_datetime(monkeypatch):
+    data = {
+        "matches": [
+            _api_match(
+                99,
+                utcDate="2026-06-11T19:00:00Z",
+            ),
+        ]
+    }
+    monkeypatch.setattr(FootballDataAPI, "get_world_cup_matches", staticmethod(lambda: data))
+
+    ImportService.import_matches()
+
+    kickoff = Match.objects.get(football_data_match_id=99).kickoff
+    assert timezone.is_aware(kickoff)
+    assert kickoff.astimezone(datetime_timezone.utc).hour == 19
+
+
+@pytest.mark.django_db
 def test_import_matches_records_error_and_reraises(monkeypatch):
     monkeypatch.setattr(
         FootballDataAPI,
@@ -148,8 +168,8 @@ def test_player_import_creates_updates_and_skips_players(tmp_path, teams):
     path.write_text(
         json.dumps({
             "Poland": [
-                {"id": 1, "name": "Updated", "position": "FW", "jersey_number": "9"},
-                {"id": 2, "name": "New", "position": "MF", "jersey_number": "8"},
+                {"id": 1, "name": "Updated", "position": "FW", "jersey_number": "9", "nationality": "Poland"},
+                {"id": 2, "name": "New", "position": "MF", "jersey_number": "8", "nationality": "Poland"},
             ],
             "Missingland": [
                 {"id": 3, "name": "Skipped"},
@@ -163,6 +183,7 @@ def test_player_import_creates_updates_and_skips_players(tmp_path, teams):
     existing.refresh_from_db()
     assert result is None
     assert existing.name == "Updated"
+    assert existing.nationality == "Poland"
     assert TeamPlayer.objects.filter(api_player_id=2, name="New").exists()
     assert not TeamPlayer.objects.filter(api_player_id=3).exists()
 

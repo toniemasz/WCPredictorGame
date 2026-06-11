@@ -4,7 +4,7 @@
         <img src="{% static 'flags/'|add:match.home_team.code|add:'.png' %}"
              onerror="this.onerror=null; this.src='{% static 'flags/default.svg' %}'"
              class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
-        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.home_team.name_pl|default:match.home_team.name }}</span>
+        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.home_team.display_name|default:match.home_team.name }}</span>
     </div>
 
     <div class="flex flex-col items-center w-[36%] text-center px-1">
@@ -45,7 +45,7 @@
         <img src="{% static 'flags/'|add:match.away_team.code|add:'.png' %}"
              onerror="this.onerror=null; this.src='{% static 'flags/default.svg' %}'"
              class="w-10 h-7 rounded border border-slate-700 object-cover mb-1 shadow-sm">
-        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.away_team.name_pl|default:match.away_team.name }}</span>
+        <span class="text-xs font-bold text-white truncate text-center w-full">{{ match.away_team.display_name|default:match.away_team.name }}</span>
     </div>
 </div>
 

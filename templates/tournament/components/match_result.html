@@ -67,13 +67,13 @@
                     <div class="flex justify-between py-1.5 border-b border-slate-800/40 items-center">
                         <span class="text-slate-400">1. Strzelec gola:</span>
                         <span class="font-bold cursor-help px-2 py-0.5 rounded text-[11px] border
-                            {% if match.user_prediction.predicted_scorer == match.first_scorer %}
+                            {% if match.user_prediction.is_first_scorer_correct %}
                                 text-green-400 bg-green-400/10 border-green-400/20
                             {% else %}
                                 text-red-400 bg-red-400/10 border-red-400/20
                             {% endif %}"
-                            title="Twój typ: {{ match.user_prediction.predicted_scorer|default:'Brak' }}&#10;Prawidłowy: {{ match.first_scorer|default:'Brak (Brak goli / Samobój)' }}">
-                            {{ match.user_prediction.predicted_scorer|default:"-" }}
+                            title="Twój typ: {{ match.user_prediction.predicted_scorer_label }}&#10;Prawidłowy: {{ match.first_scorer_label }}">
+                            {{ match.user_prediction.predicted_scorer_label }}
                         </span>
                     </div>
 
@@ -85,10 +85,10 @@
                             {% else %}
                                 text-red-400 bg-red-400/10 border-red-400/20
                             {% endif %}"
-                            title="Twój typ: {% if match.user_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.name }}{% elif match.user_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.name }}{% else %}Brak bramek{% endif %}&#10;Prawidłowy: {% if match.first_scoring_team == 'HOME' %}{{ match.home_team.name }}{% elif match.first_scoring_team == 'AWAY' %}{{ match.away_team.name }}{% elif match.first_scoring_team == 'NONE' or match.home_score == 0 and match.away_score == 0 %}Brak bramek{% else %}Brak danych{% endif %}">
+                            title="Twój typ: {% if match.user_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.display_name|default:match.home_team.name }}{% elif match.user_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.display_name|default:match.away_team.name }}{% else %}Brak bramek{% endif %}&#10;Prawidłowy: {% if match.first_scoring_team == 'HOME' %}{{ match.home_team.display_name|default:match.home_team.name }}{% elif match.first_scoring_team == 'AWAY' %}{{ match.away_team.display_name|default:match.away_team.name }}{% elif match.first_scoring_team == 'NONE' or match.home_score == 0 and match.away_score == 0 %}Brak bramek{% else %}Brak danych{% endif %}">
 
-                            {% if match.user_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.name }}
-                            {% elif match.user_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.name }}
+                            {% if match.user_prediction.predicted_first_team == 'HOME' %}{{ match.home_team.display_name|default:match.home_team.name }}
+                            {% elif match.user_prediction.predicted_first_team == 'AWAY' %}{{ match.away_team.display_name|default:match.away_team.name }}
                             {% elif match.user_prediction.predicted_first_team == 'NONE' %}Brak bramek
                             {% else %}-{% endif %}
                         </span>

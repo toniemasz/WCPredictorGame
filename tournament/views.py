@@ -5,10 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 
-from tournament.models import TeamPlayer
+from tournament.models import MatchComment, TeamPlayer
+from tournament.services.achievement_service import AchievementService
+from tournament.services.admin_match_service import AdminMatchService
 from tournament.services.bootstrap_service import BootstrapService
+from tournament.services.comment_service import MatchCommentService
 from tournament.services.import_service import ImportService
 from tournament.services.home_service import HomePageService
 from tournament.services.match_auto_update_service import MatchAutoUpdateService
@@ -17,21 +22,60 @@ from tournament.services.odds_sync import OddsSync
 from tournament.services.player_import_service import PlayerImportService
 from tournament.services.profile_service import ProfileService
 from tournament.services.scoring_service import ScoringService
+from tournament.services.stats_service import StatsService
+from tournament.services.team_name_service import TeamNameService
+from tournament.services.watch_service import MatchWatchService
 from .services.prediction_service import PredictionService
 
 
-def home_view(request):
+def custom_error_view(request, exception=None, status_code=500):
+    response = render(
+        request,
+        "errors/error.html",
+        {"status_code": status_code},
+        status=status_code,
+    )
+    response.headers["X-Custom-Error-Page"] = "1"
+    return response
 
+
+def bad_request_view(request, exception):
+    return custom_error_view(request, exception, 400)
+
+
+def permission_denied_view(request, exception):
+    return custom_error_view(request, exception, 403)
+
+
+def page_not_found_view(request, exception):
+    return custom_error_view(request, exception, 404)
+
+
+def server_error_view(request):
+    return custom_error_view(request, status_code=500)
+
+
+def csrf_failure_view(request, reason=""):
+    return custom_error_view(request, status_code=403)
+
+
+def home_view(request):
     return render(
         request,
         "home.html",
-        HomePageService.get_context()
+        HomePageService.get_context(
+            request.user,
+            TeamNameService.get_language(request),
+        )
     )
 
 
 @login_required
 def match_list(request):
-    context = MatchListService.get_match_list_context(request.user)
+    context = MatchListService.get_match_list_context(
+        request.user,
+        TeamNameService.get_language(request),
+    )
     return render(request, "tournament/match_list.html", context)
 
 
@@ -45,12 +89,134 @@ def auto_update_matches_view(request):
 @login_required
 def match_predictions_view(request, match_id):
     try:
-        context = MatchListService.get_public_predictions_context(match_id)
+        context = MatchListService.get_public_predictions_context(
+            match_id,
+            TeamNameService.get_language(request),
+        )
     except ValueError as error:
         messages.error(request, str(error))
         return redirect("match_list")
 
     return render(request, "tournament/match_predictions.html", context)
+
+
+def match_detail_view(request, match_id):
+    context = MatchListService.get_match_detail_context(
+        match_id,
+        request.user,
+        TeamNameService.get_language(request),
+    )
+    return render(request, "tournament/match_detail.html", context)
+
+
+@login_required
+@require_POST
+def add_match_comment_view(request, match_id):
+    try:
+        MatchCommentService.add_comment(
+            request.user,
+            match_id,
+            request.POST.get("content"),
+        )
+        messages.success(request, "Komentarz został dodany.")
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    return redirect(f"{reverse('match_detail', args=[match_id])}#comments")
+
+
+@login_required
+@require_POST
+def delete_match_comment_view(request, comment_id):
+    try:
+        comment = MatchCommentService.delete_comment(request.user, comment_id)
+        messages.success(request, "Komentarz został usunięty.")
+        return redirect(f"{reverse('match_detail', args=[comment.match_id])}#comments")
+    except PermissionError as error:
+        messages.error(request, str(error))
+        return redirect("match_list")
+
+
+@login_required
+@require_POST
+def react_match_comment_view(request, comment_id):
+    match_id = request.POST.get("match_id")
+    try:
+        reaction = MatchCommentService.toggle_reaction(
+            request.user,
+            comment_id,
+            request.POST.get("reaction"),
+        )
+        messages.success(
+            request,
+            "Reakcja została zapisana." if reaction else "Reakcja została cofnięta.",
+        )
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    if not match_id:
+        match_id = MatchComment.objects.get(pk=comment_id).match_id
+
+    return redirect(f"{reverse('match_detail', args=[match_id])}#comments")
+
+
+@login_required
+def stats_view(request):
+    context = StatsService.get_stats_context(
+        request.user,
+        request.GET.get("stage"),
+        TeamNameService.get_language(request),
+    )
+    return render(request, "tournament/stats.html", context)
+
+
+@login_required
+def watchlist_view(request):
+    return render(
+        request,
+        "tournament/watchlist.html",
+        MatchWatchService.get_watch_context(
+            request.user,
+            TeamNameService.get_language(request),
+        ),
+    )
+
+
+@login_required
+def achievements_view(request):
+    return render(
+        request,
+        "tournament/achievements.html",
+        AchievementService.get_page_context(request.user),
+    )
+
+
+@login_required
+@require_POST
+def update_match_watch_view(request, match_id):
+    try:
+        MatchWatchService.update_entry(
+            request.user,
+            match_id,
+            request.POST.get("action"),
+        )
+        messages.success(request, "Lista meczów do obejrzenia została zaktualizowana.")
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    next_url = request.POST.get("next") or reverse("watchlist")
+    return redirect(next_url)
+
+
+@require_POST
+def set_country_language_view(request):
+    try:
+        TeamNameService.set_language(request, request.POST.get("language"))
+        messages.success(request, "Zmieniono język nazw krajów.")
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    return redirect(request.POST.get("next") or "home")
 
 
 def register_view(request):
@@ -217,8 +383,27 @@ def admin_dashboard(request):
     """Główny widok panelu kontrolnego administratora"""
     return render(request, "tournament/admin_dashboard.html",
                   {
-                      "players_missing": players_missing
+                      "players_missing": players_missing,
+                      "first_goal_context": AdminMatchService.get_first_goal_context(
+                          TeamNameService.get_language(request),
+                      ),
                   })
+
+
+@staff_member_required
+@require_POST
+def admin_update_first_goal(request):
+    try:
+        AdminMatchService.update_first_goal(
+            request.POST.get("match_id"),
+            request.POST.get("first_scoring_team"),
+            request.POST.get("first_scorer"),
+        )
+        messages.success(request, "Pierwszy gol został zapisany i punkty przeliczone.")
+    except Exception as error:
+        messages.error(request, f"Nie udało się zapisać pierwszego gola: {error}")
+
+    return redirect("admin_dashboard")
 
 @staff_member_required
 def admin_trigger_import(request):

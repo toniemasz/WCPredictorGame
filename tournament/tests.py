@@ -254,11 +254,13 @@ def test_exact_score(match, user):
 
     points, breakdown = ScoringService.calculate_points(match, prediction)
 
-    assert breakdown["exact_score"]["points"] == 5
+    assert breakdown["exact_score"]["points"] == correct_result_points
 
     assert points == (
         correct_result_points +
         correct_goal_diff_points +
+        correct_home_or_away_goals_points +
+        correct_home_or_away_goals_points +
         correct_home_or_away_win_points +
         round(math.log(float(match.home_odds) / 3) * 10)
     )

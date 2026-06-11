@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.templatetags.static import static
 
 from tournament.models import Match, Prediction, Profile
+from tournament.services.achievement_service import AchievementService
 
 
 class ProfileService:
@@ -35,6 +36,7 @@ class ProfileService:
             "target_user": target_user,
             "profile": profile,
             "profile_avatar_url": profile.avatar_url,
+            "achievement_summary": AchievementService.get_user_summary(target_user),
             "available_avatars": (
                 cls.get_available_avatar_options(profile.avatar)
                 if is_owner

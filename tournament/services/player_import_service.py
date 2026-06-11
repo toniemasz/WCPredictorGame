@@ -121,7 +121,8 @@ class PlayerImportService:
                 "team": team,
                 "name": player["name"],
                 "position": player.get("position"),
-                "jersey_number": player.get("jersey_number")
+                "jersey_number": player.get("jersey_number"),
+                "nationality": player.get("nationality") or team.name_pl or team.name,
             }
         )
         return was_created

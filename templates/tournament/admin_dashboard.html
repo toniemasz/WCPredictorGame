@@ -2,25 +2,35 @@
 {% block content %}
 <div class="centered-content-wrapper">
     <div class="mb-6 text-center sm:text-left">
-        <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-amber-400 mb-2">🛠️ Panel Admina</h1>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-amber-400 mb-2">Panel admina</h1>
         <p class="text-slate-400 text-sm">Zarządzanie aplikacją, synchronizacja baz danych i API.</p>
     </div>
+
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <div class="wc-card flex flex-col justify-between">
             <div>
-                <h2 class="text-xl font-bold mb-2 text-white">Mecze i Dane</h2>
+                <h2 class="text-xl font-bold mb-2 text-white">Mecze i dane</h2>
                 <p class="text-slate-400 text-sm mb-6">Pobieraj i aktualizuj terminarz spotkań oraz wyniki bezpośrednio z zewnętrznego serwisu API Football.</p>
             </div>
             <div class="space-y-3">
-                <a href="{% url 'admin_trigger_import' %}" class="btn-secondary w-full">Synchronizuj Mecze</a>
+                <a href="{% url 'admin_trigger_import' %}" class="btn-secondary w-full">Synchronizuj mecze</a>
             </div>
         </div>
 
         <div class="wc-card flex flex-col justify-between">
             <div>
-                <h2 class="text-xl font-bold mb-2 text-white">Kursy Bukmacherskie</h2>
+                <h2 class="text-xl font-bold mb-2 text-white">Kursy bukmacherskie</h2>
                 <p class="text-slate-400 text-sm mb-6">Pobierz aktualne przeliczniki 1X2 z platformy The Odds API dla nadchodzących meczów grupowych.</p>
             </div>
             <div class="space-y-3">
@@ -31,18 +41,104 @@
         </div>
 
         <div class="wc-card md:col-span-2">
-            <h2 class="text-xl font-bold mb-3 text-white">Kalkulacja Punktacji</h2>
+            <h2 class="text-xl font-bold mb-3 text-white">Kalkulacja punktacji</h2>
             <p class="text-slate-400 text-sm mb-4">
                 Wymuś globalne przeliczenie punktów dla wszystkich użytkowników na podstawie wprowadzonych ostatecznych rezultatów meczowych.
             </p>
             <form method="POST" action="{% url 'admin_trigger_recalculate' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn-purple w-full">
-                    ⚙️ Wykonaj Pełne Przeliczenie Punktów
+                    Wykonaj pełne przeliczenie punktów
                 </button>
             </form>
         </div>
 
+        <div class="md:col-span-2">
+            <div class="mb-4">
+                <h2 class="text-xl font-bold mb-2 text-white">Pierwszy gol w meczu</h2>
+                <p class="text-slate-400 text-sm">
+                    Ręcznie uzupełnij pierwszą drużynę strzelającą oraz pierwszego strzelca dla meczów live, zakończonych albo z otwartym wynikiem.
+                    Zapisany i kompletny mecz znika z tej listy.
+                </p>
+            </div>
+            {% if first_goal_context.matches %}
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    {% for match_option in first_goal_context.matches %}
+                        <form method="POST" action="{% url 'admin_update_first_goal' %}" class="first-goal-card wc-card space-y-4">
+                            {% csrf_token %}
+                            <input type="hidden" name="match_id" value="{{ match_option.id }}">
+
+                            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                                <div>
+                                    <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">
+                                        {{ match_option.stage }} · {{ match_option.status }}
+                                    </div>
+                                    <h3 class="text-lg font-black text-white leading-tight">{{ match_option.label }}</h3>
+                                </div>
+                                <div class="shrink-0 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-center">
+                                    <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Wynik</div>
+                                    <div class="text-lg font-black text-cyan-300">{{ match_option.score_label }}</div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="form-label" for="first-scoring-team-{{ match_option.id }}">Drużyna pierwszego gola</label>
+                                    <select id="first-scoring-team-{{ match_option.id }}" name="first_scoring_team" class="form-input">
+                                        {% for choice in match_option.team_choices %}
+                                            <option value="{{ choice.value }}" {% if choice.value == match_option.current_first_team %}selected{% endif %}>
+                                                {{ choice.label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="first-scorer-{{ match_option.id }}">Pierwszy strzelec</label>
+                                    <select id="first-scorer-{{ match_option.id }}" name="first_scorer" class="form-input">
+                                        <option value="">Nie ustawiaj</option>
+                                        <option value="{{ match_option.no_scorer_value }}" {% if match_option.no_scorer_value == match_option.current_first_scorer %}selected{% endif %}>
+                                            {{ match_option.no_scorer_label }}
+                                        </option>
+                                        {% for player in match_option.player_choices %}
+                                            <option value="{{ player.value }}" {% if player.value == match_option.current_first_scorer %}selected{% endif %}>
+                                                {{ player.label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary w-full">Zapisz i ukryj po uzupełnieniu</button>
+                        </form>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="rounded-xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-sm text-slate-400">
+                    Brak meczów, dla których można teraz ustawić pierwszego strzelca.
+                </div>
+            {% endif %}
+        </div>
+
     </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".first-goal-card").forEach(card => {
+        const firstTeamSelect = card.querySelector('[name="first_scoring_team"]');
+        const scorerSelect = card.querySelector('[name="first_scorer"]');
+
+        if (!firstTeamSelect || !scorerSelect) {
+            return;
+        }
+
+        firstTeamSelect.addEventListener("change", () => {
+            if (firstTeamSelect.value === "NONE") {
+                scorerSelect.value = "NO_SCORER";
+            } else if (scorerSelect.value === "NO_SCORER") {
+                scorerSelect.value = "";
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

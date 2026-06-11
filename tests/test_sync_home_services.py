@@ -1,8 +1,11 @@
 import pytest
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 from tournament.models import ApiSyncStatus
+from tournament.models import Prediction
 from tournament.services.home_service import HomePageService
+from tournament.services.scoring_service import correct_result_points
 from tournament.services.sync_status_service import SyncStatusService
 
 
@@ -90,10 +93,30 @@ def test_home_page_service_formats_dynamic_content(monkeypatch, settings):
         "W każdej rundzie możesz wybrać do 7 meczów"
     )
     assert (
-        "Dokładny wynik bramkowy: +5 punkty"
+        f"Dokładny wynik bramkowy: +{correct_result_points} punkty"
         in context["home_content"]["game_info"]["sections"][1]["items"]
     )
     assert (
         context["home_content"]["game_info"]["sections"][1]["items"]
         == HomePageService._get_scoring_rule_items()
     )
+
+
+@pytest.mark.django_db
+def test_home_page_service_adds_top_three_podium(user, other_user, make_match):
+    third_user = User.objects.create_user(
+        username="third",
+        password="pass",
+    )
+    match = make_match(status="FINISHED", home_score=1, away_score=0)
+    Prediction.objects.create(user=user, match=match, predicted_home=1, predicted_away=0, points=4)
+    Prediction.objects.create(user=other_user, match=match, predicted_home=1, predicted_away=0, points=9)
+    Prediction.objects.create(user=third_user, match=match, predicted_home=1, predicted_away=0, points=2)
+
+    context = HomePageService.get_context(user)
+
+    assert [profile.user.username for profile in context["podium_profiles"]] == [
+        other_user.username,
+        user.username,
+        third_user.username,
+    ]

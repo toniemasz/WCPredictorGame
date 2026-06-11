@@ -9,6 +9,7 @@ from tournament.models import BonusUsage, Prediction, Profile, TeamPlayer
 from tournament.services.import_service import ImportService
 from tournament.services.match_service import MatchListService
 from tournament.services.profile_service import ProfileService
+from tournament.services.scoring_service import ScoringService
 
 
 def _prepare_avatar_dirs(tmp_path, settings):
@@ -249,6 +250,25 @@ def test_public_predictions_context_returns_sorted_predictions(tmp_path, setting
     assert context["predictions"][0].first_team_label == "Niemcy"
     assert context["predictions"][1].avatar_url == "/static/avatars/static.webp"
     assert context["predictions"][1].missing_options == ["pierwszy strzelec"]
+
+
+@pytest.mark.django_db
+def test_public_predictions_context_labels_explicit_no_scorer(user, make_match):
+    match = make_match(status="LIVE", home_score=0, away_score=0)
+    Prediction.objects.create(
+        user=user,
+        match=match,
+        predicted_home=0,
+        predicted_away=0,
+        predicted_first_team="NONE",
+        predicted_scorer=ScoringService.NO_SCORER,
+    )
+
+    context = MatchListService.get_public_predictions_context(match.id)
+
+    prediction = context["predictions"][0]
+    assert prediction.predicted_scorer_label == ScoringService.NO_SCORER_LABEL
+    assert prediction.missing_options == []
 
 
 @pytest.mark.django_db

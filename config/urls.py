@@ -32,3 +32,8 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
+
+handler400 = "tournament.views.bad_request_view"
+handler403 = "tournament.views.permission_denied_view"
+handler404 = "tournament.views.page_not_found_view"
+handler500 = "tournament.views.server_error_view"

@@ -12,6 +12,19 @@
             {% endif %}
         </form>
         <div class="save-status text-center text-xs font-bold mt-2 h-4 opacity-0 transition-opacity duration-300"></div>
+        <div class="mt-3 flex flex-col sm:flex-row gap-2">
+            <a href="{% url 'match_detail' match.id %}#comments" class="flex-1 inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 px-3 py-2 text-xs font-bold text-slate-300 hover:text-cyan-300 hover:border-cyan-500/30 transition-colors">
+                Komentarze ({{ match.comment_count }})
+            </a>
+            <form method="POST" action="{% url 'update_match_watch' match.id %}" class="flex-1">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <input type="hidden" name="action" value="{% if match.watch_entry and match.watch_entry.want_to_watch %}remove{% else %}add{% endif %}">
+                <button type="submit" class="w-full rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition-colors">
+                    {% if match.watch_entry and match.watch_entry.want_to_watch %}Usuń z listy{% else %}Do obejrzenia{% endif %}
+                </button>
+            </form>
+        </div>
     {% else %}
         <div>
             {% include "tournament/components/match_header.html" %}
@@ -26,6 +39,19 @@
                     Zobacz jak obstawili inni{% if match.public_predictions_count %} ({{ match.public_predictions_count }}){% endif %}
                 </a>
             {% endif %}
+            <div class="mt-3 flex flex-col sm:flex-row gap-2">
+                <a href="{% url 'match_detail' match.id %}#comments" class="flex-1 inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 px-3 py-2 text-xs font-bold text-slate-300 hover:text-cyan-300 hover:border-cyan-500/30 transition-colors">
+                    Komentarze ({{ match.comment_count }})
+                </a>
+                <form method="POST" action="{% url 'update_match_watch' match.id %}" class="flex-1">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <input type="hidden" name="action" value="{% if match.watch_entry and match.watch_entry.watched %}unwatched{% else %}watched{% endif %}">
+                    <button type="submit" class="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors">
+                        {% if match.watch_entry and match.watch_entry.watched %}Oznacz jako nieobejrzany{% else %}Obejrzany{% endif %}
+                    </button>
+                </form>
+            </div>
         </div>
     {% endif %}
 </div>

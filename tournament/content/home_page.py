@@ -1,6 +1,6 @@
 HOME_PAGE_CONTENT = {
     "hero": {
-        "title": "Przewiduj Wyniki World Cup 2026",
+        "title": "Przewiduj wyniki MŚ 2026",
         "subtitle": (
             "Dołącz do rywalizacji ze znajomymi, zbieraj punkty za dokładne "
             "typy, trafiaj pierwszych strzelców bramek i wygraj ze wszystkimi."
@@ -102,7 +102,7 @@ HOME_PAGE_CONTENT = {
             {
                 "title": "Ranking i profile",
                 "items": [
-                    "Leaderboard sortuje graczy po sumie punktów z typowań.",
+                    "Ranking sortuje graczy po sumie punktów z typowań.",
                     "Na profilu zobaczysz kupony gracza pogrupowane po rundach.",
                     "Avatar profilu jest wybierany z dostępnych grafik w aplikacji.",
                 ],
@@ -110,7 +110,7 @@ HOME_PAGE_CONTENT = {
         ],
     },
     "patch_notes": {
-        "title": "Patch notes",
+        "title": "Historia zmian",
         "items": [
             {
                 "version": "2026.06.10",

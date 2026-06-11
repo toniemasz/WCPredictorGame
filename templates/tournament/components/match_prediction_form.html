@@ -5,8 +5,8 @@
             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">1. Bramka (drużyna):</label>
             <select name="predicted_first_team" class="w-full bg-slate-900 border border-slate-700 rounded-lg text-xs p-2 text-slate-300 outline-none focus:border-cyan-500 transition-colors">
                 <option value="">Wybierz...</option>
-                <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.name }}</option>
-                <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.name }}</option>
+                <option value="HOME" {% if match.user_prediction.predicted_first_team == 'HOME' %}selected{% endif %}>{{ match.home_team.display_name|default:match.home_team.name }}</option>
+                <option value="AWAY" {% if match.user_prediction.predicted_first_team == 'AWAY' %}selected{% endif %}>{{ match.away_team.display_name|default:match.away_team.name }}</option>
                 <option value="NONE" {% if match.user_prediction.predicted_first_team == 'NONE' %}selected{% endif %}>Brak bramek</option>
             </select>
         </div>
@@ -14,9 +14,10 @@
             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">Pierwszy strzelec:</label>
             <select name="predicted_scorer" class="w-full bg-slate-900 border border-slate-700 rounded-lg text-xs p-2 text-slate-300 outline-none focus:border-cyan-500 transition-colors">
                 <option value="">Wybierz zawodnika...</option>
+                <option value="NO_SCORER" {% if match.user_prediction.predicted_scorer == 'NO_SCORER' %}selected{% endif %}>Brak strzelca</option>
                 {% for player in match.available_players %}
                 <option value="{{ player.name }}" {% if match.user_prediction.predicted_scorer == player.name %}selected{% endif %}>
-                    {{ player.name }}
+                    {{ player.display_label }}
                 </option>
                 {% endfor %}
             </select>

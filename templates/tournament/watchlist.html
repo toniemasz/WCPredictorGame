@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-5xl mx-auto w-full">
+    <div class="mb-6">
+        <p class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-2">Moje mecze</p>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight">Do obejrzenia</h1>
+        <p class="text-slate-400 text-sm sm:text-base mt-2">
+            Zaplanuj mecze do obejrzenia i oznacz te, które masz już za sobą.
+        </p>
+    </div>
+
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div class="wc-card">
+            <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Do obejrzenia</div>
+            <div class="text-3xl font-black text-amber-400">{{ to_watch_count }}</div>
+        </div>
+        <div class="wc-card">
+            <div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Obejrzane</div>
+            <div class="text-3xl font-black text-emerald-400">{{ watched_count }}</div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        {% for entry in entries %}
+            <article class="wc-card">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{{ entry.match.stage }}</div>
+                        <h2 class="text-xl font-black">
+                            {{ entry.match.home_team.display_name|default:entry.match.home_team.name }}
+                            vs
+                            {{ entry.match.away_team.display_name|default:entry.match.away_team.name }}
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">{{ entry.match.kickoff|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <form method="POST" action="{% url 'update_match_watch' entry.match.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <input type="hidden" name="action" value="{% if entry.watched %}unwatched{% else %}watched{% endif %}">
+                            <button type="submit" class="btn-secondary !px-4 !py-2">
+                                {% if entry.watched %}Cofnij obejrzane{% else %}Obejrzałem{% endif %}
+                            </button>
+                        </form>
+                        <form method="POST" action="{% url 'update_match_watch' entry.match.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <input type="hidden" name="action" value="remove">
+                            <button type="submit" class="btn-danger !px-4 !py-2">Usuń</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="wc-card text-center p-8">
+                <h2 class="text-xl font-bold mb-2">Brak meczów na liście</h2>
+                <p class="text-sm text-slate-500">Dodaj mecz z listy spotkań, a pojawi się tutaj.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,21 +1,34 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.core.cache import cache
+from django.db import transaction
 from django.utils import timezone
 
 from tournament.models import ApiSyncStatus, Match
 from tournament.services.import_service import ImportService
+from tournament.services.sync_status_service import SyncStatusService
 
 
 class MatchAutoUpdateService:
-    LIVE_REFRESH_INTERVAL = timedelta(minutes=5)
-    KICKOFF_REFRESH_INTERVAL = timedelta(minutes=5)
+    MIN_REFRESH_INTERVAL = timedelta(minutes=10)
+    LIVE_REFRESH_INTERVAL = MIN_REFRESH_INTERVAL
+    KICKOFF_REFRESH_INTERVAL = MIN_REFRESH_INTERVAL
     LOCK_KEY = "match-auto-update-lock"
     LOCK_TIMEOUT_SECONDS = 120
 
     @classmethod
     def check_and_update_matches(cls, now=None):
         now = now or timezone.now()
+
+        if not cls.is_enabled():
+            return cls._build_response(
+                status="skipped",
+                updated=False,
+                reason="auto_sync_disabled",
+                message="Automatyczna synchronizacja meczów jest wyłączona.",
+                should_update=False,
+            )
 
         running_response = cls._get_running_sync_response(now)
         if running_response:
@@ -31,7 +44,7 @@ class MatchAutoUpdateService:
                 should_update=False,
             )
 
-        if not cls._acquire_lock():
+        if not cls._acquire_lock(now):
             return cls._build_response(
                 status="skipped",
                 updated=False,
@@ -43,6 +56,7 @@ class MatchAutoUpdateService:
         try:
             ImportService.import_matches()
         except Exception as error:
+            SyncStatusService.record_error(ApiSyncStatus.SYNC_MATCHES, error)
             return cls._build_response(
                 status="error",
                 updated=False,
@@ -61,6 +75,10 @@ class MatchAutoUpdateService:
             message="Wyniki meczów zostały zaktualizowane.",
             should_update=True,
         )
+
+    @staticmethod
+    def is_enabled():
+        return getattr(settings, "AUTO_MATCH_API_SYNC_ENABLED", True)
 
     @classmethod
     def _get_running_sync_response(cls, now):
@@ -93,27 +111,21 @@ class MatchAutoUpdateService:
                 message="Brak meczów do aktualizacji.",
             )
 
-        if cls._has_finished_match_without_final_update():
-            return cls._build_decision(
-                should_update=True,
-                reason="finished_needs_final_sync",
-                message="Znaleziono zakończony mecz bez finalnej aktualizacji.",
-            )
+        last_attempt_at = cls._get_last_attempt_at()
 
-        last_success_at = cls._get_last_success_at()
         if cls._has_live_match() and cls._is_stale(
-            last_success_at,
+            last_attempt_at,
             now,
             cls.LIVE_REFRESH_INTERVAL,
         ):
             return cls._build_decision(
                 should_update=True,
                 reason="live_refresh_due",
-                message="Trwa mecz, a ostatnia aktualizacja jest starsza niż 5 minut.",
+                message="Trwa mecz, a ostatnia próba aktualizacji jest starsza niż 10 minut.",
             )
 
         if cls._has_started_scheduled_match(now) and cls._is_stale(
-            last_success_at,
+            last_attempt_at,
             now,
             cls.KICKOFF_REFRESH_INTERVAL,
         ):
@@ -121,6 +133,17 @@ class MatchAutoUpdateService:
                 should_update=True,
                 reason="kickoff_passed",
                 message="Najbliższy zaplanowany mecz powinien już się rozpocząć.",
+            )
+
+        if cls._has_finished_match_without_final_update() and cls._is_stale(
+            last_attempt_at,
+            now,
+            cls.KICKOFF_REFRESH_INTERVAL,
+        ):
+            return cls._build_decision(
+                should_update=True,
+                reason="finished_needs_final_sync",
+                message="Znaleziono zakończony mecz bez finalnej aktualizacji.",
             )
 
         return cls._build_decision(
@@ -156,11 +179,11 @@ class MatchAutoUpdateService:
         )
 
     @classmethod
-    def _get_last_success_at(cls):
+    def _get_last_attempt_at(cls):
         sync_status = cls._get_sync_status()
         if not sync_status:
             return None
-        return sync_status.last_success_at
+        return sync_status.last_attempt_at
 
     @staticmethod
     def _get_sync_status():
@@ -169,16 +192,43 @@ class MatchAutoUpdateService:
         ).first()
 
     @staticmethod
-    def _is_stale(last_success_at, now, interval):
-        return not last_success_at or last_success_at <= now - interval
+    def _is_stale(last_attempt_at, now, interval):
+        return not last_attempt_at or last_attempt_at <= now - interval
 
     @classmethod
-    def _acquire_lock(cls):
-        return cache.add(
+    def _acquire_lock(cls, now):
+        has_cache_lock = cache.add(
             cls.LOCK_KEY,
             timezone.now().isoformat(),
             timeout=cls.LOCK_TIMEOUT_SECONDS,
         )
+        if not has_cache_lock:
+            return False
+
+        if cls._acquire_database_lock(now):
+            return True
+
+        cls._release_lock()
+        return False
+
+    @classmethod
+    def _acquire_database_lock(cls, now):
+        with transaction.atomic():
+            status, _ = ApiSyncStatus.objects.select_for_update().get_or_create(
+                sync_name=ApiSyncStatus.SYNC_MATCHES,
+            )
+            is_recent_pending = (
+                status.status == ApiSyncStatus.STATUS_PENDING
+                and status.last_attempt_at
+                and status.last_attempt_at >= now - timedelta(seconds=cls.LOCK_TIMEOUT_SECONDS)
+            )
+            if is_recent_pending:
+                return False
+
+            status.status = ApiSyncStatus.STATUS_PENDING
+            status.last_attempt_at = now
+            status.save(update_fields=["status", "last_attempt_at"])
+            return True
 
     @classmethod
     def _release_lock(cls):

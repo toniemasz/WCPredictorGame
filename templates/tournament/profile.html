@@ -5,7 +5,7 @@
 <div class="centered-content-wrapper">
     <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-6 text-center sm:text-left">
         {% if request.user == target_user %}
-            Twój Profil
+            Twój profil
         {% else %}
             Profil gracza: {{ target_user.username }}
         {% endif %}
@@ -36,13 +36,13 @@
         <div class="wc-card md:col-span-2 flex flex-col justify-between">
             <div>
                 {% if request.user == target_user %}
-                    <h3 class="text-lg font-bold mb-4 border-b border-slate-800 pb-2">Ustawienia Konta</h3>
+                    <h3 class="text-lg font-bold mb-4 border-b border-slate-800 pb-2">Ustawienia konta</h3>
 
                     <form method="POST" class="space-y-6">
                         {% csrf_token %}
 
                         <div>
-                            <label class="block text-sm font-bold text-slate-400 mb-2">Wybierz Avatar:</label>
+                            <label class="block text-sm font-bold text-slate-400 mb-2">Wybierz avatar:</label>
                             
                             <div class="flex flex-wrap gap-3">
 
@@ -80,6 +80,31 @@
             </div>
         </div>
     </div>
+
+    <section class="mt-8 wc-card">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-5">
+            <div>
+                <h2 class="text-2xl font-black tracking-tight">Osiągnięcia</h2>
+                <p class="text-sm text-slate-500">
+                    Odblokowane: {{ achievement_summary.unlocked_count }} / {{ achievement_summary.total_count }}
+                </p>
+            </div>
+            {% if request.user == target_user %}
+                <a href="{% url 'achievements' %}" class="text-sm font-bold text-cyan-300 hover:text-cyan-200">Pełny widok</a>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+            {% for achievement in achievement_summary.achievements %}
+                <div
+                    class="group relative flex h-14 w-14 items-center justify-center rounded-full border text-2xl {% if achievement.unlocked %}border-cyan-400 bg-cyan-400/10 shadow-[0_0_16px_rgba(34,211,238,.18)]{% else %}border-slate-700 bg-slate-950 text-slate-500{% endif %}"
+                    title="{{ achievement.title }} - {{ achievement.description }}"
+                >
+                    {% if achievement.unlocked %}{{ achievement.emoji }}{% else %}🔒{% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 
     <div class="mt-12">
         <h2 class="text-2xl font-bold mb-6 text-center sm:text-left border-b border-slate-800 pb-3">Kupony gracza</h2>

@@ -1,3 +1,5 @@
+from datetime import timezone as datetime_timezone
+
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
@@ -115,6 +117,15 @@ class ImportService:
         return FootballDataAPI.get_world_cup_matches()
 
     @staticmethod
+    def _parse_api_datetime(value):
+        parsed = parse_datetime(value)
+        if parsed is None:
+            raise ValueError(f"Nieprawidłowa data meczu z API: {value}")
+        if timezone.is_naive(parsed):
+            return timezone.make_aware(parsed, datetime_timezone.utc)
+        return parsed.astimezone(datetime_timezone.utc)
+
+    @staticmethod
     def _has_named_teams(api_match):
         home = api_match["homeTeam"]
         away = api_match["awayTeam"]
@@ -138,7 +149,7 @@ class ImportService:
             defaults={
                 "home_team": home_team,
                 "away_team": away_team,
-                "kickoff": parse_datetime(api_match["utcDate"]),
+                "kickoff": cls._parse_api_datetime(api_match["utcDate"]),
                 "status": status,
                 "stage": cls._get_stage_name(api_match),
                 "home_score": home_score,
