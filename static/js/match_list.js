@@ -112,19 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const inputs = form.querySelectorAll('input, select');
         const cardContainer = form.closest('.wc-card');
         const statusEl = cardContainer ? cardContainer.querySelector('.save-status') : form.nextElementSibling;
-        const firstTeamSelect = form.querySelector('[name=predicted_first_team]');
-        const scorerSelect = form.querySelector('[name=predicted_scorer]');
         let timeout = null;
-
-        if (firstTeamSelect && scorerSelect) {
-            firstTeamSelect.addEventListener('change', () => {
-                if (firstTeamSelect.value === 'NONE') {
-                    scorerSelect.value = 'NO_SCORER';
-                } else if (scorerSelect.value === 'NO_SCORER') {
-                    scorerSelect.value = '';
-                }
-            });
-        }
 
         function triggerSave(immediate = false, reloadAfterSave = false) {
             const home = form.querySelector('[name=predicted_home]').value;

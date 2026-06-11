@@ -162,18 +162,39 @@ def test_save_prediction_allows_explicit_no_scorer_with_no_goals(user, future_ma
 
 
 @pytest.mark.django_db
-def test_save_prediction_rejects_no_scorer_with_scoring_team(user, future_match):
-    with pytest.raises(ValueError, match="Brak strzelca"):
-        PredictionService.save_prediction(
-            user,
-            future_match.id,
-            {
-                "predicted_home": "1",
-                "predicted_away": "0",
-                "predicted_first_team": "HOME",
-                "predicted_scorer": ScoringService.NO_SCORER,
-            },
-        )
+def test_save_prediction_allows_no_scorer_with_scoring_team(user, future_match):
+    PredictionService.save_prediction(
+        user,
+        future_match.id,
+        {
+            "predicted_home": "1",
+            "predicted_away": "0",
+            "predicted_first_team": "HOME",
+            "predicted_scorer": ScoringService.NO_SCORER,
+        },
+    )
+
+    prediction = Prediction.objects.get(user=user, match=future_match)
+    assert prediction.predicted_first_team == "HOME"
+    assert prediction.predicted_scorer == ScoringService.NO_SCORER
+
+
+@pytest.mark.django_db
+def test_save_prediction_allows_scorer_with_no_goals(user, future_match):
+    PredictionService.save_prediction(
+        user,
+        future_match.id,
+        {
+            "predicted_home": "0",
+            "predicted_away": "0",
+            "predicted_first_team": "NONE",
+            "predicted_scorer": "Lewandowski",
+        },
+    )
+
+    prediction = Prediction.objects.get(user=user, match=future_match)
+    assert prediction.predicted_first_team == "NONE"
+    assert prediction.predicted_scorer == "Lewandowski"
 
 
 def test_get_rules_explanation_contains_point_values():

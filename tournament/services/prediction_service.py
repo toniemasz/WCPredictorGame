@@ -3,7 +3,6 @@ from django.db import transaction
 from django.utils import timezone
 from django.conf import settings
 from tournament.models import Prediction, Match, BonusUsage
-from tournament.services.scoring_service import ScoringService
 
 
 class PredictionService:
@@ -76,15 +75,7 @@ class PredictionService:
 
     @staticmethod
     def _validate_first_goal_input(data):
-        predicted_first_team = data.get("predicted_first_team")
         predicted_scorer = (data.get("predicted_scorer") or "").strip()
-
-        if predicted_scorer == ScoringService.NO_SCORER and predicted_first_team != "NONE":
-            raise ValueError("Brak strzelca można wybrać tylko razem z opcją Brak bramek.")
-
-        if predicted_first_team == "NONE" and predicted_scorer and predicted_scorer != ScoringService.NO_SCORER:
-            raise ValueError("Przy opcji Brak bramek wybierz Brak strzelca.")
-
         data["predicted_scorer"] = predicted_scorer
 
     @staticmethod

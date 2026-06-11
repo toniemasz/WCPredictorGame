@@ -1,12 +1,12 @@
 # tournament/services/scoring_service.py
 import math
 
-correct_result_points = 3
-correct_home_or_away_goals_points = 3
-correct_goal_diff_points = 2
-correct_home_or_away_win_points = 3
+correct_result_points = 5
+correct_home_or_away_goals_points = 5
+correct_goal_diff_points = 5
+correct_home_or_away_win_points = 10
 correct_first_scorer_points = 10
-correct_first_team_scored = 2
+correct_first_team_scored = 5
 
 class ScoringService:
     NO_SCORER = "NO_SCORER"
