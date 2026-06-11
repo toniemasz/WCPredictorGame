@@ -17,6 +17,11 @@ class ImportService:
         "PAUSED": "LIVE",
         "FINISHED": "FINISHED",
     }
+    STATUS_PROGRESS = {
+        "SCHEDULED": 0,
+        "LIVE": 1,
+        "FINISHED": 2,
+    }
 
     STAGE_MAPPING = {
         "LAST_32": "1/16 Finału",
@@ -135,12 +140,23 @@ class ImportService:
     def _update_match_from_api(cls, api_match):
         home_team = cls._get_or_create_team(api_match["homeTeam"])
         away_team = cls._get_or_create_team(api_match["awayTeam"])
-        home_score, away_score = cls._get_full_time_score(api_match)
-        status = cls._get_status(api_match)
+        existing_match = cls._get_existing_match(api_match["id"])
+        api_home_score, api_away_score = cls._get_full_time_score(api_match)
+        home_score, away_score = cls._resolve_score(
+            existing_match,
+            api_home_score,
+            api_away_score,
+        )
+        status = cls._resolve_status(
+            existing_match,
+            cls._get_status(api_match),
+        )
         update_time = timezone.now()
         final_update_time = cls._get_final_update_time(
-            api_match["id"],
+            existing_match,
             status,
+            home_score,
+            away_score,
             update_time,
         )
 
@@ -160,18 +176,53 @@ class ImportService:
         )
 
     @staticmethod
-    def _get_final_update_time(api_match_id, status, update_time):
-        if status != "FINISHED":
-            return None
-
-        existing_final_update = Match.objects.filter(
+    def _get_existing_match(api_match_id):
+        return Match.objects.filter(
             football_data_match_id=api_match_id
-        ).values_list(
-            "final_api_update_at",
-            flat=True,
         ).first()
 
-        return existing_final_update or update_time
+    @classmethod
+    def _resolve_score(cls, existing_match, api_home_score, api_away_score):
+        if cls._has_complete_score(api_home_score, api_away_score):
+            return api_home_score, api_away_score
+
+        if existing_match and cls._has_complete_score(
+            existing_match.home_score,
+            existing_match.away_score,
+        ):
+            return existing_match.home_score, existing_match.away_score
+
+        return api_home_score, api_away_score
+
+    @classmethod
+    def _resolve_status(cls, existing_match, api_status):
+        if not existing_match:
+            return api_status
+
+        existing_progress = cls.STATUS_PROGRESS.get(existing_match.status, 0)
+        api_progress = cls.STATUS_PROGRESS.get(api_status, 0)
+
+        if existing_progress > api_progress:
+            return existing_match.status
+
+        return api_status
+
+    @classmethod
+    def _get_final_update_time(
+        cls,
+        existing_match,
+        status,
+        home_score,
+        away_score,
+        update_time,
+    ):
+        if existing_match and existing_match.final_api_update_at:
+            return existing_match.final_api_update_at
+
+        if status != "FINISHED" or not cls._has_complete_score(home_score, away_score):
+            return None
+
+        return update_time
 
     @classmethod
     def _get_or_create_team(cls, api_team):
@@ -211,3 +262,7 @@ class ImportService:
     def _get_full_time_score(api_match):
         score = api_match.get("score", {}).get("fullTime", {})
         return score.get("home"), score.get("away")
+
+    @staticmethod
+    def _has_complete_score(home_score, away_score):
+        return home_score is not None and away_score is not None

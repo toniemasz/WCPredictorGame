@@ -67,7 +67,7 @@ def test_import_matches_creates_updates_skips_and_records_success(monkeypatch):
     assert scheduled_match.final_api_update_at is None
     assert finished_match.stage == "Finał"
     assert finished_match.last_api_update_at is not None
-    assert finished_match.final_api_update_at is not None
+    assert finished_match.final_api_update_at is None
     assert Team.objects.get(name="Germany").name_pl == "Niemcy"
     assert recalculated == [3]
 
@@ -83,6 +83,74 @@ def test_import_matches_creates_updates_skips_and_records_success(monkeypatch):
     assert created_again == 0
     assert finished_match.final_api_update_at == final_update_at
     assert ApiSyncStatus.objects.get(sync_name=ApiSyncStatus.SYNC_MATCHES).created_count == 0
+
+
+@pytest.mark.django_db
+def test_import_matches_marks_final_update_only_when_score_is_complete(monkeypatch):
+    data = {
+        "matches": [
+            _api_match(
+                10,
+                status="FINISHED",
+                score={"fullTime": {"home": 2, "away": 0}},
+            ),
+        ]
+    }
+    monkeypatch.setattr(FootballDataAPI, "get_world_cup_matches", staticmethod(lambda: data))
+    monkeypatch.setattr(
+        ScoringService,
+        "recalculate_match",
+        classmethod(lambda cls, match: None),
+    )
+
+    ImportService.import_matches()
+
+    match = Match.objects.get(football_data_match_id=10)
+    assert match.status == "FINISHED"
+    assert match.home_score == 2
+    assert match.away_score == 0
+    assert match.final_api_update_at is not None
+
+
+@pytest.mark.django_db
+def test_import_matches_does_not_overwrite_result_with_stale_api_payload(monkeypatch):
+    fresh_data = {
+        "matches": [
+            _api_match(
+                11,
+                status="FINISHED",
+                score={"fullTime": {"home": 2, "away": 0}},
+            ),
+        ]
+    }
+    stale_data = {
+        "matches": [
+            _api_match(
+                11,
+                status="TIMED",
+                score={"fullTime": {"home": None, "away": None}},
+            ),
+        ]
+    }
+    responses = iter([fresh_data, stale_data])
+    monkeypatch.setattr(FootballDataAPI, "get_world_cup_matches", staticmethod(lambda: next(responses)))
+    monkeypatch.setattr(
+        ScoringService,
+        "recalculate_match",
+        classmethod(lambda cls, match: None),
+    )
+
+    ImportService.import_matches()
+    match = Match.objects.get(football_data_match_id=11)
+    final_update_at = match.final_api_update_at
+
+    ImportService.import_matches()
+    match.refresh_from_db()
+
+    assert match.status == "FINISHED"
+    assert match.home_score == 2
+    assert match.away_score == 0
+    assert match.final_api_update_at == final_update_at
 
 
 @pytest.mark.django_db
