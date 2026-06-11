@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 
 class Team(models.Model):
@@ -76,6 +77,10 @@ class Match(models.Model):
         blank=True,
         help_text="Wpisz nazwisko zawodnika, który strzelił pierwszą bramkę w meczu"
     )
+
+    @property
+    def is_prediction_locked(self):
+        return timezone.now() >= self.kickoff
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

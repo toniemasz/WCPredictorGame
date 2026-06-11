@@ -73,7 +73,10 @@ class MatchListService:
                 remaining_bonus_count <= 0
                 and not (user_prediction and user_prediction.is_doubled)
             )
-            match.can_view_public_predictions = match.status in ["LIVE", "FINISHED"]
+            match.can_view_public_predictions = (
+                    match.status in ["LIVE", "FINISHED"]
+                    or match.is_prediction_locked
+            )
             match.public_predictions_count = prediction_count_by_match_id.get(match.id, 0)
             match.comment_count = comment_count_by_match_id.get(match.id, 0)
             match.first_scorer_label = ScoringService.get_actual_scorer_label(match)
@@ -119,7 +122,7 @@ class MatchListService:
         )
         TeamNameService.annotate_match(match, country_language)
 
-        if match.status not in ["LIVE", "FINISHED"]:
+        if match.status not in ["LIVE", "FINISHED"] and not match.is_prediction_locked:
             raise ValueError("Typy innych graczy będą widoczne po rozpoczęciu meczu.")
 
         predictions = list(
@@ -177,7 +180,7 @@ class MatchListService:
 
         comments = MatchCommentService.get_match_comments(match, user)
         public_predictions = []
-        if match.status in ["LIVE", "FINISHED"]:
+        if match.status in ["LIVE", "FINISHED"] or match.is_prediction_locked:
             public_predictions = MatchListService.get_public_predictions_context(
                 match.id,
                 country_language,
@@ -187,7 +190,10 @@ class MatchListService:
             "match": match,
             "comments": comments,
             "public_predictions": public_predictions,
-            "can_view_public_predictions": match.status in ["LIVE", "FINISHED"],
+            "can_view_public_predictions": (
+                match.status in ["LIVE", "FINISHED"]
+                or match.is_prediction_locked
+            ),
             "rules_explanation": ScoringService.get_rules_explanation(),
         }
 

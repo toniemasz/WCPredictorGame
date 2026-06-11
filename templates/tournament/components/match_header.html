@@ -28,6 +28,25 @@
                     brak danych
                 {% endif %}
             </span>
+
+        {% elif match.is_prediction_locked %}
+            <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 tracking-wider mb-1">
+                Typowanie zakończone
+            </span>
+
+            {% if match.user_prediction %}
+                <div class="text-2xl font-black text-slate-300 tracking-tighter">
+                    {{ match.user_prediction.predicted_home }} : {{ match.user_prediction.predicted_away }}
+                </div>
+                <span class="text-[9px] leading-tight text-slate-500 mt-1">
+                    Twój typ został zamrożony
+                </span>
+            {% else %}
+                <div class="text-xs font-bold text-slate-500 mt-1">
+                    Mecz powinien już się rozpocząć
+                </div>
+
+            {% endif %}
         {% else %}
             <div class="flex items-center gap-1 justify-center my-0.5">
                 <input type="number" name="predicted_home" min="0" placeholder="-"
