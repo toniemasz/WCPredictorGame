@@ -293,7 +293,7 @@ class AccountSecurityService:
                 AccountSecurityService.email_config_diagnostics(),
             )
             raise ValueError(
-                "Nie udało się wysłać maila z kodem. Sprawdź konfigurację SMTP na serwerze."
+                "Nie udało się wysłać maila z kodem. Aktualnie to nie działa jeżeli na serio zapomniałeś hasła proszę skontaktuj się z administratorem na maila tomaszf600@gmail.com albo przez messenger"
             ) from exc
 
     @staticmethod
