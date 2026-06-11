@@ -1,11 +1,14 @@
+from io import StringIO
 import re
 
 import pytest
 from django.core import mail
+from django.core.management import call_command
 from django.test import override_settings
 from django.urls import reverse
 
 from tournament.models import AccountSecurityCode
+from tournament.services.account_security_service import AccountSecurityService
 
 
 def _extract_code(message):
@@ -220,6 +223,34 @@ def test_password_reset_resend_email_error_stays_on_confirm_page(client, monkeyp
     assert response.redirect_chain == [(reverse("password_reset_stage2"), 302)]
     assert "Nie udało się wysłać maila z kodem." in response.content.decode()
     assert "Ustaw nowe hasło" in response.content.decode()
+
+
+@override_settings(
+    EMAIL_HOST_USER="sender@example.com",
+    EMAIL_HOST_PASSWORD="very-secret-password",
+    DEFAULT_FROM_EMAIL="WCPredictor <sender@example.com>",
+)
+def test_email_config_diagnostics_do_not_expose_password():
+    diagnostics = AccountSecurityService.email_config_diagnostics()
+
+    assert diagnostics["host_password_set"] is True
+    assert "very-secret-password" not in str(diagnostics)
+
+
+@override_settings(
+    EMAIL_HOST="smtp.example.com",
+    EMAIL_HOST_USER="sender@example.com",
+    EMAIL_HOST_PASSWORD="very-secret-password",
+)
+def test_check_smtp_command_dry_run_outputs_diagnostics():
+    output = StringIO()
+
+    call_command("check_smtp", "--dry-run", stdout=output)
+
+    content = output.getvalue()
+    assert "SMTP diagnostics" in content
+    assert "smtp.example.com" in content
+    assert "very-secret-password" not in content
 
 
 @pytest.mark.django_db

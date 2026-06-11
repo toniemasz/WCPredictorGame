@@ -55,6 +55,20 @@ class AccountSecurityService:
     def uses_console_email_backend():
         return settings.EMAIL_BACKEND == "django.core.mail.backends.console.EmailBackend"
 
+    @staticmethod
+    def email_config_diagnostics():
+        return {
+            "backend": settings.EMAIL_BACKEND,
+            "host": settings.EMAIL_HOST or "(empty)",
+            "port": settings.EMAIL_PORT,
+            "use_tls": settings.EMAIL_USE_TLS,
+            "use_ssl": settings.EMAIL_USE_SSL,
+            "timeout": settings.EMAIL_TIMEOUT,
+            "host_user_set": bool(settings.EMAIL_HOST_USER),
+            "host_password_set": bool(settings.EMAIL_HOST_PASSWORD),
+            "default_from_email": settings.DEFAULT_FROM_EMAIL or "(empty)",
+        }
+
     @classmethod
     def reset_password(cls, email, code, new_password, password_confirm):
         email = cls.normalize_email(email)
@@ -248,7 +262,11 @@ class AccountSecurityService:
                 fail_silently=False,
             )
         except Exception as exc:
-            logger.exception("Failed to send security code email to %s", email)
+            logger.exception(
+                "Failed to send security code email to %s. SMTP diagnostics: %s",
+                email,
+                AccountSecurityService.email_config_diagnostics(),
+            )
             raise ValueError(
                 "Nie udało się wysłać maila z kodem. Sprawdź konfigurację SMTP na serwerze."
             ) from exc
