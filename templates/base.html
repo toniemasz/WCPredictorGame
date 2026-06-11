@@ -106,7 +106,7 @@
     </div>
 </nav>
 
-<!--{% if user.is_authenticated and not user.email and not request.session.hide_missing_email_warning and not request.COOKIES.hide_missing_email_warning %}
+{% if user.is_authenticated and not user.email and not request.session.hide_missing_email_warning and not request.COOKIES.hide_missing_email_warning %}
 <section class="border-b border-amber-500/20 bg-amber-500/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
         <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-4 items-start">
@@ -141,7 +141,6 @@
     </div>
 </section>
 {% endif %}
--->
 
 <main class="main-container">
     {% block content %}
