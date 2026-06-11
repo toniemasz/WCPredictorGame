@@ -1,5 +1,7 @@
 import pytest
+from django.core import mail
 from django.contrib.auth.models import User
+from django.test import override_settings
 from django.urls import reverse
 
 from tournament.models import MatchWatch, TeamPlayer
@@ -214,6 +216,77 @@ def test_admin_dashboard_renders_pending_first_goal_matches_as_cards(client, mak
     assert "Do uzupełnienia" in content
     assert "Gotowy" not in content
     assert 'id="first-goal-match"' not in content
+
+
+@pytest.mark.django_db
+def test_admin_dashboard_renders_smtp_diagnostics(client):
+    staff = User.objects.create_user(
+        username="admin",
+        password="pass",
+        email="admin@example.com",
+        is_staff=True,
+    )
+    client.force_login(staff)
+
+    response = client.get(reverse("admin_dashboard"))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert "SMTP i e-mail" in content
+    assert "Wyślij test SMTP" in content
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+def test_admin_test_smtp_sends_test_email(client):
+    staff = User.objects.create_user(
+        username="admin",
+        password="pass",
+        email="admin@example.com",
+        is_staff=True,
+    )
+    client.force_login(staff)
+
+    response = client.post(
+        reverse("admin_test_smtp"),
+        {"recipient": "target@example.com"},
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse("admin_dashboard")
+    assert len(mail.outbox) == 1
+    assert mail.outbox[0].to == ["target@example.com"]
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_HOST_PASSWORD="hidden-password")
+def test_admin_test_smtp_shows_safe_error_details(client, monkeypatch):
+    staff = User.objects.create_user(
+        username="admin",
+        password="pass",
+        email="admin@example.com",
+        is_staff=True,
+    )
+    client.force_login(staff)
+
+    def broken_send_mail(*args, **kwargs):
+        raise RuntimeError("smtp unavailable hidden-password")
+
+    monkeypatch.setattr(
+        "tournament.services.account_security_service.send_mail",
+        broken_send_mail,
+    )
+
+    response = client.post(
+        reverse("admin_test_smtp"),
+        {"recipient": "target@example.com"},
+        follow=True,
+    )
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert "Test SMTP nieudany: RuntimeError: smtp unavailable [ukryte]" in content
+    assert "hidden-password" not in content
 
 
 @pytest.mark.django_db

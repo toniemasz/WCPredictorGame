@@ -53,6 +53,43 @@
             </form>
         </div>
 
+        <div class="wc-card md:col-span-2">
+            <h2 class="text-xl font-bold mb-3 text-white">SMTP i e-mail</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4 text-xs">
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3">
+                    <div class="text-slate-500 font-bold uppercase">Backend</div>
+                    <div class="text-slate-200 break-words">{{ email_diagnostics.backend }}</div>
+                </div>
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3">
+                    <div class="text-slate-500 font-bold uppercase">Serwer</div>
+                    <div class="text-slate-200">{{ email_diagnostics.host }}:{{ email_diagnostics.port }}</div>
+                </div>
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3">
+                    <div class="text-slate-500 font-bold uppercase">Szyfrowanie</div>
+                    <div class="text-slate-200">TLS: {{ email_diagnostics.use_tls }} · SSL: {{ email_diagnostics.use_ssl }}</div>
+                </div>
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3">
+                    <div class="text-slate-500 font-bold uppercase">Login/hasło</div>
+                    <div class="text-slate-200">User: {{ email_diagnostics.host_user_set }} · Hasło: {{ email_diagnostics.host_password_set }}</div>
+                </div>
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3 sm:col-span-2">
+                    <div class="text-slate-500 font-bold uppercase">Nadawca</div>
+                    <div class="text-slate-200 break-words">{{ email_diagnostics.default_from_email }}</div>
+                </div>
+                <div class="rounded-lg border border-slate-800 bg-slate-950/70 p-3">
+                    <div class="text-slate-500 font-bold uppercase">Timeout</div>
+                    <div class="text-slate-200">{{ email_diagnostics.timeout }} s</div>
+                </div>
+            </div>
+            <form method="POST" action="{% url 'admin_test_smtp' %}" class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
+                {% csrf_token %}
+                <input type="email" name="recipient" required value="{{ smtp_test_email }}" placeholder="adres@test.pl" class="form-input">
+                <button type="submit" class="btn-primary">
+                    Wyślij test SMTP
+                </button>
+            </form>
+        </div>
+
         <div class="md:col-span-2">
             <div class="mb-4">
                 <h2 class="text-xl font-bold mb-2 text-white">Pierwszy gol w meczu</h2>

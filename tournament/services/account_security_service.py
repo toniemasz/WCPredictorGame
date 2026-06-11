@@ -70,6 +70,31 @@ class AccountSecurityService:
         }
 
     @classmethod
+    def send_smtp_test_email(cls, recipient):
+        recipient = cls.normalize_email(recipient or settings.EMAIL_HOST_USER)
+
+        try:
+            send_mail(
+                "WCPredictor SMTP test",
+                "Konfiguracja SMTP w WCPredictor działa. To jest wiadomość testowa.",
+                settings.DEFAULT_FROM_EMAIL,
+                [recipient],
+                fail_silently=False,
+            )
+        except Exception as exc:
+            logger.exception(
+                "SMTP test email failed for %s. SMTP diagnostics: %s",
+                recipient,
+                cls.email_config_diagnostics(),
+            )
+            raise ValueError(
+                "Test SMTP nieudany: "
+                f"{exc.__class__.__name__}: {cls._safe_exception_message(exc)}"
+            ) from exc
+
+        return recipient
+
+    @classmethod
     def reset_password(cls, email, code, new_password, password_confirm):
         email = cls.normalize_email(email)
         user = cls._get_unique_active_user_by_email(email)
@@ -270,3 +295,11 @@ class AccountSecurityService:
             raise ValueError(
                 "Nie udało się wysłać maila z kodem. Sprawdź konfigurację SMTP na serwerze."
             ) from exc
+
+    @staticmethod
+    def _safe_exception_message(exc):
+        detail = " ".join(str(exc).split()) or "brak szczegółów błędu"
+        password = settings.EMAIL_HOST_PASSWORD
+        if password:
+            detail = detail.replace(password, "[ukryte]")
+        return detail[:700]

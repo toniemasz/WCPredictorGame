@@ -41,6 +41,7 @@ urlpatterns = [
     path('country-language/', views.set_country_language_view, name='set_country_language'),
     path('recalculate/', views.recalculate_points_view, name='recalculate_points'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('dashboard/admin/test-smtp/', views.admin_test_smtp, name='admin_test_smtp'),
     path('dashboard/admin/first-goal/', views.admin_update_first_goal, name='admin_update_first_goal'),
     path('dashboard/admin/import-matches/', views.admin_trigger_import, name='admin_trigger_import'),
     path('dashboard/admin/sync-odds/', views.admin_trigger_odds, name='admin_trigger_odds'),

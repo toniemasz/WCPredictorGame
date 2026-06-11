@@ -486,7 +486,23 @@ def admin_dashboard(request):
                       "first_goal_context": AdminMatchService.get_first_goal_context(
                           TeamNameService.get_language(request),
                       ),
+                      "email_diagnostics": AccountSecurityService.email_config_diagnostics(),
+                      "smtp_test_email": request.user.email or "",
                   })
+
+
+@staff_member_required
+@require_POST
+def admin_test_smtp(request):
+    try:
+        recipient = AccountSecurityService.send_smtp_test_email(
+            request.POST.get("recipient")
+        )
+        messages.success(request, f"Test SMTP wysłany na {recipient}. Sprawdź skrzynkę.")
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    return redirect("admin_dashboard")
 
 
 @staff_member_required
