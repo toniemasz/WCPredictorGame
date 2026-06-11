@@ -106,6 +106,42 @@
     </div>
 </nav>
 
+{% if user.is_authenticated and not user.email and not request.session.hide_missing_email_warning and not request.COOKIES.hide_missing_email_warning %}
+<section class="border-b border-amber-500/20 bg-amber-500/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-4 items-start">
+            <div>
+                <h2 class="text-sm font-black uppercase tracking-wider text-amber-200 mb-1">
+                    Wymagany e-mail do odzyskania hasła
+                </h2>
+                <p class="text-sm text-amber-100/90 leading-relaxed">
+                    Nie masz ustawionego adresu e-mail, więc nie odzyskasz hasła kodem, jeśli je zgubisz.
+                    Możesz podać e-mail poniżej. UWAGA ROBISZ TO NA SWOJĄ ODPOWIEDZIALNOŚĆ.
+                    Adres zostanie zapisany dopiero po wpisaniu kodu wysłanego przez system.
+                </p>
+            </div>
+            <form method="POST" action="{% url 'request_email_verification' %}" class="space-y-3">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <input type="email" name="email" placeholder="twoj@email.pl" class="form-input" autocomplete="email">
+                <label class="flex items-start gap-2 text-xs text-amber-100">
+                    <input type="checkbox" name="remember_missing_email_warning" class="mt-0.5 h-4 w-4 accent-amber-500">
+                    <span>Zapamiętaj mój wybór i nie pokazuj tej informacji ponownie w tej sesji.</span>
+                </label>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button type="submit" class="btn-primary !bg-amber-400 !text-black hover:!bg-amber-300">
+                        Wyślij kod
+                    </button>
+                    <button type="submit" name="remember_missing_email_warning" value="on" class="btn-secondary">
+                        Tylko ukryj
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <main class="main-container">
     {% block content %}
     {% endblock %}

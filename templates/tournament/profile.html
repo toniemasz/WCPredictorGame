@@ -11,6 +11,16 @@
         {% endif %}
     </h1>
 
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <div class="wc-card text-center flex flex-col items-center justify-center">
@@ -69,6 +79,55 @@
                             </button>
                         </div>
                     </form>
+
+                    <div class="mt-6 rounded-xl border border-slate-800 bg-slate-950/70 p-4">
+                        <h4 class="text-sm font-black uppercase tracking-wider text-slate-300 mb-2">
+                            E-mail do odzyskiwania hasła
+                        </h4>
+                        <p class="text-xs text-slate-500 mb-4">
+                            Aktualny e-mail:
+                            <span class="font-bold {% if target_user.email %}text-cyan-300{% else %}text-amber-300{% endif %}">
+                                {{ target_user.email|default:"nie ustawiono" }}
+                            </span>
+                        </p>
+
+                        <form method="POST" action="{% url 'request_email_verification' %}" class="space-y-3">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{% url 'profile' %}">
+                            <div>
+                                <label class="form-label">Nowy adres e-mail:</label>
+                                <input type="email" name="email" required value="{{ target_user.email }}" placeholder="twoj@email.pl" class="form-input" autocomplete="email">
+                            </div>
+                            <button type="submit" class="btn-secondary w-full sm:w-auto">
+                                Wyślij kod potwierdzający
+                            </button>
+                        </form>
+
+                        {% if pending_email_change %}
+                            <form method="POST" action="{% url 'confirm_email_verification' %}" class="mt-4 space-y-3 border-t border-slate-800 pt-4">
+                                {% csrf_token %}
+                                <p class="text-xs text-amber-200">
+                                    Kod został wysłany na {{ pending_email_change.email }}. E-mail zostanie zapisany dopiero po potwierdzeniu kodem.
+                                </p>
+                                <div>
+                                    <label class="form-label">Kod z maila:</label>
+                                    <input type="text" name="code" required inputmode="numeric" maxlength="6" placeholder="123456" class="form-input">
+                                </div>
+                                <button type="submit" class="btn-primary w-full sm:w-auto">
+                                    Potwierdź e-mail
+                                </button>
+                            </form>
+
+                            <form method="POST" action="{% url 'request_email_verification' %}" class="mt-3">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{% url 'profile' %}">
+                                <input type="hidden" name="email" value="{{ pending_email_change.email }}">
+                                <button type="submit" class="text-xs font-bold text-cyan-300 hover:text-cyan-200">
+                                    Wyślij kod ponownie
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                 {% else %}
                     <h3 class="text-lg font-bold mb-4 border-b border-slate-800 pb-2">Informacje o graczu</h3>
                     <p class="text-slate-400 text-sm">Przeglądasz profil innego uczestnika. Typy dla meczów, które jeszcze się nie rozpoczęły, są ukryte.</p>

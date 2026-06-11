@@ -240,6 +240,36 @@ class MatchWatch(models.Model):
         return f"{self.user} | {self.match} | watched={self.watched}"
 
 
+class AccountSecurityCode(models.Model):
+    PURPOSE_EMAIL_CHANGE = "email_change"
+    PURPOSE_PASSWORD_RESET = "password_reset"
+
+    PURPOSE_CHOICES = (
+        (PURPOSE_EMAIL_CHANGE, "Zmiana adresu e-mail"),
+        (PURPOSE_PASSWORD_RESET, "Reset hasła"),
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="security_codes",
+    )
+    purpose = models.CharField(max_length=30, choices=PURPOSE_CHOICES)
+    email = models.EmailField()
+    code_hash = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user", "purpose", "used_at", "expires_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user} | {self.purpose} | {self.email}"
+
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:

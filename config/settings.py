@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+import certifi
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -20,6 +21,7 @@ import os
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
+os.environ.setdefault("SSL_CERT_FILE", certifi.where())
 
 
 def env_bool(name, default=False):
@@ -105,6 +107,23 @@ LOGIN_URL = "/login/"
 CSRF_FAILURE_VIEW = "tournament.views.csrf_failure_view"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND") or (
+    "django.core.mail.backends.smtp.EmailBackend"
+    if EMAIL_HOST
+    else "django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_PORT = env_int("EMAIL_PORT", 587)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
+EMAIL_USE_SSL = env_bool("EMAIL_USE_SSL", False)
+EMAIL_TIMEOUT = env_int("EMAIL_TIMEOUT", 10)
+DEFAULT_FROM_EMAIL = os.getenv(
+    "DEFAULT_FROM_EMAIL",
+    "WCPredictor <noreply@wcpredictor.local>",
+)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

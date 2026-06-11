@@ -13,6 +13,7 @@ from .models import (
     Profile,
     Team,
     TeamPlayer,
+    AccountSecurityCode,
 )
 from .services.scoring_service import ScoringService
 
@@ -139,6 +140,14 @@ class MatchCommentReactionAdmin(admin.ModelAdmin):
 class MatchWatchAdmin(admin.ModelAdmin):
     list_display = ("user", "match", "want_to_watch", "watched", "updated_at")
     list_filter = ("want_to_watch", "watched")
+
+
+@admin.register(AccountSecurityCode)
+class AccountSecurityCodeAdmin(admin.ModelAdmin):
+    list_display = ("user", "purpose", "email", "created_at", "expires_at", "used_at")
+    list_filter = ("purpose", "used_at", "created_at")
+    search_fields = ("user__username", "email")
+    readonly_fields = ("code_hash", "created_at", "used_at")
 
 
 admin.site.register(Prediction)

@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.templatetags.static import static
 
 from tournament.models import Match, Prediction, Profile
+from tournament.services.account_security_service import AccountSecurityService
 from tournament.services.achievement_service import AchievementService
 
 
@@ -41,6 +42,11 @@ class ProfileService:
                 cls.get_available_avatar_options(profile.avatar)
                 if is_owner
                 else []
+            ),
+            "pending_email_change": (
+                AccountSecurityService.get_pending_email_change(target_user)
+                if is_owner
+                else None
             ),
             "matches_by_stage": cls.get_user_matches_by_stage(target_user),
             "debug_path": str(cls.get_static_avatar_dir()),

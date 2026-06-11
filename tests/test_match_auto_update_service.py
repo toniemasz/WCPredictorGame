@@ -3,7 +3,6 @@ from zoneinfo import ZoneInfo
 
 import pytest
 from django.core.cache import cache
-from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -13,7 +12,8 @@ from tournament.services.match_auto_update_service import MatchAutoUpdateService
 
 
 @pytest.fixture(autouse=True)
-def clear_auto_update_cache():
+def clear_auto_update_cache(settings):
+    settings.AUTO_MATCH_API_SYNC_ENABLED = True
     cache.delete(MatchAutoUpdateService.LOCK_KEY)
     yield
     cache.delete(MatchAutoUpdateService.LOCK_KEY)
@@ -61,8 +61,8 @@ def test_auto_update_skips_when_database_has_no_matches(monkeypatch):
 
 
 @pytest.mark.django_db
-@override_settings(AUTO_MATCH_API_SYNC_ENABLED=False)
-def test_auto_update_skips_when_auto_sync_is_disabled(monkeypatch, make_match):
+def test_auto_update_skips_when_auto_sync_is_disabled(monkeypatch, make_match, settings):
+    settings.AUTO_MATCH_API_SYNC_ENABLED = False
     now = timezone.now()
     make_match(kickoff=now - timedelta(minutes=2), status="SCHEDULED")
     _create_success_status(now - timedelta(minutes=30))

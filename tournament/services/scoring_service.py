@@ -1,10 +1,10 @@
 # tournament/services/scoring_service.py
 import math
 
-correct_result_points = 4
-correct_home_or_away_goals_points = 2
-correct_goal_diff_points = 1
-correct_home_or_away_win_points = 2
+correct_result_points = 3
+correct_home_or_away_goals_points = 3
+correct_goal_diff_points = 2
+correct_home_or_away_win_points = 3
 correct_first_scorer_points = 10
 correct_first_team_scored = 2
 

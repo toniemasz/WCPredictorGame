@@ -10,6 +10,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 
 from tournament.models import MatchComment, TeamPlayer
+from tournament.services.account_security_service import AccountSecurityService
 from tournament.services.achievement_service import AchievementService
 from tournament.services.admin_match_service import AdminMatchService
 from tournament.services.bootstrap_service import BootstrapService
@@ -260,51 +261,110 @@ def profile_view(request, user_id=None):
     return render(request, 'tournament/profile.html', context)
 
 
-def forgot_password_troll_view(request):
+def password_reset_request_view(request):
     if request.method == 'POST':
-        # Pobieramy odpowiedź, usuwamy białe znaki i zamieniamy na małe litery
-        answer = request.POST.get('creator_name', '').strip().lower()
+        email = request.POST.get("email", "")
+        try:
+            normalized_email = AccountSecurityService.normalize_email(email)
+            AccountSecurityService.request_password_reset(normalized_email)
+            request.session[
+                AccountSecurityService.PASSWORD_RESET_SESSION_EMAIL
+            ] = normalized_email
+            if AccountSecurityService.uses_console_email_backend():
+                messages.warning(
+                    request,
+                    "Kod został wygenerowany, ale aplikacja używa konsolowego backendu e-mail. Ustaw SMTP, żeby wiadomość trafiła do skrzynki.",
+                )
+            else:
+                messages.success(
+                    request,
+                    "Jeżeli ten adres jest przypisany do konta, wysłaliśmy kod do zmiany hasła.",
+                )
+            return redirect("password_reset_stage2")
+        except ValueError as error:
+            messages.error(request, str(error))
 
-        # Sprawdzamy warianty (tomasz, tomek itp.)
-        if answer in ['tomasz', 'tomek']:
-            # Zapisujemy w sesji, że użytkownik przeszedł test!
-            request.session['passed_troll_gate'] = True
-            return redirect('password_reset_stage2')
-        else:
-            # Zła odpowiedź - odrzucamy
-            return render(request, 'registration/forgot_password_troll.html', {
-                'error': 'Pudło! Jak możesz nie znać imienia swojego stwórcy?! Spróbuj ponownie.'
-            })
-
-    # Domyślny GET (wyświetlenie formularza)
     return render(request, 'registration/forgot_password_troll.html', {'error': ''})
 
 
-def password_reset_stage2_view(request):
-    # BACKENDOWY STRAŻNIK: Sprawdzamy, czy użytkownik przeszedł Etap 1
-    if not request.session.get('passed_troll_gate'):
-        # Jeśli nie, wywalamy go z powrotem na śmieszną stronę
-        return redirect('forgot_password_stage1')
+def password_reset_confirm_view(request):
+    email = request.session.get(AccountSecurityService.PASSWORD_RESET_SESSION_EMAIL, "")
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        new_password = request.POST.get('new_password')
-
+        email = request.POST.get("email") or email
         try:
-            user = User.objects.get(username=username)
-            user.set_password(new_password)  # Bezpieczne haszowanie hasła w Django
-            user.save()
+            AccountSecurityService.reset_password(
+                email,
+                request.POST.get("code"),
+                request.POST.get("new_password"),
+                request.POST.get("password_confirm"),
+            )
+            request.session.pop(AccountSecurityService.PASSWORD_RESET_SESSION_EMAIL, None)
+            messages.success(request, "Hasło zostało zmienione. Możesz się zalogować.")
+            return redirect("login")
+        except ValueError as error:
+            messages.error(request, str(error))
 
-            # Czyścimy sesję po udanej zmianie, żeby nie mógł tu wrócić bez podania imienia
-            del request.session['passed_troll_gate']
+    return render(request, 'registration/password_reset_real.html', {"email": email})
 
-            return redirect('login')  # Przekierowanie do logowania po sukcesie
-        except User.DoesNotExist:
-            return render(request, 'registration/password_reset_real.html', {
-                'error': 'Taki użytkownik nie istnieje!'
-            })
 
-    return render(request, 'registration/password_reset_real.html')
+@login_required
+@require_POST
+def request_email_verification_view(request):
+    next_url = request.POST.get("next") or reverse("profile")
+    remember_choice = request.POST.get("remember_missing_email_warning") == "on"
+    email = (request.POST.get("email") or "").strip()
+
+    if remember_choice:
+        AccountSecurityService.remember_missing_email_warning(request)
+
+    if not email:
+        if remember_choice:
+            messages.info(request, "Zapamiętaliśmy wybór. Ostrzeżenie nie będzie już pokazywane w tej sesji.")
+        else:
+            messages.error(request, "Podaj adres e-mail albo zaznacz zapamiętanie wyboru.")
+        response = redirect(next_url)
+        if remember_choice:
+            AccountSecurityService.apply_missing_email_warning_cookie(response)
+        return response
+
+    try:
+        pending_email = AccountSecurityService.start_email_change(request.user, email)
+        if AccountSecurityService.uses_console_email_backend():
+            messages.warning(
+                request,
+                "Kod został wygenerowany, ale aplikacja używa konsolowego backendu e-mail. Ustaw SMTP, żeby wiadomość trafiła do skrzynki.",
+            )
+        else:
+            messages.success(
+                request,
+                f"Wysłaliśmy kod potwierdzający na {pending_email}. Podaj go w profilu, aby zapisać e-mail.",
+            )
+        response = redirect("profile")
+        if remember_choice:
+            AccountSecurityService.apply_missing_email_warning_cookie(response)
+        return response
+    except ValueError as error:
+        messages.error(request, str(error))
+        response = redirect(next_url)
+        if remember_choice:
+            AccountSecurityService.apply_missing_email_warning_cookie(response)
+        return response
+
+
+@login_required
+@require_POST
+def confirm_email_verification_view(request):
+    try:
+        AccountSecurityService.confirm_email_change(
+            request.user,
+            request.POST.get("code"),
+        )
+        messages.success(request, "Adres e-mail został potwierdzony i zapisany.")
+    except ValueError as error:
+        messages.error(request, str(error))
+
+    return redirect("profile")
 
 def login_view(request):
     # Jeśli użytkownik jest już zalogowany, odeślij go do meczów

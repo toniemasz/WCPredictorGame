@@ -1,0 +1,196 @@
+import re
+
+import pytest
+from django.core import mail
+from django.test import override_settings
+from django.urls import reverse
+
+from tournament.models import AccountSecurityCode
+
+
+def _extract_code(message):
+    match = re.search(r"Twój kod: (\d{6})", message.body)
+    assert match
+    return match.group(1)
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+def test_password_reset_requires_email_code(client, user):
+    user.email = "tester@example.com"
+    user.save(update_fields=["email"])
+
+    response = client.post(
+        reverse("forgot_password_stage1"),
+        {"email": "tester@example.com"},
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse("password_reset_stage2")
+    assert len(mail.outbox) == 1
+    code = _extract_code(mail.outbox[0])
+
+    response = client.post(
+        reverse("password_reset_stage2"),
+        {
+            "email": "tester@example.com",
+            "code": "000000",
+            "new_password": "StrongPass123!",
+            "password_confirm": "StrongPass123!",
+        },
+    )
+    user.refresh_from_db()
+    assert response.status_code == 200
+    assert user.check_password("pass") is True
+
+    response = client.post(
+        reverse("password_reset_stage2"),
+        {
+            "email": "tester@example.com",
+            "code": code,
+            "new_password": "StrongPass123!",
+            "password_confirm": "StrongPass123!",
+        },
+    )
+    user.refresh_from_db()
+    security_code = AccountSecurityCode.objects.get(
+        user=user,
+        purpose=AccountSecurityCode.PURPOSE_PASSWORD_RESET,
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse("login")
+    assert user.check_password("StrongPass123!") is True
+    assert security_code.used_at is not None
+
+
+@pytest.mark.django_db
+def test_old_username_only_password_reset_does_not_change_password(client, user):
+    response = client.post(
+        reverse("password_reset_stage2"),
+        {
+            "username": user.username,
+            "new_password": "StrongPass123!",
+        },
+    )
+
+    user.refresh_from_db()
+    assert response.status_code == 200
+    assert user.check_password("pass") is True
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+def test_email_change_is_saved_only_after_code_confirmation(client, user):
+    client.force_login(user)
+
+    response = client.post(
+        reverse("request_email_verification"),
+        {
+            "email": "new@example.com",
+            "next": reverse("profile"),
+        },
+    )
+
+    user.refresh_from_db()
+    assert response.status_code == 302
+    assert response.url == reverse("profile")
+    assert user.email == ""
+    assert len(mail.outbox) == 1
+    code = _extract_code(mail.outbox[0])
+
+    response = client.post(
+        reverse("confirm_email_verification"),
+        {"code": "000000"},
+    )
+    user.refresh_from_db()
+    assert response.status_code == 302
+    assert user.email == ""
+
+    response = client.post(
+        reverse("confirm_email_verification"),
+        {"code": code},
+    )
+    user.refresh_from_db()
+
+    assert response.status_code == 302
+    assert user.email == "new@example.com"
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+def test_email_change_code_can_be_resent(client, user):
+    client.force_login(user)
+
+    client.post(
+        reverse("request_email_verification"),
+        {
+            "email": "new@example.com",
+            "next": reverse("profile"),
+        },
+    )
+    response = client.get(reverse("profile"))
+    assert "Wyślij kod ponownie" in response.content.decode()
+
+    response = client.post(
+        reverse("request_email_verification"),
+        {
+            "email": "new@example.com",
+            "next": reverse("profile"),
+        },
+    )
+
+    assert response.status_code == 302
+    assert len(mail.outbox) == 2
+    assert AccountSecurityCode.objects.filter(
+        user=user,
+        purpose=AccountSecurityCode.PURPOSE_EMAIL_CHANGE,
+        used_at__isnull=True,
+    ).count() == 1
+
+
+@pytest.mark.django_db
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+def test_password_reset_code_can_be_resent_from_confirm_page(client, user):
+    user.email = "tester@example.com"
+    user.save(update_fields=["email"])
+
+    client.post(reverse("forgot_password_stage1"), {"email": "tester@example.com"})
+    response = client.get(reverse("password_reset_stage2"))
+
+    assert "Wyślij kod ponownie" in response.content.decode()
+
+    response = client.post(reverse("forgot_password_stage1"), {"email": "tester@example.com"})
+
+    assert response.status_code == 302
+    assert len(mail.outbox) == 2
+    assert AccountSecurityCode.objects.filter(
+        user=user,
+        purpose=AccountSecurityCode.PURPOSE_PASSWORD_RESET,
+        used_at__isnull=True,
+    ).count() == 1
+
+
+@pytest.mark.django_db
+def test_missing_email_warning_can_be_hidden_for_session(client, user):
+    client.force_login(user)
+
+    response = client.get(reverse("profile"))
+    assert "Wymagany e-mail do odzyskania hasła" in response.content.decode()
+
+    response = client.post(
+        reverse("request_email_verification"),
+        {
+            "remember_missing_email_warning": "on",
+            "next": reverse("profile"),
+        },
+    )
+    assert response.status_code == 302
+    assert response.cookies["hide_missing_email_warning"].value == "1"
+
+    client.logout()
+    client.cookies["hide_missing_email_warning"] = "1"
+    client.force_login(user)
+
+    response = client.get(reverse("profile"))
+    assert "Wymagany e-mail do odzyskania hasła" not in response.content.decode()

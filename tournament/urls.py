@@ -17,9 +17,10 @@ urlpatterns = [
     path('matches/', views.match_list, name='match_list'),
     path('matches/auto-update/', views.auto_update_matches_view, name='auto_update_matches'),
     path('matches/<int:match_id>/', views.match_detail_view, name='match_detail'),
-    path('forgot-password/', views.forgot_password_troll_view, name='forgot_password_stage1'),
-
-    path('reset-password/', views.password_reset_stage2_view, name='password_reset_stage2'),
+    path('forgot-password/', views.password_reset_request_view, name='forgot_password_stage1'),
+    path('reset-password/', views.password_reset_confirm_view, name='password_reset_stage2'),
+    path('account/email/request/', views.request_email_verification_view, name='request_email_verification'),
+    path('account/email/confirm/', views.confirm_email_verification_view, name='confirm_email_verification'),
     # RANKING I PROFILE
     path('leaderboard/', views.leaderboard_view, name='leaderboard'),
     path('stats/', views.stats_view, name='stats'),
